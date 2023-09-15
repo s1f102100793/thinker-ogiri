@@ -1,22 +1,44 @@
-.title {
-  font-size: 80px;
-  font-weight: bold;
-  text-align: center;
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+  background-color: #e9e5de;
 }
 
-.tasks {
-  width: 300px;
-  padding: 0;
-  margin: 20px auto 0;
-  text-align: left;
-  list-style-type: none;
+.headerTop {
+  position: relative;
+  height: 80px;
+  background-color: #434343;
 }
 
-.tasks > li {
-  margin-top: 10px;
-  border-bottom: 1px solid #eee;
+.textBottomLeft {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  margin: 10px;
+  font-size: large;
+  color: white;
 }
 
-.deleteBtn {
-  float: right;
+.headerBottom {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 55px;
+  background-color: #f3f0e9;
+}
+
+.link {
+  display: inline-block;
+  height: 100%;
+  padding: 0 15px;
+  line-height: 55px;
+  color: #333;
+  text-decoration: none;
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.link:hover {
+  background-color: #f5f5f5;
 }

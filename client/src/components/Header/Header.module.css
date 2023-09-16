@@ -1,0 +1,40 @@
+.headerTop {
+  position: relative;
+  height: 80px;
+  background-color: #434343;
+}
+
+.textBottomLeft {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  margin: 10px;
+  font-size: large;
+  color: white;
+}
+
+.headerBottom {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 55px;
+  background-color: #f3f0e9;
+}
+
+.link {
+  display: inline-block;
+  height: 100%;
+  padding: 0 15px;
+  line-height: 55px;
+  color: #333;
+  text-decoration: none;
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.link:hover {
+  background-color: #f5f5f5;
+}
+
+.active {
+  border-bottom: 2px solid black;
+}

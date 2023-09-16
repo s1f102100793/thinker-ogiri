@@ -23,9 +23,20 @@ const Create = () => {
       console.error('API error:', error);
     }
   };
+
   return (
     <div className={styles.container}>
       <Header />
+      <div className={styles.content}>
+        <button className={styles.bokeButton} onClick={createImage}>
+          ぼける
+        </button>
+        {imageData && (
+          <div className={styles.imageContainer}>
+            <img src={`data:image/png;base64,${imageData}`} alt="Generated Data" />
+          </div>
+        )}
+      </div>
     </div>
   );
 };

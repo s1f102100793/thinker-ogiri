@@ -5,3 +5,24 @@
   height: 100vh;
   background-color: #e9e5de;
 }
+
+.content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 0;
+}
+
+.bokeButton {
+  padding: 10px 20px;
+  margin-bottom: 20px;
+}
+
+.imageContainer {
+  top: 20%;
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+}

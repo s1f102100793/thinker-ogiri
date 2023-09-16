@@ -6,7 +6,11 @@ const Home = () => {
     <div className={styles.container}>
       <Header />
       <div className={styles.mainContent} />
-      <div className={styles.welcomeText}>大喜利の世界へようこそ</div>
+      <div className={styles.welcomeText}>
+        <span>大喜利の世界へ</span>
+        <br />
+        <span>ようこそ</span>
+      </div>
     </div>
   );
 };

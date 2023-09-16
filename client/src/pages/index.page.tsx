@@ -1,13 +1,7 @@
+import type { ImageResponseModel } from 'commonTypesWithClient/models';
 import { useState } from 'react';
 import { apiClient } from 'src/utils/apiClient';
 import styles from './index.module.css';
-
-type ImageResponse = {
-  created: number;
-  data: Array<{
-    b64_json: string;
-  }>;
-};
 
 const Home = () => {
   const [imageData, setImageData] = useState<string>('');
@@ -15,9 +9,14 @@ const Home = () => {
 
   const createImage = async () => {
     try {
-      const res: ImageResponse = await apiClient.image.$post();
+      const res: ImageResponseModel | null = await apiClient.image.$post();
+      if (!res) {
+        console.error('API response is null');
+        return;
+      }
+
       console.log(res);
-      if (res.data[0].b64_json) {
+      if (res.data[0]?.b64_json) {
         setImageData(res.data[0].b64_json);
       }
     } catch (error) {

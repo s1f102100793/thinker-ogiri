@@ -1,11 +1,11 @@
+import type { ImageResponseModel } from '$/commonTypesWithClient/models';
 import { OPENAIAPI } from '$/service/envValues';
 import axios from 'axios';
 
-export const createImage = async () => {
+export const createImage = async (): Promise<ImageResponseModel | null> => {
   try {
     const API_KEY = OPENAIAPI;
-    console.log(API_KEY);
-    const response = await axios.post(
+    const response = await axios.post<ImageResponseModel>(
       'https://api.openai.com/v1/images/generations',
       {
         prompt: 'two puppies, cute, playing in the park',
@@ -24,5 +24,6 @@ export const createImage = async () => {
     return response.data;
   } catch (err) {
     console.log(err);
+    return null;
   }
 };

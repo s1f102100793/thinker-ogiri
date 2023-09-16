@@ -1,7 +1,13 @@
+import { apiClient } from 'src/utils/apiClient';
 import styles from './index.module.css';
 
 const Home = () => {
   const currentPath = window.location.pathname;
+
+  const createImage = async () => {
+    const res = await apiClient.image.post();
+    console.log(res);
+  };
 
   return (
     <div className={styles.container}>
@@ -31,6 +37,7 @@ const Home = () => {
           Outstanding
         </a>
       </div>
+      <button onClick={createImage}>作る</button>
     </div>
   );
 };

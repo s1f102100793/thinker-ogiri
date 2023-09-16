@@ -1,12 +1,28 @@
+import { useState } from 'react';
 import { apiClient } from 'src/utils/apiClient';
 import styles from './index.module.css';
 
+type ImageResponse = {
+  created: number;
+  data: Array<{
+    b64_json: string;
+  }>;
+};
+
 const Home = () => {
+  const [imageData, setImageData] = useState<string>('');
   const currentPath = window.location.pathname;
 
   const createImage = async () => {
-    const res = await apiClient.image.post();
-    console.log(res);
+    try {
+      const res: ImageResponse = await apiClient.image.$post();
+      console.log(res);
+      if (res.data[0].b64_json) {
+        setImageData(res.data[0].b64_json);
+      }
+    } catch (error) {
+      console.error('API error:', error);
+    }
   };
 
   return (
@@ -38,6 +54,13 @@ const Home = () => {
         </a>
       </div>
       <button onClick={createImage}>作る</button>
+      {imageData && (
+        <div className="generated-image-area">
+          <figure>
+            <img src={`data:image/png;base64,${imageData}`} alt="Generated Data" />
+          </figure>
+        </div>
+      )}
     </div>
   );
 };

@@ -1,11 +1,11 @@
 import type { ImageResponseModel } from 'commonTypesWithClient/models';
 import { useState } from 'react';
+import Header from 'src/components/Header/Header';
 import { apiClient } from 'src/utils/apiClient';
 import styles from './index.module.css';
 
 const Home = () => {
   const [imageData, setImageData] = useState<string>('');
-  const currentPath = window.location.pathname;
 
   const createImage = async () => {
     try {
@@ -26,32 +26,7 @@ const Home = () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.headerTop}>
-        <div className={styles.textBottomLeft}>考える像大喜利</div>
-      </div>
-      <div className={styles.headerBottom}>
-        <a href="/" className={`${styles.link} ${currentPath === '/' ? styles.active : ''}`}>
-          Home
-        </a>
-        <a
-          href="/create"
-          className={`${styles.link} ${currentPath === '/create' ? styles.active : ''}`}
-        >
-          Create
-        </a>
-        <a
-          href="/view"
-          className={`${styles.link} ${currentPath === '/view' ? styles.active : ''}`}
-        >
-          View
-        </a>
-        <a
-          href="/outstanding"
-          className={`${styles.link} ${currentPath === '/outstanding' ? styles.active : ''}`}
-        >
-          Outstanding
-        </a>
-      </div>
+      <Header />
       <button onClick={createImage}>作る</button>
       {imageData && (
         <div className="generated-image-area">

@@ -29,3 +29,7 @@ export const createImage = async (): Promise<ImageResponseModel | null> => {
     return null;
   }
 };
+
+export const uploadBoke = async (text: string, like: number) => {
+  console.log(text, like);
+};

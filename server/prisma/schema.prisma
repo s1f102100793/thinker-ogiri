@@ -14,3 +14,12 @@ model Task {
   done      Boolean
   createdAt DateTime
 }
+
+model Boke {
+  createdAt DateTime
+  id        String   @id
+  userId    String
+  text      String
+  likeCount Int
+  image     String
+}

@@ -26,7 +26,7 @@ const Create = () => {
   };
 
   const submitBoke = async () => {
-    await apiClient;
+    await apiClient.boke.post({ body: { text: bokeText, like: 0 } });
   };
 
   return (

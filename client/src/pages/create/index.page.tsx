@@ -6,6 +6,7 @@ import styles from './create.module.css';
 
 const Create = () => {
   const [imageData, setImageData] = useState<string>('');
+  const [bokeText, setBokeText] = useState<string>('');
 
   const createImage = async () => {
     try {
@@ -24,6 +25,10 @@ const Create = () => {
     }
   };
 
+  const submitBoke = async () => {
+    await apiClient;
+  };
+
   return (
     <div className={styles.container}>
       <Header />
@@ -32,9 +37,21 @@ const Create = () => {
           ぼける
         </button>
         {imageData && (
-          <div className={styles.imageContainer}>
-            <img src={`data:image/png;base64,${imageData}`} alt="Generated Data" />
-          </div>
+          <>
+            <div className={styles.imageContainer}>
+              <img src={`data:image/png;base64,${imageData}`} alt="Generated Data" />
+            </div>
+            <input
+              type="text"
+              className={styles.textBox}
+              value={bokeText}
+              onChange={(e) => setBokeText(e.target.value)}
+              placeholder="ぼけの言葉を入力"
+            />
+            <button className={styles.submitButton} onClick={submitBoke}>
+              投稿する
+            </button>
+          </>
         )}
       </div>
     </div>

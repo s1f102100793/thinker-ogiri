@@ -8,6 +8,8 @@ const Create = () => {
   const [imageData, setImageData] = useState<string>('');
   const [bokeText, setBokeText] = useState<string>('');
 
+  const userId = 'gouta';
+
   const createImage = async () => {
     try {
       const res: ImageResponseModel | null = await apiClient.image.$post();
@@ -26,7 +28,7 @@ const Create = () => {
   };
 
   const submitBoke = async () => {
-    await apiClient.boke.post({ body: { text: bokeText, like: 0 } });
+    await apiClient.boke.post({ body: { userId, text: bokeText, image: imageData, like: 0 } });
   };
 
   return (

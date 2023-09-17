@@ -16,10 +16,10 @@ model Task {
 }
 
 model Boke {
-  createdAt DateTime
-  id        String   @id
+  bokeId        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
   userId    String
   text      String
-  likeCount Int
   image     String
+  likeCount Int
 }

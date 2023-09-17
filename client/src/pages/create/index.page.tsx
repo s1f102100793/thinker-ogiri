@@ -62,7 +62,6 @@ const Create = () => {
 
   type DataURL = string;
 
-
   function dataURLToBlob(dataURL: DataURL) {
     const BASE64_MARKER = ';base64,';
 

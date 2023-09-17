@@ -24,3 +24,12 @@ export type ImageResponseModel = {
     url: string;
   }>;
 };
+
+export type BokeModel = {
+  bokeId: number;
+  createdAt: Date;
+  userId: string;
+  text: string;
+  image: string;
+  like: number;
+};

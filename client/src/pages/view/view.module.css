@@ -1,0 +1,37 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #e9e5de;
+}
+
+.bokeList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 90%;
+  max-width: 800px;
+  margin-top: 20px;
+}
+
+.bokeItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 15px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
+}
+
+.bokeItem img {
+  max-width: 100%;
+  border-radius: 8px;
+}
+
+.bokeItem p {
+  margin-top: 10px;
+  font-size: 16px;
+  text-align: center;
+}

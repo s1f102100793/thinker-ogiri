@@ -9,6 +9,8 @@ const Create = () => {
   const [imageData, setImageData] = useState<string>('');
   const [bokeText, setBokeText] = useState<string>('');
 
+  const imageSize = 300;
+
   const userId = 'gouta';
 
   const createImage = async () => {
@@ -20,8 +22,8 @@ const Create = () => {
       }
 
       console.log(res);
-      if (res.data[0]?.url) {
-        setImageData(res.data[0].url);
+      if (res.data[0]?.b64_json) {
+        setImageData(res.data[0].b64_json);
       }
     } catch (error) {
       console.error('API error:', error);
@@ -38,7 +40,7 @@ const Create = () => {
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;４00&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;400&display=swap"
           rel="stylesheet"
         />
       </Head>
@@ -50,7 +52,12 @@ const Create = () => {
         {imageData && (
           <>
             <div className={styles.imageContainer}>
-              <img src={`${imageData}`} alt="Generated Data" />
+              <img
+                src={`data:image/png;base64,${imageData}`}
+                alt="Generated Data"
+                width={imageSize}
+                height={imageSize}
+              />
             </div>
             <input
               type="text"

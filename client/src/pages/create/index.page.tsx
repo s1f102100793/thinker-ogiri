@@ -40,52 +40,53 @@ const Create = () => {
   const submitBoke1 = async () => {
     console.log('submit boke');
     let compressedImageData = imageData;
+
     try {
-      console.log('aaaaa');
-      const fetchRes = await fetch(imageData);
-      console.log('bbbb');
-      const blob = await fetchRes.blob();
-      console.log('cccc');
+      console.log('Converting Base64 to Blob...');
+      const blob = dataURLToBlob(imageData);
+      console.log('Converted to Blob successfully.');
+
+      console.log('Creating File object from Blob...');
       const file = new File([blob], 'compressedImage.jpg', { type: 'image/jpeg' });
-      console.log('ddd');
+      console.log('File object created successfully.');
+
+      console.log('Starting image compression...');
       const compressedFile = await imageCompression(file, compressionOptions);
       compressedImageData = await imageCompression.getDataUrlFromFile(compressedFile);
-      console.log('compressedImageData', compressedImageData);
+      console.log('Image compressed successfully.');
     } catch (error) {
       console.error('Image compression error:', error);
+      return;
     }
-    console.log('compressedImageData', compressedImageData);
-    await apiClient.boke.post({
-      body: { userId, text: bokeText, image: compressedImageData, like: 0 },
-    });
-  };
 
+    console.log('Sending compressed image data...');
+    try {
+      await apiClient.boke.post({
+        body: { userId, text: bokeText, image: compressedImageData, like: 0 },
+      });
+      console.log('Data sent successfully.');
+    } catch (apiError) {
+      console.error('API error:', apiError);
+    }
+  };
   type DataURL = string;
 
   function dataURLToBlob(dataURL: DataURL) {
     const BASE64_MARKER = ';base64,';
 
-    // dataURLがBase64形式でない場合は、Blobとして直接変換します。
-    if (dataURL.indexOf(BASE64_MARKER) === -1) {
-      const parts = dataURL.split(',');
-      const contentType = parts[0].split(':')[1];
-      const raw = parts[1];
-
-      return new Blob([raw], { type: contentType });
+    if (!dataURL.includes(BASE64_MARKER)) {
+      throw new Error('Provided dataURL does not appear to be Base64-encoded.');
     }
 
     const parts = dataURL.split(BASE64_MARKER);
-    const contentType = parts[0].split(':')[1];
-    const raw = window.atob(parts[1]);
-    const rawLength = raw.length;
+    const contentType = parts[0].split(':')[1].split(';')[0];
+    const base64 = parts[1];
 
-    const uInt8Array = new Uint8Array(rawLength);
+    const byteString = window.atob(base64);
+    const byteNumbers = Array.from(byteString, (char) => char.charCodeAt(0));
+    const byteArray = new Uint8Array(byteNumbers);
 
-    for (let i = 0; i < rawLength; ++i) {
-      uInt8Array[i] = raw.charCodeAt(i);
-    }
-
-    return new Blob([uInt8Array], { type: contentType });
+    return new Blob([byteArray], { type: contentType });
   }
 
   const submitBoke = async () => {
@@ -98,11 +99,20 @@ const Create = () => {
       const blob = dataURLToBlob(imageData);
       console.log('Converted to Blob successfully.');
 
+      console.log(blob);
+      const blobUrl = URL.createObjectURL(blob);
+      console.log('Blob URL:', blobUrl);
+
       console.log('Creating File object from Blob...');
-      const file = new File([blob], 'compressedImage.jpg', { type: 'image/jpeg' });
+      const fileName = `compressedImage.${blob.type.split('/')[1]}`;
+      const file = new File([blob], fileName, { type: blob.type });
+      console.log('File object:', file);
+
       console.log('File object created successfully.');
 
       console.log('Starting image compression...');
+      console.log(file);
+      console.log(compressionOptions);
       const compressedFile = await imageCompression(file, compressionOptions);
       console.log('Image compressed successfully.');
 

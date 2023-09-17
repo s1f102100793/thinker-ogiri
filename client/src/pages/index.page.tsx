@@ -15,11 +15,8 @@ const Home = () => {
       </Head>
 
       <Header />
-      <div className={styles.mainContent} />
-      <div className={styles.welcomeText}>
-        <span>大喜利の世界へ</span>
-        <br />
-        <span>ようこそ</span>
+      <div className={styles.mainContent}>
+        <div className={styles.mainImage} />
       </div>
     </div>
   );

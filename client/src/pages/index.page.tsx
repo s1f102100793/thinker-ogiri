@@ -16,7 +16,9 @@ const Home = () => {
 
       <Header />
       <div className={styles.mainContent}>
-        <div className={styles.mainImage} />
+        <div className={styles.mainImage}>
+          <div className={styles.textContainer}>WELCOME TO RODIN OGIRI</div>
+        </div>
       </div>
     </div>
   );

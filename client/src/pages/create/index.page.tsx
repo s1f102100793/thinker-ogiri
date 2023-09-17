@@ -1,3 +1,4 @@
+import imageCompression from 'browser-image-compression';
 import type { ImageResponseModel } from 'commonTypesWithClient/models';
 import Head from 'next/head';
 import { useState } from 'react';
@@ -10,6 +11,12 @@ const Create = () => {
   const [bokeText, setBokeText] = useState<string>('');
 
   const imageSize = 300;
+
+  const compressionOptions = {
+    maxSizeMB: 1,
+    maxWidthOrHeight: 1920,
+    useWebWorker: true,
+  };
 
   const userId = 'gouta';
 
@@ -31,7 +38,22 @@ const Create = () => {
   };
 
   const submitBoke = async () => {
-    await apiClient.boke.post({ body: { userId, text: bokeText, image: imageData, like: 0 } });
+    console.log('submit boke');
+    let compressedImageData = imageData;
+    try {
+      const fetchRes = await fetch(imageData);
+      const blob = await fetchRes.blob();
+
+      const file = new File([blob], 'compressedImage.jpg', { type: 'image/jpeg' });
+
+      const compressedFile = await imageCompression(file, compressionOptions);
+      compressedImageData = await imageCompression.getDataUrlFromFile(compressedFile);
+    } catch (error) {
+      console.error('Image compression error:', error);
+    }
+    await apiClient.boke.post({
+      body: { userId, text: bokeText, image: compressedImageData, like: 0 },
+    });
   };
 
   return (

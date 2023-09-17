@@ -4,7 +4,7 @@
   flex-direction: column;
   width: 100%;
   height: auto;
-  min-height: 100vh;
+  height: 200vh;
   background-color: #e9e5de;
 }
 
@@ -47,7 +47,7 @@
 
 .imageContainer {
   position: absolute;
-  top: 120%;
+  top: 350px;
   display: flex;
   width: 100%;
   max-width: 1200px;
@@ -57,9 +57,12 @@
 
 .displayedImg {
   flex: 1;
-  width: 20%;
-  max-width: 240px;
-  height: 300px;
+  width: 10vw;
+  min-width: 100px;
+  max-width: 240px; /* 幅の上限 */
+  height: auto;
+  margin-right: 1vw;
+  margin-left: 1vw;
   object-fit: cover;
-  margin-right: 10px;
+  background-color: #fff;
 }

@@ -6,7 +6,7 @@ const Header = () => {
   return (
     <>
       <div className={styles.headerTop}>
-        <div className={styles.textBottomLeft}>考える像大喜利</div>
+        <div className={styles.textBottomLeft}>ロダン大喜利</div>
       </div>
       <div className={styles.headerBottom}>
         <a href="/" className={`${styles.link} ${currentPath === '/' ? styles.active : ''}`}>

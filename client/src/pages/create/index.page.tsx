@@ -28,7 +28,7 @@ const Create = () => {
         return;
       }
 
-      console.log(res);
+      console.log(res.data[0]?.b64_json);
       if (res.data[0]?.b64_json) {
         setImageData(res.data[0].b64_json);
       }
@@ -37,48 +37,18 @@ const Create = () => {
     }
   };
 
-  const submitBoke1 = async () => {
-    console.log('submit boke');
-    let compressedImageData = imageData;
-    try {
-      console.log('aaaaa');
-      const fetchRes = await fetch(imageData);
-      console.log('bbbb');
-      const blob = await fetchRes.blob();
-      console.log('cccc');
-      const file = new File([blob], 'compressedImage.jpg', { type: 'image/jpeg' });
-      console.log('ddd');
-      const compressedFile = await imageCompression(file, compressionOptions);
-      compressedImageData = await imageCompression.getDataUrlFromFile(compressedFile);
-      console.log('compressedImageData', compressedImageData);
-    } catch (error) {
-      console.error('Image compression error:', error);
-    }
-    console.log('compressedImageData', compressedImageData);
-    await apiClient.boke.post({
-      body: { userId, text: bokeText, image: compressedImageData, like: 0 },
-    });
-  };
-
   type DataURL = string;
 
-  function dataURLToBlob(dataURL: DataURL) {
+  function dataURLToBlob(dataURL: DataURL): Blob {
     const BASE64_MARKER = ';base64,';
-
-    // dataURLがBase64形式でない場合は、Blobとして直接変換します。
-    if (dataURL.indexOf(BASE64_MARKER) === -1) {
-      const parts = dataURL.split(',');
-      const contentType = parts[0].split(':')[1];
-      const raw = parts[1];
-
-      return new Blob([raw], { type: contentType });
-    }
-
+    console.log('BASE64_MARKER', BASE64_MARKER);
     const parts = dataURL.split(BASE64_MARKER);
-    const contentType = parts[0].split(':')[1];
-    const raw = window.atob(parts[1]);
+    console.log('parts', parts);
+    const contentType = parts[0].split(':')[1] || 'image/png';
+    console.log('Content Type:', contentType);
+    const raw = atob(parts[1]);
+    console.log('Raw:', raw);
     const rawLength = raw.length;
-
     const uInt8Array = new Uint8Array(rawLength);
 
     for (let i = 0; i < rawLength; ++i) {
@@ -88,37 +58,51 @@ const Create = () => {
     return new Blob([uInt8Array], { type: contentType });
   }
 
-  const submitBoke = async () => {
-    console.log('Starting submitBoke function...');
+  function blobToFile(theBlob: Blob, fileName: string): File {
+    const b: any = theBlob;
+    b.lastModifiedDate = new Date();
+    b.name = fileName;
+    return theBlob as File;
+  }
 
-    let compressedImageData = imageData;
+  async function compressImage(base64String: string): Promise<string> {
+    console.log('Starting compressImage function...');
+
+    const dataURL = `data:image/png;base64,${base64String}`;
+    const blob = dataURLToBlob(dataURL);
+    console.log('Blob:', blob);
+    const file = blobToFile(blob, 'compressed_image.png');
+    const compressedBlob = await imageCompression(file, compressionOptions);
+
+    console.log('Compressed Blob:', compressedBlob);
+    const reader = new FileReader();
+
+    return new Promise((resolve, reject) => {
+      reader.onload = (event) => resolve(event.target?.result as DataURL);
+      reader.onerror = (error) => reject(new Error('Failed to read blob as DataURL'));
+
+      reader.readAsDataURL(compressedBlob);
+    });
+  }
+
+  const newSubmitBoke = async () => {
+    console.log('Starting newSubmitBoke function...');
 
     try {
-      console.log('Converting Base64 to Blob...');
-      const blob = dataURLToBlob(imageData);
-      console.log('Converted to Blob successfully.');
-
-      console.log('Creating File object from Blob...');
-      const file = new File([blob], 'compressedImage.jpg', { type: 'image/jpeg' });
-      console.log('File object created successfully.');
-
-      console.log('Starting image compression...');
-      const compressedFile = await imageCompression(file, compressionOptions);
+      console.log('Compressing image...');
+      console.log('Image data:', imageData);
+      const compressedImageData = await compressImage(imageData);
       console.log('Image compressed successfully.');
 
-      console.log('Converting compressed image to Base64...');
-      compressedImageData = await imageCompression.getDataUrlFromFile(compressedFile);
-      console.log('Converted to Base64 successfully.');
+      console.log('Sending compressed image data...');
+      await apiClient.boke.post({
+        body: { userId, text: bokeText, image: compressedImageData, like: 0 },
+      });
+      console.log('Data sent successfully.');
+      setImageData('');
     } catch (error) {
-      console.error('Image compression error:', error);
-      return;
+      console.error('Error in newSubmitBoke:', error);
     }
-
-    console.log('Sending compressed image data...');
-    await apiClient.boke.post({
-      body: { userId, text: bokeText, image: compressedImageData, like: 0 },
-    });
-    console.log('Data sent successfully.');
   };
 
   return (
@@ -153,7 +137,7 @@ const Create = () => {
               onChange={(e) => setBokeText(e.target.value)}
               placeholder="ぼけの言葉を入力"
             />
-            <button className={styles.submitButton} onClick={submitBoke}>
+            <button className={styles.submitButton} onClick={newSubmitBoke}>
               投稿する
             </button>
           </>

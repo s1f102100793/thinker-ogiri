@@ -41,16 +41,20 @@ const Create = () => {
     console.log('submit boke');
     let compressedImageData = imageData;
     try {
+      console.log('aaaaa');
       const fetchRes = await fetch(imageData);
+      console.log('bbbb');
       const blob = await fetchRes.blob();
-
+      console.log('cccc');
       const file = new File([blob], 'compressedImage.jpg', { type: 'image/jpeg' });
-
+      console.log('ddd');
       const compressedFile = await imageCompression(file, compressionOptions);
       compressedImageData = await imageCompression.getDataUrlFromFile(compressedFile);
+      console.log('compressedImageData', compressedImageData);
     } catch (error) {
       console.error('Image compression error:', error);
     }
+    console.log('compressedImageData', compressedImageData);
     await apiClient.boke.post({
       body: { userId, text: bokeText, image: compressedImageData, like: 0 },
     });

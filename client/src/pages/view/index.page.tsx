@@ -1,4 +1,5 @@
 import type { BokeModel } from 'commonTypesWithClient/models';
+import Head from 'next/head';
 import { useState } from 'react';
 import Header from 'src/components/Header/Header';
 import { apiClient } from 'src/utils/apiClient';
@@ -18,6 +19,14 @@ const View = () => {
 
   return (
     <div className={styles.container}>
+      <Head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;４00&display=swap"
+          rel="stylesheet"
+        />
+      </Head>
       <Header />
       <button onClick={fetchBoke}>ぼけを見る</button>
       {bokeData.length > 0 && (

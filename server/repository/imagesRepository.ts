@@ -1,18 +1,17 @@
-import type { ImageResponseModel } from '$/commonTypesWithClient/models';
+import type { BokeModel, ImageResponseModel } from '$/commonTypesWithClient/models';
 import { OPENAIAPI } from '$/service/envValues';
 import { prismaClient } from '$/service/prismaClient';
 import type { Boke } from '@prisma/client';
 import axios from 'axios';
 
-export const toBokeModel = (prismaBoke: Boke) => {
-  return {
-    bokeId: prismaBoke.bokeId,
-    userId: prismaBoke.userId,
-    text: prismaBoke.text,
-    image: prismaBoke.image,
-    like: prismaBoke.likeCount,
-  };
-};
+export const toBokeModel = (prismaBoke: Boke): BokeModel => ({
+  bokeId: prismaBoke.bokeId,
+  createdAt: prismaBoke.createdAt,
+  userId: prismaBoke.userId,
+  text: prismaBoke.text,
+  image: prismaBoke.image,
+  like: prismaBoke.like,
+});
 
 export const createImage = async (): Promise<ImageResponseModel | null> => {
   try {
@@ -25,7 +24,7 @@ export const createImage = async (): Promise<ImageResponseModel | null> => {
           'Western classical sculpture centered on the screen, striking whimsical and contemplative poses without going beyond the frame, set against a white background',
         n: 1,
         size: '512x512',
-        response_format: 'b64_json',
+        response_format: 'url',
       },
       {
         headers: {
@@ -56,7 +55,7 @@ export const uploadBoke = async (
       prismaBoke = await prismaClient.boke.update({
         where: { bokeId },
         data: {
-          likeCount: like,
+          like,
         },
       });
     } else {
@@ -65,11 +64,23 @@ export const uploadBoke = async (
           userId,
           text,
           image,
-          likeCount: like,
+          like,
         },
       });
     }
     return toBokeModel(prismaBoke);
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+};
+
+export const getBoke = async (): Promise<BokeModel[] | null> => {
+  try {
+    const prismaBoke = await prismaClient.boke.findMany({
+      orderBy: { createdAt: 'desc' },
+    });
+    return prismaBoke.map((boke) => toBokeModel(boke));
   } catch (err) {
     console.log(err);
     return null;

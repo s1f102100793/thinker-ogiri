@@ -21,6 +21,15 @@ export type TaskModel = z.infer<typeof taskParser>;
 export type ImageResponseModel = {
   created: number;
   data: Array<{
-    b64_json: string;
+    url: string;
   }>;
+};
+
+export type BokeModel = {
+  bokeId: number;
+  createdAt: Date;
+  userId: string;
+  text: string;
+  image: string;
+  like: number;
 };

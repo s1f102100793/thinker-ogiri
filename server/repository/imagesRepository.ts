@@ -1,6 +1,18 @@
 import type { ImageResponseModel } from '$/commonTypesWithClient/models';
 import { OPENAIAPI } from '$/service/envValues';
+import { prismaClient } from '$/service/prismaClient';
+import type { Boke } from '@prisma/client';
 import axios from 'axios';
+
+export const toBokeModel = (prismaBoke: Boke) => {
+  return {
+    bokeId: prismaBoke.bokeId,
+    userId: prismaBoke.userId,
+    text: prismaBoke.text,
+    image: prismaBoke.image,
+    like: prismaBoke.likeCount,
+  };
+};
 
 export const createImage = async (): Promise<ImageResponseModel | null> => {
   try {
@@ -30,6 +42,36 @@ export const createImage = async (): Promise<ImageResponseModel | null> => {
   }
 };
 
-export const uploadBoke = async (text: string, like: number) => {
-  console.log(text, like);
+export const uploadBoke = async (
+  bokeId: number | undefined,
+  userId: string,
+  text: string,
+  image: string,
+  like: number
+) => {
+  try {
+    console.log(text, like);
+    let prismaBoke;
+    if (bokeId !== undefined && bokeId !== null) {
+      prismaBoke = await prismaClient.boke.update({
+        where: { bokeId },
+        data: {
+          likeCount: like,
+        },
+      });
+    } else {
+      prismaBoke = await prismaClient.boke.create({
+        data: {
+          userId,
+          text,
+          image,
+          likeCount: like,
+        },
+      });
+    }
+    return toBokeModel(prismaBoke);
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
 };

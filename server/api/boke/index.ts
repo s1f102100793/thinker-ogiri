@@ -6,7 +6,9 @@ export type Methods = DefineMethods<{
   };
   post: {
     reqBody: {
+      userId: string;
       text: string;
+      image: string;
       like: number;
     };
   };

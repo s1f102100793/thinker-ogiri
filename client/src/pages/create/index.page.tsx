@@ -19,8 +19,8 @@ const Create = () => {
       }
 
       console.log(res);
-      if (res.data[0]?.b64_json) {
-        setImageData(res.data[0].b64_json);
+      if (res.data[0]?.url) {
+        setImageData(res.data[0].url);
       }
     } catch (error) {
       console.error('API error:', error);
@@ -41,7 +41,7 @@ const Create = () => {
         {imageData && (
           <>
             <div className={styles.imageContainer}>
-              <img src={`data:image/png;base64,${imageData}`} alt="Generated Data" />
+              <img src={`${imageData}`} alt="Generated Data" />
             </div>
             <input
               type="text"

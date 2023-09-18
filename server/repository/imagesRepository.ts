@@ -49,31 +49,32 @@ export const uploadBoke = async (
   like: number
 ) => {
   try {
-    console.log(text, like);
+    // userId, text, imageがundefinedまたはnullの場合、適切なデフォルト値を設定
+    const validatedUserId = userId ?? '';
+    const validatedText = text ?? '';
+    const validatedImage = image ?? '';
 
-    if (userId !== undefined && text !== undefined && image !== undefined) {
-      let prismaBoke;
+    console.log(validatedText, like);
+    let prismaBoke;
 
-      if (bokeId !== undefined && bokeId !== null) {
-        prismaBoke = await prismaClient.boke.update({
-          where: { bokeId },
-          data: {
-            like,
-          },
-        });
-      } else {
-        prismaBoke = await prismaClient.boke.create({
-          data: {
-            userId,
-            text,
-            image,
-            like,
-          },
-        });
-      }
-
-      return toBokeModel(prismaBoke);
+    if (bokeId !== undefined) {
+      prismaBoke = await prismaClient.boke.update({
+        where: { bokeId },
+        data: {
+          like,
+        },
+      });
+    } else {
+      prismaBoke = await prismaClient.boke.create({
+        data: {
+          userId: validatedUserId,
+          text: validatedText,
+          image: validatedImage,
+          like,
+        },
+      });
     }
+    return toBokeModel(prismaBoke);
   } catch (err) {
     console.log(err);
     return null;

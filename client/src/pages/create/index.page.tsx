@@ -96,7 +96,7 @@ const Create = () => {
 
       console.log('Sending compressed image data...');
       await apiClient.boke.post({
-        body: { userId, text: bokeText, image: compressedImageData, like: 0 },
+        body: { bokeId: undefined, userId, text: bokeText, image: compressedImageData, like: 0 },
       });
       console.log('Data sent successfully.');
       setImageData('');

@@ -84,7 +84,15 @@ const View = () => {
             </div>
             <div className={styles.fullScreenBokeRight}>
               <p className={styles.fullScreenText}>{selectedBoke.text}</p>
-              <p className={styles.fullScreenTime}>{timeSince(new Date(selectedBoke.createdAt))}</p>
+              <div className={styles.middleErea}>
+                <p className={styles.middleEreaLikeCount}>★{selectedBoke.like}</p>
+                <p className={styles.fullScreenTime}>
+                  {timeSince(new Date(selectedBoke.createdAt))}
+                </p>
+                <div className={styles.twitterShare}>
+                  <FontAwesomeIcon icon={faSquareXTwitter} size="xs" style={{ color: '#000' }} />
+                </div>
+              </div>
               <button className={styles.closeButton} onClick={closeBokeDetail}>
                 閉じる
               </button>

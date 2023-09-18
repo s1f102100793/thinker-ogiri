@@ -68,11 +68,6 @@
   background-color: #888;
 }
 
-.twitterShare {
-  color: #888;
-  cursor: pointer;
-}
-
 .rating {
   display: flex;
   gap: 10px;
@@ -117,18 +112,48 @@
 }
 
 .fullScreenText {
+  align-self: center;
   margin: 0;
   font-size: 20px;
   text-align: left;
   background-color: #fff;
 }
 
+.middleErea {
+  display: flex;
+  align-items: center;
+  align-self: center;
+  justify-content: space-between;
+  width: 80%;
+  height: auto;
+  background-color: #bbb;
+}
+
+.middleEreaLikeCount {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: #ddd;
+}
+
 .fullScreenTime {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
   margin: 0;
   font-size: 14px;
   color: #888;
-  text-align: left;
   background-color: #fff;
+}
+
+.twitterShare {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: flex-end;
+  background-color: #ccc;
 }
 
 .closeButton {

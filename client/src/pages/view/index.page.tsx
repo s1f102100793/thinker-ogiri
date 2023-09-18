@@ -66,10 +66,15 @@ const View = () => {
                 <img src={boke.image} alt={`Boke ${boke.bokeId}`} />
                 <div className={styles.bokeDetails}>
                   <p>
-                    <span className={styles.likeCount}>{boke.like}</span> {boke.text}
+                    <span className={styles.likeCount}>★{boke.like}</span> {boke.text}
                   </p>
                   <p>{timeSince(new Date(boke.createdAt))}</p>
+                  <div className={styles.socialShare}>
+                    <span className={styles.twitterShare}>Twitter</span>
+                    <span className={styles.instShare}>Instagram</span>
+                  </div>
                 </div>
+                <div className={styles.rating}>★ ★ ★</div>
               </div>
             ))}
           </div>

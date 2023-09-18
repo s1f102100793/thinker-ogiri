@@ -58,21 +58,28 @@ const View = () => {
         />
       </Head>
       <Header />
-      {bokeData.length > 0 && (
-        <div className={styles.bokeList}>
-          {bokeData.map((boke) => (
-            <div key={boke.bokeId} className={styles.bokeItem}>
-              <img src={boke.image} alt={`Boke ${boke.bokeId}`} />
-              <div className={styles.bokeDetails}>
-                <p>
-                  <span className={styles.likeCount}>{boke.like}</span> {boke.text}
-                </p>
-                <p>{timeSince(new Date(boke.createdAt))}</p>
+      <div className={styles.contentWrapper}>
+        {bokeData.length > 0 && (
+          <div className={styles.bokeList}>
+            {bokeData.map((boke) => (
+              <div key={boke.bokeId} className={styles.bokeItem}>
+                <img src={boke.image} alt={`Boke ${boke.bokeId}`} />
+                <div className={styles.bokeDetails}>
+                  <p>
+                    <span className={styles.likeCount}>★{boke.like}</span> {boke.text}
+                  </p>
+                  <p>{timeSince(new Date(boke.createdAt))}</p>
+                  <div className={styles.socialShare}>
+                    <span className={styles.twitterShare}>Twitter</span>
+                    <span className={styles.instShare}>Instagram</span>
+                  </div>
+                </div>
+                <div className={styles.rating}>★ ★ ★</div>
               </div>
-            </div>
-          ))}
-        </div>
-      )}
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

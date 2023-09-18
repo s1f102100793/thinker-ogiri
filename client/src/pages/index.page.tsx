@@ -1,34 +1,21 @@
-import type { BokeModel } from 'commonTypesWithClient/models';
 import Head from 'next/head';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import Header from 'src/components/Header/Header';
-import { apiClient } from 'src/utils/apiClient';
+import { useHome } from 'src/hooks/useHome';
 import styles from './index.module.css';
 
 const Home = () => {
-  const [homeBokeData, setHomeBokeData] = useState<BokeModel[]>([]);
-  const [homeBokeImg, setHomeBokeImg] = useState<string[]>([]);
-  const [displayImages, setDisplayImages] = useState<string[]>([]);
-
-  const fetchHomeboke = async () => {
-    const databaseBoke = await apiClient.boke.$get();
-    if (databaseBoke) {
-      setHomeBokeData(databaseBoke);
-      setHomeBokeImg(databaseBoke.map((boke) => boke.image));
-    } else {
-      console.error('Failed to fetch boke data');
-    }
-  };
+  const { homeBokeImg, displayImages, setDisplayImages, fetchHomeboke } = useHome();
 
   useEffect(() => {
     fetchHomeboke();
-  }, []);
+  }, [fetchHomeboke]);
 
   useEffect(() => {
     if (homeBokeImg.length > 0) {
       setDisplayImages(homeBokeImg.slice(0, 5));
     }
-  }, [homeBokeImg]);
+  }, [homeBokeImg, setDisplayImages]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -47,7 +34,7 @@ const Home = () => {
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [displayImages, homeBokeImg]);
+  }, [displayImages, homeBokeImg, setDisplayImages]);
 
   return (
     <div className={styles.container}>

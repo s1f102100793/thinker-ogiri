@@ -153,7 +153,14 @@
   flex: 1;
   align-items: center;
   justify-content: flex-end;
-  background-color: #ccc;
+  width: 10%;
+  height: 30%;
+  background-color: #999;
+}
+
+.twitterShare svg {
+  width: 50%;
+  height: auto;
 }
 
 .closeButton {

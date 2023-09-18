@@ -30,6 +30,11 @@ const View = () => {
     setSelectedBoke(null);
   };
 
+  const openTwitterShare = (text: string) => {
+    const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
+    window.open(url, '_blank', 'noopener,noreferrer');
+  };
+
   function timeSince(date: Date): string {
     const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
 
@@ -90,7 +95,12 @@ const View = () => {
                   {timeSince(new Date(selectedBoke.createdAt))}
                 </p>
                 <div className={styles.twitterShare}>
-                  <FontAwesomeIcon icon={faSquareXTwitter} size="xs" style={{ color: '#000' }} />
+                  <FontAwesomeIcon
+                    icon={faSquareXTwitter}
+                    size="2xs"
+                    style={{ color: '#434343' }}
+                    onClick={() => openTwitterShare(selectedBoke.text)}
+                  />
                 </div>
               </div>
               <button className={styles.closeButton} onClick={closeBokeDetail}>

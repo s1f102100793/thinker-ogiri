@@ -1,3 +1,5 @@
+import { faSquareXTwitter } from '@fortawesome/free-brands-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import type { BokeModel } from 'commonTypesWithClient/models';
 import Head from 'next/head';
 import { useEffect, useState } from 'react'; // useEffectをインポート
@@ -11,6 +13,7 @@ const View = () => {
   const fetchBoke = async () => {
     const databaseBoke = await apiClient.boke.$get();
     if (databaseBoke) {
+      console.log(databaseBoke)
       setBokeData(databaseBoke);
     } else {
       console.error('Failed to fetch boke data');
@@ -44,6 +47,7 @@ const View = () => {
   }
 
   useEffect(() => {
+    console.log('useEffect');
     fetchBoke();
   }, []);
 
@@ -70,8 +74,13 @@ const View = () => {
                   </p>
                   <p>{timeSince(new Date(boke.createdAt))}</p>
                   <div className={styles.socialShare}>
-                    <span className={styles.twitterShare}>Twitter</span>
-                    <span className={styles.instShare}>Instagram</span>
+                    <a
+                      href={`https://twitter.com/intent/tweet?text=${boke.text}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <FontAwesomeIcon icon={faSquareXTwitter} />
+                    </a>
                   </div>
                 </div>
                 <div className={styles.rating}>★ ★ ★</div>

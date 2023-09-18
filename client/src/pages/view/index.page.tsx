@@ -76,12 +76,18 @@ const View = () => {
         {selectedBoke !== null ? (
           <div className={styles.fullScreenBoke}>
             <div className={styles.fullScreenBokeLeft}>
-              <img src={selectedBoke.image} alt={`Boke ${selectedBoke.bokeId}`} />
+              <img
+                className={styles.fullScreenImage}
+                src={selectedBoke.image}
+                alt={`Boke ${selectedBoke.bokeId}`}
+              />
             </div>
             <div className={styles.fullScreenBokeRight}>
-              <p>{selectedBoke.text}</p>
-              <p>{timeSince(new Date(selectedBoke.createdAt))}</p>
-              <button onClick={closeBokeDetail}>閉じる</button>
+              <p className={styles.fullScreenText}>{selectedBoke.text}</p>
+              <p className={styles.fullScreenTime}>{timeSince(new Date(selectedBoke.createdAt))}</p>
+              <button className={styles.closeButton} onClick={closeBokeDetail}>
+                閉じる
+              </button>
             </div>
           </div>
         ) : (

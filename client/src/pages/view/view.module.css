@@ -83,8 +83,9 @@
 
 .fullScreenBoke {
   display: flex;
-  width: 100%;
+  width: 80%;
   height: 100vh;
+  margin: 0 auto;
   overflow: hidden;
 }
 
@@ -94,18 +95,53 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  background-color: #fff;
 }
 
-.fullScreenBokeLeft img {
+.fullScreenImage {
   max-width: 100%;
   max-height: 100vh;
+  border: solid #434343;
 }
 
 .fullScreenBokeRight {
   display: flex;
   flex: 1;
   flex-direction: column;
+  gap: 20px;
   align-items: flex-start;
   justify-content: center;
   padding: 0 2rem;
+  text-align: center;
+  background-color: #aaa;
+}
+
+.fullScreenText {
+  margin: 0;
+  font-size: 20px;
+  text-align: left;
+  background-color: #fff;
+}
+
+.fullScreenTime {
+  margin: 0;
+  font-size: 14px;
+  color: #888;
+  text-align: left;
+  background-color: #fff;
+}
+
+.closeButton {
+  align-self: center;
+  padding: 10px 20px;
+  color: #fff;
+  cursor: pointer;
+  background-color: #333;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.closeButton:hover {
+  background-color: #555;
 }

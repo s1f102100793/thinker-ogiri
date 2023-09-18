@@ -68,14 +68,6 @@
   background-color: #888;
 }
 
-.rating {
-  display: flex;
-  gap: 10px;
-  margin-top: 10px;
-  font-size: 24px;
-  color: gold;
-}
-
 .fullScreenBoke {
   display: flex;
   width: 80%;
@@ -161,6 +153,10 @@
 .twitterShare svg {
   width: 50%;
   height: auto;
+}
+
+.rating {
+  align-self: center;
 }
 
 .closeButton {

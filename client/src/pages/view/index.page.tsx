@@ -1,5 +1,6 @@
 import { faSquareXTwitter } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Rating } from '@mui/material';
 import type { BokeModel } from 'commonTypesWithClient/models';
 import Head from 'next/head';
 import { useEffect, useState } from 'react'; // useEffectをインポート
@@ -102,6 +103,9 @@ const View = () => {
                     onClick={() => openTwitterShare(selectedBoke.text)}
                   />
                 </div>
+              </div>
+              <div className={styles.rating}>
+                <Rating name="customized-10" defaultValue={0} max={3} />
               </div>
               <button className={styles.closeButton} onClick={closeBokeDetail}>
                 閉じる

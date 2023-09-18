@@ -43,32 +43,37 @@ export const createImage = async (): Promise<ImageResponseModel | null> => {
 
 export const uploadBoke = async (
   bokeId: number | undefined,
-  userId: string,
-  text: string,
-  image: string,
+  userId: string | undefined,
+  text: string | undefined,
+  image: string | undefined,
   like: number
 ) => {
   try {
     console.log(text, like);
-    let prismaBoke;
-    if (bokeId !== undefined && bokeId !== null) {
-      prismaBoke = await prismaClient.boke.update({
-        where: { bokeId },
-        data: {
-          like,
-        },
-      });
-    } else {
-      prismaBoke = await prismaClient.boke.create({
-        data: {
-          userId,
-          text,
-          image,
-          like,
-        },
-      });
+
+    if (userId !== undefined && text !== undefined && image !== undefined) {
+      let prismaBoke;
+
+      if (bokeId !== undefined && bokeId !== null) {
+        prismaBoke = await prismaClient.boke.update({
+          where: { bokeId },
+          data: {
+            like,
+          },
+        });
+      } else {
+        prismaBoke = await prismaClient.boke.create({
+          data: {
+            userId,
+            text,
+            image,
+            like,
+          },
+        });
+      }
+
+      return toBokeModel(prismaBoke);
     }
-    return toBokeModel(prismaBoke);
   } catch (err) {
     console.log(err);
     return null;

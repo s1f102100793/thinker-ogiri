@@ -38,10 +38,20 @@ const View = () => {
 
   const [value, setValue] = useState(0);
 
-  const handleRatingChange = (event: React.ChangeEvent<unknown>, newValue: number | null) => {
+  const handleRatingChange = async (event: React.ChangeEvent<unknown>, newValue: number | null) => {
     if (newValue !== null) {
       // console.log(newValue);
       console.log(newValue - value);
+      const updateLike = newValue - value;
+      await apiClient.boke.post({
+        body: {
+          bokeId: selectedBoke?.bokeId,
+          userId: undefined,
+          text: undefined,
+          image: undefined,
+          like: updateLike,
+        },
+      });
       setValue(newValue);
     }
   };

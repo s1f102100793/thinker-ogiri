@@ -7,9 +7,10 @@ export type Methods = DefineMethods<{
   };
   post: {
     reqBody: {
-      userId: string;
-      text: string;
-      image: string;
+      bokeId: number | undefined;
+      userId: string | undefined;
+      text: string | undefined;
+      image: string | undefined;
       like: number;
     };
   };

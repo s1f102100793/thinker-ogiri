@@ -5,6 +5,6 @@ export default defineController(() => ({
   get: async () => ({ status: 200, body: await getBoke() }),
   post: async ({ body }) => ({
     status: 201,
-    body: await uploadBoke(undefined, body.userId, body.text, body.image, body.like),
+    body: await uploadBoke(body.bokeId, body.userId, body.text, body.image, body.like),
   }),
 }));

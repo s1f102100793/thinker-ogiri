@@ -100,6 +100,7 @@ const Create = () => {
       });
       console.log('Data sent successfully.');
       setImageData('');
+      setBokeText('');
     } catch (error) {
       console.error('Error in newSubmitBoke:', error);
     }

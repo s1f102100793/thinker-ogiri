@@ -8,15 +8,15 @@
 
 .bokeList {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   gap: 20px;
-  width: 90%;
-  max-width: 800px;
+  width: 100%;
   margin-top: 20px;
 }
 
 .bokeItem {
   display: flex;
+  flex-basis: calc(33.33% - 20px);
   flex-direction: column;
   align-items: center;
   padding: 15px;
@@ -34,4 +34,20 @@
   margin-top: 10px;
   font-size: 16px;
   text-align: center;
+}
+
+.bokeDetails {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.likeCount {
+  font-weight: bold;
+}
+
+.bokeItem .bokeDetails p {
+  padding: 0 15px;
 }

@@ -13,11 +13,21 @@ const View = () => {
   const fetchBoke = async () => {
     const databaseBoke = await apiClient.boke.$get();
     if (databaseBoke) {
-      console.log(databaseBoke)
+      console.log(databaseBoke);
       setBokeData(databaseBoke);
     } else {
       console.error('Failed to fetch boke data');
     }
+  };
+
+  const [selectedBoke, setSelectedBoke] = useState<BokeModel | null>(null);
+
+  const handleBokeClick = (boke: BokeModel) => {
+    setSelectedBoke(boke);
+  };
+
+  const closeBokeDetail = () => {
+    setSelectedBoke(null);
   };
 
   function timeSince(date: Date): string {
@@ -63,30 +73,46 @@ const View = () => {
       </Head>
       <Header />
       <div className={styles.contentWrapper}>
-        {bokeData.length > 0 && (
-          <div className={styles.bokeList}>
-            {bokeData.map((boke) => (
-              <div key={boke.bokeId} className={styles.bokeItem}>
-                <img src={boke.image} alt={`Boke ${boke.bokeId}`} />
-                <div className={styles.bokeDetails}>
-                  <p>
-                    <span className={styles.likeCount}>★{boke.like}</span> {boke.text}
-                  </p>
-                  <p>{timeSince(new Date(boke.createdAt))}</p>
-                  <div className={styles.socialShare}>
-                    <a
-                      href={`https://twitter.com/intent/tweet?text=${boke.text}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <FontAwesomeIcon icon={faSquareXTwitter} />
-                    </a>
+        {selectedBoke !== null ? (
+          <div className={styles.fullScreenBoke}>
+            <img src={selectedBoke.image} alt={`Boke ${selectedBoke.bokeId}`} />
+            <p>{selectedBoke.text}</p>
+            <p>{timeSince(new Date(selectedBoke.createdAt))}</p>
+            <button onClick={closeBokeDetail}>閉じる</button>
+          </div>
+        ) : (
+          bokeData.length > 0 && (
+            <div className={styles.bokeList}>
+              {bokeData.map((boke) => (
+                <div
+                  key={boke.bokeId}
+                  className={styles.bokeItem}
+                  onClick={() => handleBokeClick(boke)}
+                >
+                  <img src={boke.image} alt={`Boke ${boke.bokeId}`} />
+                  <div className={styles.bokeDetails}>
+                    <p>
+                      <span className={styles.likeCount}>★{boke.like}</span> {boke.text}
+                    </p>
+                    <p>{timeSince(new Date(boke.createdAt))}</p>
+                    <div className={styles.socialShare}>
+                      <a
+                        href={`https://twitter.com/intent/tweet?text=${boke.text}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <FontAwesomeIcon
+                          icon={faSquareXTwitter}
+                          size="2xs"
+                          style={{ color: '#000' }}
+                        />
+                      </a>
+                    </div>
                   </div>
                 </div>
-                <div className={styles.rating}>★ ★ ★</div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )
         )}
       </div>
     </div>

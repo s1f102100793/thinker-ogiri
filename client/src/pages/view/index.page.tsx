@@ -75,10 +75,14 @@ const View = () => {
       <div className={styles.contentWrapper}>
         {selectedBoke !== null ? (
           <div className={styles.fullScreenBoke}>
-            <img src={selectedBoke.image} alt={`Boke ${selectedBoke.bokeId}`} />
-            <p>{selectedBoke.text}</p>
-            <p>{timeSince(new Date(selectedBoke.createdAt))}</p>
-            <button onClick={closeBokeDetail}>閉じる</button>
+            <div className={styles.fullScreenBokeLeft}>
+              <img src={selectedBoke.image} alt={`Boke ${selectedBoke.bokeId}`} />
+            </div>
+            <div className={styles.fullScreenBokeRight}>
+              <p>{selectedBoke.text}</p>
+              <p>{timeSince(new Date(selectedBoke.createdAt))}</p>
+              <button onClick={closeBokeDetail}>閉じる</button>
+            </div>
           </div>
         ) : (
           bokeData.length > 0 && (

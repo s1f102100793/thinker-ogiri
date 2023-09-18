@@ -36,6 +36,21 @@ const View = () => {
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
+  const [value, setValue] = useState(0);
+
+  const handleRatingChange = (event: React.ChangeEvent<unknown>, newValue: number | null) => {
+    if (newValue !== null) {
+      // console.log(newValue);
+      console.log(newValue - value);
+      setValue(newValue);
+    }
+  };
+
+  const handleCancel = () => {
+    console.log(-value);
+    setValue(0);
+  };
+
   function timeSince(date: Date): string {
     const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
 
@@ -105,7 +120,8 @@ const View = () => {
                 </div>
               </div>
               <div className={styles.rating}>
-                <Rating name="customized-10" defaultValue={0} max={3} />
+                <Rating name="customized-10" value={value} onChange={handleRatingChange} max={3} />
+                {value > 0 && <button onClick={handleCancel}>取り消し</button>}
               </div>
               <button className={styles.closeButton} onClick={closeBokeDetail}>
                 閉じる

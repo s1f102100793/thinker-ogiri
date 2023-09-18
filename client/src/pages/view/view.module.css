@@ -65,10 +65,10 @@
 .socialShare {
   display: flex;
   gap: 10px;
+  background-color: #888;
 }
 
-.twitterShare,
-.instShare {
+.twitterShare {
   color: #888;
   cursor: pointer;
 }
@@ -79,4 +79,19 @@
   margin-top: 10px;
   font-size: 24px;
   color: gold;
+}
+
+.fullScreenBoke {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  color: #fff;
+  background-color: rgb(0 0 0 / 80%);
 }

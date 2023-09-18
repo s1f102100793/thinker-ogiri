@@ -6,17 +6,23 @@
   background-color: #e9e5de;
 }
 
-.bokeList {
+.contentWrapper {
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
+  flex-direction: column;
+  align-items: center;
   width: 100%;
+}
+
+.bokeList {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  width: 70%;
   margin-top: 20px;
 }
 
 .bokeItem {
   display: flex;
-  flex-basis: calc(33.33% - 20px);
   flex-direction: column;
   align-items: center;
   padding: 15px;

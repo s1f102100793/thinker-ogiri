@@ -7,16 +7,24 @@
 }
 
 .contentWrapper {
-  width: 100%;
+  width: 100vw;
   margin-top: 15vh;
-  overflow-x: auto;
+  overflow-x: scroll;
+  overflow-y: hidden;
   white-space: nowrap;
   background: radial-gradient(circle at center, #e9e5de 50%, black 100%);
   perspective: 1000px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.contentWrapper::-webkit-scrollbar {
+  display: none;
 }
 
 .bokeList {
   display: inline-flex;
+  width: max-content;
   height: 70vh;
 }
 

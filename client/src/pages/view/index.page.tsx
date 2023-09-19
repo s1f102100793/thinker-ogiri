@@ -1,7 +1,7 @@
 import type { BokeModel } from 'commonTypesWithClient/models';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react'; // useEffectをインポート
+import { useEffect, useRef, useState } from 'react'; // useEffectをインポート
 import Header from 'src/components/Header/Header';
 import { apiClient } from 'src/utils/apiClient';
 import styles from './view.module.css';
@@ -27,31 +27,21 @@ const View = () => {
     // setSelectedBoke(boke);
   };
 
-  function timeSince(date: Date): string {
-    const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
-    let interval = Math.floor(seconds / 31536000);
-    if (interval > 1) {
-      return `${interval} 年前`;
-    }
-    interval = Math.floor(seconds / 2592000);
-    if (interval > 1) {
-      return `${interval} 月前`;
-    }
-    interval = Math.floor(seconds / 86400);
-    if (interval > 1) {
-      return `${interval} 日前`;
-    }
-    interval = Math.floor(seconds / 3600);
-    if (interval > 1) {
-      return `${interval} 時間前`;
-    }
-    interval = Math.floor(seconds / 60);
-    if (interval > 1) {
-      return `${interval} 分前`;
-    }
-    return `${Math.floor(seconds)} 秒前`;
-  }
+  useEffect(() => {
+    const handleScroll = (e: WheelEvent) => {
+      if (wrapperRef.current) {
+        wrapperRef.current.scrollLeft += e.deltaY;
+      }
+    };
+
+    window.addEventListener('wheel', handleScroll);
+
+    return () => {
+      window.removeEventListener('wheel', handleScroll);
+    };
+  }, []);
 
   useEffect(() => {
     console.log('useEffect');
@@ -69,7 +59,7 @@ const View = () => {
         />
       </Head>
       <Header />
-      <div className={styles.contentWrapper}>
+      <div className={styles.contentWrapper} ref={wrapperRef}>
         <div className={styles.bokeList}>
           {bokeData.map((boke, index) => (
             <div

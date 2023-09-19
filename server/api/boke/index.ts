@@ -3,7 +3,7 @@ import type { BokeModel } from '../../commonTypesWithClient/models';
 
 export type Methods = DefineMethods<{
   get: {
-    resBody: BokeModel[] | null;
+    resBody: BokeModel | BokeModel[] | null;
   };
   post: {
     reqBody: {

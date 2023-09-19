@@ -86,7 +86,12 @@ const BokeDetail = () => {
   const fetchSelectedBoke = useCallback(async () => {
     if (bokeId !== null) {
       const databaseSelectedboke = await apiClient.boke.selected.$post({ body: { bokeId } });
-      setSelectedBoke(databaseSelectedboke);
+
+      if (!Array.isArray(databaseSelectedboke)) {
+        setSelectedBoke(databaseSelectedboke);
+      } else {
+        console.error('Expected a single BokeModel but received an array.');
+      }
     }
   }, [bokeId]);
 

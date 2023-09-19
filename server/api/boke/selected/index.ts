@@ -7,6 +7,6 @@ export type Methods = DefineMethods<{
   };
   post: {
     reqBody: { bokeId: number };
-    resBody: BokeModel;
+    resBody: BokeModel | BokeModel[] | null;
   };
 }>;

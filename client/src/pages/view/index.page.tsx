@@ -14,9 +14,11 @@ const View = () => {
 
   const fetchBoke = async () => {
     const databaseBoke = await apiClient.boke.$get({});
-    if (databaseBoke) {
-      console.log(databaseBoke);
+
+    if (Array.isArray(databaseBoke)) {
       setBokeData(databaseBoke);
+    } else if (databaseBoke) {
+      console.error('Expected an array of BokeModel but received a single instance.');
     } else {
       console.error('Failed to fetch boke data');
     }

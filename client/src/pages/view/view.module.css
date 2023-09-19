@@ -7,36 +7,26 @@
 }
 
 .contentWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
   width: 100vw;
+  height: 70vh;
   margin-top: 15vh;
-  overflow-x: scroll;
-  overflow-y: hidden;
-  white-space: nowrap;
-  background: radial-gradient(circle at center, #e9e5de 50%, black 100%);
+  overflow-x: hidden;
   perspective: 1000px;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-.contentWrapper::-webkit-scrollbar {
-  display: none;
 }
 
 .bokeList {
-  display: inline-flex;
-  width: max-content;
-  height: 70vh;
+  position: absolute;
+  display: flex;
+  align-self: center;
+  transition: transform 0.5s ease;
 }
 
 .bokeItem {
-  display: inline-block;
-  width: 33.33%;
-  vertical-align: top;
+  flex: 0 0 33.33%;
   transition: transform 0.3s ease;
-}
-
-.bokeItem:hover {
-  transform: scale(1.05);
 }
 
 .centerItem {
@@ -48,7 +38,6 @@
   margin: 10% auto;
   background-color: #e9e5de;
   border: 5px solid white;
-  box-shadow: 0 0 20px 10px white;
 }
 
 .bokeItem img {

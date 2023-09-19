@@ -24,15 +24,21 @@ const View = () => {
 
   const handleBokeClick = (boke: BokeModel) => {
     router.push(`/view/${boke.bokeId}`);
-    // setSelectedBoke(boke);
   };
 
-  const wrapperRef = useRef<HTMLDivElement>(null);
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
+  const [currentIndex, setCurrentIndex] = useState(1);
+  const [offset, setOffset] = useState(0);
 
   useEffect(() => {
     const handleScroll = (e: WheelEvent) => {
       if (wrapperRef.current) {
-        wrapperRef.current.scrollLeft += e.deltaY;
+        if (e.deltaY > 0) {
+          setCurrentIndex((prevIndex) => Math.min(bokeData.length - 2, prevIndex + 1));
+        } else {
+          setCurrentIndex((prevIndex) => Math.max(1, prevIndex - 1));
+        }
+        setOffset(wrapperRef.current.scrollLeft);
       }
     };
 
@@ -41,8 +47,7 @@ const View = () => {
     return () => {
       window.removeEventListener('wheel', handleScroll);
     };
-  }, []);
-
+  }, [bokeData.length]);
   useEffect(() => {
     console.log('useEffect');
     fetchBoke();
@@ -60,8 +65,8 @@ const View = () => {
       </Head>
       <Header />
       <div className={styles.contentWrapper} ref={wrapperRef}>
-        <div className={styles.bokeList}>
-          {bokeData.map((boke, index) => (
+        <div className={styles.bokeList} style={{ transform: `translateX(-${offset}px)` }}>
+          {bokeData.slice(currentIndex - 1, currentIndex + 2).map((boke, index) => (
             <div
               key={boke.bokeId}
               className={`${styles.bokeItem} ${index === 1 ? styles.centerItem : ''}`}

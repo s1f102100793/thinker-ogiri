@@ -28,6 +28,7 @@ const BokeDetail = () => {
 
   const closeBokeDetail = () => {
     setSelectedBoke(null);
+    router.push('/view/');
   };
 
   const openTwitterShare = (text: string) => {
@@ -85,7 +86,9 @@ const BokeDetail = () => {
 
   const fetchSelectedBoke = useCallback(async () => {
     if (bokeId !== null) {
+      console.log(bokeId);
       const databaseSelectedboke = await apiClient.boke.selected.$post({ body: { bokeId } });
+      console.log(databaseSelectedboke);
 
       if (!Array.isArray(databaseSelectedboke)) {
         setSelectedBoke(databaseSelectedboke);

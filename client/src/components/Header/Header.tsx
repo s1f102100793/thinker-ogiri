@@ -13,16 +13,16 @@ const Header = () => {
           Home
         </a>
         <a
-          href="/create"
-          className={`${styles.link} ${currentPath === '/create/' ? styles.active : ''}`}
-        >
-          Create
-        </a>
-        <a
           href="/view"
           className={`${styles.link} ${currentPath === '/view/' ? styles.active : ''}`}
         >
           View
+        </a>
+        <a
+          href="/create"
+          className={`${styles.link} ${currentPath === '/create/' ? styles.active : ''}`}
+        >
+          Create
         </a>
         <a
           href="/outstanding"

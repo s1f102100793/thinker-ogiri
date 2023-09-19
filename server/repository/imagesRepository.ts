@@ -83,6 +83,7 @@ export const uploadBoke = async (
 export const getBoke = async (
   bokeId: number | undefined
 ): Promise<BokeModel | BokeModel[] | null> => {
+  console.log(bokeId);
   try {
     if (bokeId !== null && bokeId !== undefined) {
       const singleBoke = await prismaClient.boke.findUnique({
@@ -101,6 +102,8 @@ export const getBoke = async (
     const prismaBoke = await prismaClient.boke.findMany({
       orderBy: { createdAt: 'desc' },
     });
+
+    console.log(prismaBoke);
 
     return prismaBoke.map((boke) => toBokeModel(boke));
   } catch (err) {

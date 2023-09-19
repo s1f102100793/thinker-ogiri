@@ -4,7 +4,7 @@ const Header = () => {
   const currentPath = window.location.pathname;
 
   return (
-    <>
+    <div className={styles.headerContainer}>
       <div className={styles.headerTop}>
         <div className={styles.textBottomLeft}>ロダン大喜利</div>
       </div>
@@ -13,16 +13,16 @@ const Header = () => {
           Home
         </a>
         <a
-          href="/create"
-          className={`${styles.link} ${currentPath === '/create/' ? styles.active : ''}`}
-        >
-          Create
-        </a>
-        <a
           href="/view"
           className={`${styles.link} ${currentPath === '/view/' ? styles.active : ''}`}
         >
           View
+        </a>
+        <a
+          href="/create"
+          className={`${styles.link} ${currentPath === '/create/' ? styles.active : ''}`}
+        >
+          Create
         </a>
         <a
           href="/outstanding"
@@ -31,7 +31,7 @@ const Header = () => {
           Outstanding
         </a>
       </div>
-    </>
+    </div>
   );
 };
 

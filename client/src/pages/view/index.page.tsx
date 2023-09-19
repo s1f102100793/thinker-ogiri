@@ -1,9 +1,7 @@
-import { faSquareXTwitter } from '@fortawesome/free-brands-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import type { BokeModel } from 'commonTypesWithClient/models';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react'; // useEffectをインポート
+import { useEffect, useRef, useState } from 'react'; // useEffectをインポート
 import Header from 'src/components/Header/Header';
 import { apiClient } from 'src/utils/apiClient';
 import styles from './view.module.css';
@@ -24,40 +22,26 @@ const View = () => {
     }
   };
 
-  const [selectedBoke, setSelectedBoke] = useState<BokeModel | null>(null);
-
   const handleBokeClick = (boke: BokeModel) => {
     router.push(`/view/${boke.bokeId}`);
     // setSelectedBoke(boke);
   };
 
-  const [value, setValue] = useState(0);
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
-  function timeSince(date: Date): string {
-    const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
+  useEffect(() => {
+    const handleScroll = (e: WheelEvent) => {
+      if (wrapperRef.current) {
+        wrapperRef.current.scrollLeft += e.deltaY;
+      }
+    };
 
-    let interval = Math.floor(seconds / 31536000);
-    if (interval > 1) {
-      return `${interval} 年前`;
-    }
-    interval = Math.floor(seconds / 2592000);
-    if (interval > 1) {
-      return `${interval} 月前`;
-    }
-    interval = Math.floor(seconds / 86400);
-    if (interval > 1) {
-      return `${interval} 日前`;
-    }
-    interval = Math.floor(seconds / 3600);
-    if (interval > 1) {
-      return `${interval} 時間前`;
-    }
-    interval = Math.floor(seconds / 60);
-    if (interval > 1) {
-      return `${interval} 分前`;
-    }
-    return `${Math.floor(seconds)} 秒前`;
-  }
+    window.addEventListener('wheel', handleScroll);
+
+    return () => {
+      window.removeEventListener('wheel', handleScroll);
+    };
+  }, []);
 
   useEffect(() => {
     console.log('useEffect');
@@ -75,39 +59,21 @@ const View = () => {
         />
       </Head>
       <Header />
-      <div className={styles.contentWrapper}>
-        {bokeData.length > 0 && (
-          <div className={styles.bokeList}>
-            {bokeData.map((boke) => (
-              <div
-                key={boke.bokeId}
-                className={styles.bokeItem}
-                onClick={() => handleBokeClick(boke)}
-              >
+      <div className={styles.contentWrapper} ref={wrapperRef}>
+        <div className={styles.bokeList}>
+          {bokeData.map((boke, index) => (
+            <div
+              key={boke.bokeId}
+              className={`${styles.bokeItem} ${index === 1 ? styles.centerItem : ''}`}
+              onClick={() => handleBokeClick(boke)}
+            >
+              <div className={styles.imageBorder}>
                 <img src={boke.image} alt={`Boke ${boke.bokeId}`} />
-                <div className={styles.bokeDetails}>
-                  <p>
-                    <span className={styles.likeCount}>★{boke.like}</span> {boke.text}
-                  </p>
-                  <p>{timeSince(new Date(boke.createdAt))}</p>
-                  <div className={styles.socialShare}>
-                    <a
-                      href={`https://twitter.com/intent/tweet?text=${boke.text}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <FontAwesomeIcon
-                        icon={faSquareXTwitter}
-                        size="2xs"
-                        style={{ color: '#000' }}
-                      />
-                    </a>
-                  </div>
-                </div>
               </div>
-            ))}
-          </div>
-        )}
+              <div className={styles.description}>{boke.text}</div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

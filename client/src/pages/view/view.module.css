@@ -10,6 +10,7 @@
   position: relative;
   display: flex;
   align-items: center;
+  justify-content: center;
   width: 100vw;
   height: 70vh;
   margin-top: 15vh;
@@ -21,6 +22,7 @@
   position: absolute;
   display: flex;
   align-self: center;
+  justify-content: space-between;
   transition: transform 0.5s ease;
 }
 
@@ -34,6 +36,7 @@
 }
 
 .imageBorder {
+  width: 70%;
   padding: 10%;
   margin: 10% auto;
   background-color: #e9e5de;
@@ -48,7 +51,7 @@
 .description {
   width: 90%;
   padding: 10px;
-  margin: 10px auto;
+  margin: 20px auto;
   background-color: white;
   box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
 }

@@ -33,12 +33,26 @@ const View = () => {
   useEffect(() => {
     const handleScroll = (e: WheelEvent) => {
       if (wrapperRef.current) {
+        const wrapperWidth = wrapperRef.current.clientWidth;
+        let newOffset: number | undefined;
+
         if (e.deltaY > 0) {
-          setCurrentIndex((prevIndex) => Math.min(bokeData.length - 2, prevIndex + 1));
+          setCurrentIndex((prevIndex) => {
+            const nextIndex = Math.min(bokeData.length - 2, prevIndex + 1);
+            newOffset = (nextIndex - 1) * wrapperWidth * 0.33;
+            return nextIndex;
+          });
         } else {
-          setCurrentIndex((prevIndex) => Math.max(1, prevIndex - 1));
+          setCurrentIndex((prevIndex) => {
+            const nextIndex = Math.max(1, prevIndex - 1);
+            newOffset = (nextIndex - 1) * wrapperWidth * 0.33;
+            return nextIndex;
+          });
         }
-        setOffset(wrapperRef.current.scrollLeft);
+
+        if (newOffset !== undefined) {
+          setOffset(newOffset);
+        }
       }
     };
 
@@ -48,6 +62,7 @@ const View = () => {
       window.removeEventListener('wheel', handleScroll);
     };
   }, [bokeData.length]);
+
   useEffect(() => {
     console.log('useEffect');
     fetchBoke();

@@ -33,8 +33,7 @@ const View = () => {
           newOffset = (currentIndex + 1) * wrapperWidth * 0.33;
           setCurrentIndex(currentIndex + 1);
         } else if (e.deltaY < 0 && currentIndex > 0) {
-          newOffset = currentIndex * wrapperWidth * 0.33;
-          if (currentIndex === 1) newOffset = 0;
+          newOffset = (currentIndex - 1) * wrapperWidth * 0.33;
           setCurrentIndex(currentIndex - 1);
         }
 

@@ -30,12 +30,14 @@ const View = () => {
         let newOffset: number | undefined;
 
         if (e.deltaY > 0 && currentIndex < bokeData.length - 1) {
-          newOffset = currentIndex * wrapperWidth * 0.33;
+          newOffset = (currentIndex + 1) * wrapperWidth * 0.33;
           setCurrentIndex(currentIndex + 1);
         } else if (e.deltaY < 0 && currentIndex > 0) {
-          newOffset = (currentIndex - 2) * wrapperWidth * 0.33;
+          newOffset = currentIndex * wrapperWidth * 0.33;
+          if (currentIndex === 1) newOffset = 0;
           setCurrentIndex(currentIndex - 1);
         }
+
         if (newOffset !== undefined) {
           setOffset(newOffset);
         }
@@ -64,6 +66,7 @@ const View = () => {
       <Header />
       <div className={styles.contentWrapper} ref={wrapperRef}>
         <div className={styles.bokeList} style={{ transform: `translateX(-${offset}px)` }}>
+          <div className={styles.initialMargin} />
           {bokeData.map((boke, index) => (
             <div
               key={boke.bokeId}

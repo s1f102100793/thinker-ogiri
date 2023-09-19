@@ -7,29 +7,40 @@
 }
 
 .contentWrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   width: 100%;
+  margin-top: 15vh;
+  overflow-x: auto;
+  white-space: nowrap;
+  background: radial-gradient(circle at center, #e9e5de 50%, black 100%);
+  perspective: 1000px;
 }
 
 .bokeList {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  width: 70%;
-  margin-top: 20px;
+  display: inline-flex;
+  height: 70vh;
 }
 
 .bokeItem {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 15px;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
+  display: inline-block;
+  width: 33.33%;
+  vertical-align: top;
+  transition: transform 0.3s ease;
+}
+
+.bokeItem:hover {
+  transform: scale(1.05);
+}
+
+.centerItem {
+  transform: scale(1.1);
+}
+
+.imageBorder {
+  padding: 10%;
+  margin: 10% auto;
+  background-color: #e9e5de;
+  border: 5px solid white;
+  box-shadow: 0 0 20px 10px white;
 }
 
 .bokeItem img {
@@ -37,34 +48,10 @@
   border-radius: 8px;
 }
 
-.text {
-  margin-top: 10px;
-  font-size: 16px;
-  text-align: center;
+.description {
+  width: 90%;
+  padding: 10px;
+  margin: 10px auto;
+  background-color: white;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
 }
-
-.bokeDetails {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  margin-top: 10px;
-}
-
-.likeCount {
-  display: flex;
-  align-items: center;
-  font-weight: bold;
-}
-
-.bokeItem .bokeDetails p {
-  padding: 0 15px;
-}
-
-.socialShare {
-  display: flex;
-  gap: 10px;
-  background-color: #888;
-}
-

@@ -4,7 +4,7 @@ const Header = () => {
   const currentPath = window.location.pathname;
 
   return (
-    <>
+    <div className={styles.headerContainer}>
       <div className={styles.headerTop}>
         <div className={styles.textBottomLeft}>ロダン大喜利</div>
       </div>
@@ -31,7 +31,7 @@ const Header = () => {
           Outstanding
         </a>
       </div>
-    </>
+    </div>
   );
 };
 

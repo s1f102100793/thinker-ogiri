@@ -1,5 +1,3 @@
-import { faSquareXTwitter } from '@fortawesome/free-brands-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import type { BokeModel } from 'commonTypesWithClient/models';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -24,14 +22,10 @@ const View = () => {
     }
   };
 
-  const [selectedBoke, setSelectedBoke] = useState<BokeModel | null>(null);
-
   const handleBokeClick = (boke: BokeModel) => {
     router.push(`/view/${boke.bokeId}`);
     // setSelectedBoke(boke);
   };
-
-  const [value, setValue] = useState(0);
 
   function timeSince(date: Date): string {
     const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
@@ -76,38 +70,20 @@ const View = () => {
       </Head>
       <Header />
       <div className={styles.contentWrapper}>
-        {bokeData.length > 0 && (
-          <div className={styles.bokeList}>
-            {bokeData.map((boke) => (
-              <div
-                key={boke.bokeId}
-                className={styles.bokeItem}
-                onClick={() => handleBokeClick(boke)}
-              >
+        <div className={styles.bokeList}>
+          {bokeData.map((boke, index) => (
+            <div
+              key={boke.bokeId}
+              className={`${styles.bokeItem} ${index === 1 ? styles.centerItem : ''}`}
+              onClick={() => handleBokeClick(boke)}
+            >
+              <div className={styles.imageBorder}>
                 <img src={boke.image} alt={`Boke ${boke.bokeId}`} />
-                <div className={styles.bokeDetails}>
-                  <p>
-                    <span className={styles.likeCount}>★{boke.like}</span> {boke.text}
-                  </p>
-                  <p>{timeSince(new Date(boke.createdAt))}</p>
-                  <div className={styles.socialShare}>
-                    <a
-                      href={`https://twitter.com/intent/tweet?text=${boke.text}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <FontAwesomeIcon
-                        icon={faSquareXTwitter}
-                        size="2xs"
-                        style={{ color: '#000' }}
-                      />
-                    </a>
-                  </div>
-                </div>
               </div>
-            ))}
-          </div>
-        )}
+              <div className={styles.description}>{boke.text}</div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
 .headerTop {
   position: relative;
-  height: 60px;
+  height: 10vh;
+  min-height: 60px;
   background-color: #434343;
 }
 
@@ -17,18 +18,20 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 35px;
+  height: 5vh;
+  min-height: 35px;
   background-color: #f3f0e9;
 }
 
 .link {
   display: inline-block;
   height: 100%;
-  padding: 0 2vh;
+  padding: 0 1vw;
   font-size: 2vh;
-  line-height: 35px;
+  line-height: 5vh;
   color: #333;
   text-decoration: none;
+  vertical-align: middle;
   transition: color 0.3s ease, background-color 0.3s ease;
 }
 

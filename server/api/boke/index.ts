@@ -3,13 +3,14 @@ import type { BokeModel } from '../../commonTypesWithClient/models';
 
 export type Methods = DefineMethods<{
   get: {
-    resBody: BokeModel[] | null;
+    resBody: BokeModel | BokeModel[] | null;
   };
   post: {
     reqBody: {
-      userId: string;
-      text: string;
-      image: string;
+      bokeId: number | undefined;
+      userId: string | undefined;
+      text: string | undefined;
+      image: string | undefined;
       like: number;
     };
   };

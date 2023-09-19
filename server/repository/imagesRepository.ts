@@ -43,15 +43,20 @@ export const createImage = async (): Promise<ImageResponseModel | null> => {
 
 export const uploadBoke = async (
   bokeId: number | undefined,
-  userId: string,
-  text: string,
-  image: string,
+  userId: string | undefined,
+  text: string | undefined,
+  image: string | undefined,
   like: number
 ) => {
   try {
-    console.log(text, like);
+    const validatedUserId = userId ?? '';
+    const validatedText = text ?? '';
+    const validatedImage = image ?? '';
+
+    console.log(validatedText, like);
     let prismaBoke;
-    if (bokeId !== undefined && bokeId !== null) {
+
+    if (bokeId !== undefined) {
       prismaBoke = await prismaClient.boke.update({
         where: { bokeId },
         data: {
@@ -61,9 +66,9 @@ export const uploadBoke = async (
     } else {
       prismaBoke = await prismaClient.boke.create({
         data: {
-          userId,
-          text,
-          image,
+          userId: validatedUserId,
+          text: validatedText,
+          image: validatedImage,
           like,
         },
       });
@@ -75,11 +80,28 @@ export const uploadBoke = async (
   }
 };
 
-export const getBoke = async (): Promise<BokeModel[] | null> => {
+export const getBoke = async (
+  bokeId: number | undefined
+): Promise<BokeModel | BokeModel[] | null> => {
   try {
+    if (bokeId !== null && bokeId !== undefined) {
+      const singleBoke = await prismaClient.boke.findUnique({
+        where: {
+          bokeId,
+        },
+      });
+
+      if (!singleBoke) {
+        return null;
+      }
+
+      return toBokeModel(singleBoke);
+    }
+
     const prismaBoke = await prismaClient.boke.findMany({
       orderBy: { createdAt: 'desc' },
     });
+
     return prismaBoke.map((boke) => toBokeModel(boke));
   } catch (err) {
     console.log(err);

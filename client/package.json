@@ -19,10 +19,13 @@
   },
   "dependencies": {
     "@aspida/axios": "^1.14.0",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
     "@fortawesome/free-brands-svg-icons": "^6.4.2",
     "@fortawesome/free-solid-svg-icons": "^6.4.2",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "@mui/material": "^5.14.10",
     "api": "file:../server/api",
     "aspida": "^1.14.0",
     "axios": "^1.4.0",

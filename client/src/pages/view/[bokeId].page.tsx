@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
 import Header from 'src/components/Header/Header';
 import { apiClient } from 'src/utils/apiClient';
-import styles from './view.module.css';
+import styles from './bokeid.module.css';
 
 const BokeDetail = () => {
   const router = useRouter();

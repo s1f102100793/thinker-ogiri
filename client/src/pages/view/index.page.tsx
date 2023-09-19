@@ -29,12 +29,7 @@ const View = () => {
     // setSelectedBoke(boke);
   };
 
-
-
   const [value, setValue] = useState(0);
-
-
-
 
   function timeSince(date: Date): string {
     const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);

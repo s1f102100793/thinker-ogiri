@@ -4,19 +4,25 @@ import { Rating } from '@mui/material';
 import type { BokeModel } from 'commonTypesWithClient/models';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Header from 'src/components/Header/Header';
 import { apiClient } from 'src/utils/apiClient';
-import styles from './view.module.css'; // 必要に応じて適切なCSSモジュールをインポート
+import styles from './view.module.css';
 
 const BokeDetail = () => {
   const router = useRouter();
-  let bokeId = router.query.bokeId;
+  const rawBokeId = router.query.bokeId;
 
-  if (typeof bokeId === 'string') {
-    bokeId = bokeId.replace(/\/$/, '');
+  let bokeId: number | null = null;
+
+  if (typeof rawBokeId === 'string') {
+    const cleanedBokeId = rawBokeId.replace(/\/$/, '');
+    const parsedId = parseInt(cleanedBokeId);
+
+    if (!isNaN(parsedId)) {
+      bokeId = parsedId;
+    }
   }
-
   const [selectedBoke, setSelectedBoke] = useState<BokeModel | null>(null);
   const [value, setValue] = useState(0);
 
@@ -36,7 +42,6 @@ const BokeDetail = () => {
 
   const handleRatingChange = async (event: React.ChangeEvent<unknown>, newValue: number | null) => {
     if (newValue !== null) {
-      // console.log(newValue);
       console.log(newValue - value);
       const updateLike = newValue - value;
       await apiClient.boke.post({
@@ -78,15 +83,16 @@ const BokeDetail = () => {
     return `${Math.floor(seconds)} 秒前`;
   }
 
-  // useEffect(() => {
-  //   const fetchSelectedBoke = async () => {
-  //     if (bokeId !== null &&  && bokeId.length > 0) {
-  //       const bokeData = await apiClient.boke.$get(bokeId).$get();
-  //       setSelectedBoke(bokeData);
-  //     }
-  //   };
-  //   fetchSelectedBoke();
-  // }, [bokeId]);
+  const fetchSelectedBoke = useCallback(async () => {
+    if (bokeId !== null) {
+      const databaseSelectedboke = await apiClient.boke.selected.$post({ body: { bokeId } });
+      setSelectedBoke(databaseSelectedboke);
+    }
+  }, [bokeId]);
+
+  useEffect(() => {
+    fetchSelectedBoke();
+  }, [fetchSelectedBoke]);
 
   return (
     <div className={styles.container}>

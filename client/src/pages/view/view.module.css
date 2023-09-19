@@ -15,12 +15,15 @@
   height: 70vh;
   margin-top: 15vh;
   overflow-x: hidden;
+
+  /* background: radial-gradient(circle at center, #fff, rgb(10 10 10 / 70%)); */
   background-color: #fff;
   perspective: 1000px;
 }
 
 .bokeList {
-  position: absolute;
+  position: relative;
+  z-index: 1;
   display: flex;
   align-self: center;
   transition: transform 0.5s ease;
@@ -31,6 +34,7 @@
 }
 
 .bokeItem {
+  z-index: 2;
   flex: 0 0 33.33%;
   opacity: 0.7;
   transition: transform 0.3s ease;
@@ -51,6 +55,8 @@
 }
 
 .bokeItem img {
+  position: relative;
+  z-index: 1;
   max-width: 100%;
   border-radius: 8px;
   transition: 0.3s;

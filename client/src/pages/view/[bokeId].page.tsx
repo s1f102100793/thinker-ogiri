@@ -19,12 +19,13 @@ const BokeDetail = () => {
     value,
     setSelectedBoke,
   } = useSelected();
+  
   const router = useRouter();
   const rawBokeId = router.query.bokeId;
   const order = router.query.order;
-
   const [bokeData, setBokeData] = useState<BokeModel[]>([]);
   const [sortedBokeData, setSortedBokeData] = useState<BokeModel[]>([]);
+  const [bokeId, setBokeId] = useState<number | null>(null);
 
   const fetchBoke = async () => {
     const databaseBoke = await apiClient.boke.$get({});
@@ -32,25 +33,12 @@ const BokeDetail = () => {
       setBokeData(databaseBoke);
     }
   };
-
-  useEffect(() => {
-    fetchBoke();
-  }, []);
-
-  useEffect(() => {
-    if (order === 'like') {
-      const orderedData = [...bokeData].sort((a, b) => b.like - a.like);
-      setSortedBokeData(orderedData);
-    } else {
-      setSortedBokeData(bokeData);
-    }
-  }, [order, bokeData]);
-
-  let bokeId: number | null = null;
-
+  
   const currentBokeIndex = sortedBokeData.findIndex((boke) => boke.bokeId === bokeId);
 
   const navigateToLeft = () => {
+    console.log('left');
+    console.log(currentBokeIndex);
     if (currentBokeIndex > 0) {
       const newBokeId = sortedBokeData[currentBokeIndex - 1].bokeId;
       router.push(`/view/${newBokeId}?order=${order}`);
@@ -58,6 +46,8 @@ const BokeDetail = () => {
   };
 
   const navigateToRight = () => {
+    console.log('right');
+    console.log(currentBokeIndex);
     if (currentBokeIndex < sortedBokeData.length - 1) {
       const newBokeId = sortedBokeData[currentBokeIndex + 1].bokeId;
       router.push(`/view/${newBokeId}?order=${order}`);
@@ -78,19 +68,40 @@ const BokeDetail = () => {
     }
   }, [bokeId, setSelectedBoke]);
 
-  if (typeof rawBokeId === 'string') {
-    const cleanedBokeId = rawBokeId.replace(/\/$/, '');
-    const parsedId = parseInt(cleanedBokeId);
-
-    if (!isNaN(parsedId)) {
-      bokeId = parsedId;
-    }
-  }
-
   const closeBokeDetail = () => {
     setSelectedBoke(null);
     router.push('/view/');
   };
+
+  useEffect(() => {
+    fetchBoke();
+  }, []);
+
+  useEffect(() => {
+    if (order === 'like') {
+      const orderedData = [...bokeData].sort((a, b) => b.like - a.like);
+      setSortedBokeData(orderedData);
+    } else if (order === 'createdAt') {
+      const orderedData = [...bokeData].sort(
+        (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      );
+      console.log(orderedData);
+      setSortedBokeData(orderedData);
+    } else {
+      setSortedBokeData(bokeData);
+    }
+  }, [order, bokeData]);
+
+  useEffect(() => {
+    if (typeof rawBokeId === 'string') {
+      const cleanedBokeId = rawBokeId.replace(/\/$/, '');
+      const parsedId = parseInt(cleanedBokeId);
+
+      if (!isNaN(parsedId)) {
+        setBokeId(parsedId);
+      }
+    }
+  }, [rawBokeId]);
 
   useEffect(() => {
     fetchSelectedBoke();

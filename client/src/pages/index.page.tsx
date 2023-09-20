@@ -1,17 +1,9 @@
 import Head from 'next/head';
-import { useEffect } from 'react';
 import BokeImageCarousel from 'src/components/BokeImageCarousel.tsx/BokeImageCarousel';
 import Header from 'src/components/Header/Header';
-import { useHome } from 'src/hooks/useHome';
 import styles from './index.module.css';
 
 const Home = () => {
-  const { homeBokeImg, fetchHomeboke } = useHome();
-
-  useEffect(() => {
-    fetchHomeboke();
-  }, [fetchHomeboke]);
-
   return (
     <div className={styles.container}>
       <Head>
@@ -28,7 +20,7 @@ const Home = () => {
         <div className={styles.mainImage}>
           <div className={styles.textContainer}>WELCOME TO RODIN OGIRI</div>
         </div>
-        <BokeImageCarousel homeBokeImg={homeBokeImg} />
+        <BokeImageCarousel />
       </div>
     </div>
   );

@@ -2,6 +2,7 @@ import imageCompression from 'browser-image-compression';
 import type { ImageResponseModel } from 'commonTypesWithClient/models';
 import Head from 'next/head';
 import { useState } from 'react';
+import BokeImageCarousel from 'src/components/BokeImageCarousel.tsx/BokeImageCarousel';
 import Header from 'src/components/Header/Header';
 import { apiClient } from 'src/utils/apiClient';
 import styles from './create.module.css';
@@ -121,6 +122,7 @@ const Create = () => {
         <button className={styles.bokeButton} onClick={createImage}>
           ぼける
         </button>
+        <BokeImageCarousel />
         {imageData && (
           <>
             <div className={styles.imageContainer}>

@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
+import { useHome } from 'src/hooks/useHome';
 import styles from './BokeImageCarousel.module.css';
 
-interface Props {
-  homeBokeImg: string[];
-}
-
-const BokeImageCarousel: React.FC<Props> = ({ homeBokeImg }) => {
+const BokeImageCarousel: React.FC = () => {
+  const { homeBokeImg, fetchHomeboke } = useHome();
   const [displayImages, setDisplayImages] = useState<string[]>([]);
+
+  useEffect(() => {
+    fetchHomeboke();
+  }, [fetchHomeboke]);
 
   useEffect(() => {
     if (homeBokeImg.length > 0) {

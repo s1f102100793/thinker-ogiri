@@ -16,18 +16,37 @@ const View = () => {
     }
   };
 
-  const handleBokeClick = (
-    boke: BokeModel,
-    clickedIndex: number,
-    order: 'like' | 'createdAt' = 'like'
-  ) => {
+  const [sortOrder, setSortOrder] = useState<'like' | 'createdAt' | 'random'>('like');
+
+  const sortBoke = (order: 'like' | 'createdAt' | 'random') => {
+    let sortedData = [...bokeData];
+    switch (order) {
+      case 'like':
+        sortedData.sort((a, b) => b.like - a.like);
+        break;
+      case 'createdAt':
+        sortedData.sort(
+          (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+        break;
+      case 'random':
+        sortedData = sortedData.sort(() => Math.random() - 0.5);
+        break;
+      default:
+        break;
+    }
+    setBokeData(sortedData);
+    setSortOrder(order);
+  };
+
+  const handleBokeClick = (boke: BokeModel, clickedIndex: number) => {
     if (wrapperRef.current) {
       const wrapperWidth = wrapperRef.current.clientWidth;
       const newOffset = clickedIndex * wrapperWidth * 0.33;
       setOffset(newOffset);
       setCurrentIndex(clickedIndex);
     }
-    router.push(`/view/${boke.bokeId}?order=${order}`);
+    router.push(`/view/${boke.bokeId}?order=${sortOrder}`);
   };
 
   const wrapperRef = useRef<HTMLDivElement | null>(null);
@@ -39,21 +58,22 @@ const View = () => {
       e.preventDefault();
       if (wrapperRef.current) {
         const wrapperWidth = wrapperRef.current.clientWidth;
-        let newOffset: number | undefined;
+        const oneThirdWidth = wrapperWidth * 0.33;
+
+        let newOffset = currentIndex * oneThirdWidth;
 
         if (e.deltaY > 0 && currentIndex < bokeData.length - 1) {
-          newOffset = (currentIndex + 1) * wrapperWidth * 0.33;
-          setCurrentIndex(currentIndex + 1);
+          setCurrentIndex((prevIndex) => prevIndex + 1);
+          newOffset += oneThirdWidth;
         } else if (e.deltaY < 0 && currentIndex > 0) {
-          newOffset = (currentIndex - 1) * wrapperWidth * 0.33;
-          setCurrentIndex(currentIndex - 1);
+          setCurrentIndex((prevIndex) => prevIndex - 1);
+          newOffset -= oneThirdWidth;
         }
 
-        if (newOffset !== undefined) {
-          setOffset(newOffset);
-        }
+        setOffset(newOffset);
       }
     };
+
     window.addEventListener('wheel', handleScroll, { passive: false });
     return () => {
       window.removeEventListener('wheel', handleScroll);
@@ -75,6 +95,11 @@ const View = () => {
         />
       </Head>
       <Header />
+      <div className={styles.buttonList}>
+        <button onClick={() => sortBoke('like')}>Like</button>
+        <button onClick={() => sortBoke('createdAt')}>CreatedAt</button>
+        <button onClick={() => sortBoke('random')}>Random</button>
+      </div>
       <div className={styles.contentWrapper} ref={wrapperRef}>
         <div className={styles.bokeList} style={{ transform: `translateX(-${offset}px)` }}>
           <div className={styles.initialMargin} />
@@ -82,7 +107,7 @@ const View = () => {
             <div
               key={boke.bokeId}
               className={`${styles.bokeItem} ${index === currentIndex ? styles.centerItem : ''}`}
-              onClick={() => handleBokeClick(boke, index, 'createdAt')}
+              onClick={() => handleBokeClick(boke, index)}
             >
               <div className={styles.imageBorder}>
                 <img src={boke.image} alt={`Boke ${boke.bokeId}`} />

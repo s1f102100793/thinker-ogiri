@@ -19,7 +19,7 @@ const BokeDetail = () => {
     value,
     setSelectedBoke,
   } = useSelected();
-  
+
   const router = useRouter();
   const rawBokeId = router.query.bokeId;
   const order = router.query.order;
@@ -33,7 +33,7 @@ const BokeDetail = () => {
       setBokeData(databaseBoke);
     }
   };
-  
+
   const currentBokeIndex = sortedBokeData.findIndex((boke) => boke.bokeId === bokeId);
 
   const navigateToLeft = () => {

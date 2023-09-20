@@ -8,28 +8,53 @@
 }
 
 .content {
+  position: relative;
   display: flex;
   flex: 1;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20px 0;
+  padding: 2vh 0;
 }
 
 .bokeButton {
-  padding: 10px 20px;
-  margin-bottom: 20px;
+  position: absolute;
+  padding: 1vw 2vw;
+  margin-bottom: 2vh;
+  color: white;
+  background-color: #434343;
+  border: none;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+.someCustomStyleForThisPage {
+  position: absolute;
+  top: 70vh;
+  display: flex;
+  width: 100%;
+  max-width: 1200px;
+  margin-top: 2vh;
+  overflow: hidden;
 }
 
 .imageContainer {
+  position: absolute;
   top: 20%;
-  width: 300px;
+  width: 50%;
   height: auto;
   text-align: center;
 }
 
+.imageContainer img {
+  width: 30%;
+  height: auto;
+}
+
 .textBox {
-  width: 80%;
+  position: absolute;
+  top: 55%;
+  width: 30%;
   padding: 8px 10px;
   margin-bottom: 10px;
   font-size: 16px;
@@ -38,17 +63,17 @@
 }
 
 .submitButton {
+  position: absolute;
+  top: 60%;
   padding: 10px 20px;
-  margin-top: 10px;
-  font-size: 16px;
   color: white;
   cursor: pointer;
-  background-color: #4caf50;
+  background-color: #434343;
   border: none;
-  border-radius: 4px;
-  transition: background-color 0.3s ease;
+  border-radius: 5px;
+  transition: 0.3s;
 }
 
 .submitButton:hover {
-  background-color: #45a049;
+  background-color: #333;
 }

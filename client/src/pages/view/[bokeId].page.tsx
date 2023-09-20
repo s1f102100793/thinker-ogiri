@@ -1,10 +1,8 @@
-import { faSquareXTwitter } from '@fortawesome/free-brands-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Rating } from '@mui/material';
 import type { BokeModel } from 'commonTypesWithClient/models';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
+import FullScreenBokeRight from 'src/components/FullScreenbokeRight.tsx/FullScreenBokeRight';
 import Header from 'src/components/Header/Header';
 import { apiClient } from 'src/utils/apiClient';
 import styles from './bokeid.module.css';
@@ -123,34 +121,15 @@ const BokeDetail = () => {
                 alt={`Boke ${selectedBoke.bokeId}`}
               />
             </div>
-            <div className={styles.fullScreenBokeRight}>
-              <p className={styles.fullScreenText}>{selectedBoke.text}</p>
-              {/* <div className={styles.middleErea}> */}
-              <p className={styles.middleEreaLikeCount}>★{selectedBoke.like}</p>
-              <p className={styles.fullScreenTime}>{timeSince(new Date(selectedBoke.createdAt))}</p>
-              <div className={styles.twitterShare}>
-                <FontAwesomeIcon
-                  icon={faSquareXTwitter}
-                  size="2xs"
-                  style={{ color: '#434343' }}
-                  onClick={() => openTwitterShare(selectedBoke.text)}
-                />
-              </div>
-              {/* </div> */}
-              <div className={styles.rating}>
-                <Rating
-                  name="customized-10"
-                  size="large"
-                  value={value}
-                  onChange={handleRatingChange}
-                  max={3}
-                />
-                {value > 0 && <button onClick={handleCancel}>取り消し</button>}
-              </div>
-              <button className={styles.closeButton} onClick={closeBokeDetail}>
-                閉じる
-              </button>
-            </div>
+            <FullScreenBokeRight
+              selectedBoke={selectedBoke}
+              value={value}
+              handleRatingChange={handleRatingChange}
+              handleCancel={handleCancel}
+              openTwitterShare={openTwitterShare}
+              closeBokeDetail={closeBokeDetail}
+              timeSince={timeSince}
+            />
           </div>
         </div>
       )}

@@ -119,11 +119,11 @@ const Create = () => {
       </Head>
       <Header />
       <div className={styles.content}>
-        <button className={styles.bokeButton} onClick={createImage}>
-          ぼける
-        </button>
-        <BokeImageCarousel />
-        {imageData && (
+        {!imageData ? (
+          <button className={styles.bokeButton} onClick={createImage}>
+            ぼける
+          </button>
+        ) : (
           <>
             <div className={styles.imageContainer}>
               <img
@@ -145,6 +145,8 @@ const Create = () => {
             </button>
           </>
         )}
+
+        <BokeImageCarousel customStyle={styles.someCustomStyleForThisPage} />
       </div>
     </div>
   );

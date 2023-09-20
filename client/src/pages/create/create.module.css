@@ -8,17 +8,29 @@
 }
 
 .content {
+  position: relative;
   display: flex;
   flex: 1;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20px 0;
+  padding: 2vh 0;
 }
 
 .bokeButton {
-  padding: 10px 20px;
-  margin-bottom: 20px;
+  position: absolute;
+  padding: 1vw 2vw;
+  margin-bottom: 2vh;
+}
+
+.someCustomStyleForThisPage {
+  position: absolute;
+  top: 70vh;
+  display: flex;
+  width: 100%;
+  max-width: 1200px;
+  margin-top: 2vh;
+  overflow: hidden;
 }
 
 .imageContainer {

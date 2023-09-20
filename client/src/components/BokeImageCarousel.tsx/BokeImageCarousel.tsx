@@ -2,7 +2,11 @@ import { useEffect, useState } from 'react';
 import { useHome } from 'src/hooks/useHome';
 import styles from './BokeImageCarousel.module.css';
 
-const BokeImageCarousel: React.FC = () => {
+type BokeImageCarouselProps = {
+  customStyle?: string;
+};
+
+const BokeImageCarousel: React.FC<BokeImageCarouselProps> = ({ customStyle }) => {
   const { homeBokeImg, fetchHomeboke } = useHome();
   const [displayImages, setDisplayImages] = useState<string[]>([]);
 
@@ -36,7 +40,7 @@ const BokeImageCarousel: React.FC = () => {
   }, [displayImages, homeBokeImg]);
 
   return (
-    <div className={styles.imageContainer}>
+    <div className={`${styles.imageContainer} ${customStyle}`}>
       {displayImages.map((img, index) => (
         <img key={index} src={img} alt={`Boke image ${index}`} className={styles.displayedImg} />
       ))}

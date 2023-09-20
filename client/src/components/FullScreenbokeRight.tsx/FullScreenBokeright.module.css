@@ -5,15 +5,14 @@
   gap: 20px;
   align-items: center;
   justify-content: center;
-  background-color: #aaa;
+  background-color: #fff;
 }
 
 .fullScreenText {
   align-self: center;
   width: 60%;
-  font-size: 2.2vh;
+  font-size: 3vh;
   text-align: left;
-  background-color: #fff;
 }
 
 .middleErea {
@@ -23,14 +22,13 @@
   justify-content: space-between;
   width: 80%;
   height: 10%;
-  background-color: #bbb;
 }
 
 .middleEreaLikeCount {
   display: flex;
   align-items: center;
   width: 60%;
-  background-color: #ddd;
+  font-size: 2.4vh;
 }
 
 .fullScreenTime {
@@ -40,27 +38,24 @@
   height: 5%;
   margin: 0;
   font-size: 2vh;
-  color: #888;
-  background-color: #fff;
 }
 
 .twitterShare {
   display: flex;
   width: 60%;
   height: 5%;
-  background-color: #999;
 }
 
 .twitterShare svg {
   align-self: center;
   width: 5%;
   height: auto;
+  margin-right: 10px;
 }
 
 .rating {
   align-self: center;
   width: 60%;
-  background-color: #fff;
 }
 
 .closeButton {

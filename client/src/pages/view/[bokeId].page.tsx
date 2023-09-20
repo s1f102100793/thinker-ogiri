@@ -10,8 +10,48 @@ import styles from './bokeid.module.css';
 const BokeDetail = () => {
   const router = useRouter();
   const rawBokeId = router.query.bokeId;
+  const order = router.query.order;
+
+  const [bokeData, setBokeData] = useState<BokeModel[]>([]);
+  const [sortedBokeData, setSortedBokeData] = useState<BokeModel[]>([]);
+
+  const fetchBoke = async () => {
+    const databaseBoke = await apiClient.boke.$get({});
+    if (Array.isArray(databaseBoke)) {
+      setBokeData(databaseBoke);
+    }
+  };
+
+  useEffect(() => {
+    fetchBoke();
+  }, []);
+
+  useEffect(() => {
+    if (order === 'like') {
+      const orderedData = [...bokeData].sort((a, b) => b.like - a.like);
+      setSortedBokeData(orderedData);
+    } else {
+      setSortedBokeData(bokeData);
+    }
+  }, [order, bokeData]);
 
   let bokeId: number | null = null;
+
+  const currentBokeIndex = sortedBokeData.findIndex((boke) => boke.bokeId === bokeId);
+
+  const navigateToLeft = () => {
+    if (currentBokeIndex > 0) {
+      const newBokeId = sortedBokeData[currentBokeIndex - 1].bokeId;
+      router.push(`/view/${newBokeId}?order=${order}`);
+    }
+  };
+
+  const navigateToRight = () => {
+    if (currentBokeIndex < sortedBokeData.length - 1) {
+      const newBokeId = sortedBokeData[currentBokeIndex + 1].bokeId;
+      router.push(`/view/${newBokeId}?order=${order}`);
+    }
+  };
 
   if (typeof rawBokeId === 'string') {
     const cleanedBokeId = rawBokeId.replace(/\/$/, '');
@@ -32,6 +72,11 @@ const BokeDetail = () => {
   const openTwitterShare = (text: string) => {
     const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
     window.open(url, '_blank', 'noopener,noreferrer');
+  };
+
+  const openFacebookShare = (url: string) => {
+    const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+    window.open(shareUrl, '_blank', 'noopener,noreferrer');
   };
 
   const handleCancel = () => {
@@ -111,6 +156,10 @@ const BokeDetail = () => {
         />
       </Head>
       <Header />
+      <button className={styles.leftButton} onClick={navigateToLeft}>
+        &lt;
+      </button>
+
       {selectedBoke !== null && (
         <div className={styles.contentWrapper}>
           <div className={styles.fullScreenBoke}>
@@ -127,12 +176,16 @@ const BokeDetail = () => {
               handleRatingChange={handleRatingChange}
               handleCancel={handleCancel}
               openTwitterShare={openTwitterShare}
+              openFacebookShare={openFacebookShare}
               closeBokeDetail={closeBokeDetail}
               timeSince={timeSince}
             />
           </div>
         </div>
       )}
+      <button className={styles.rightButton} onClick={navigateToRight}>
+        &gt;
+      </button>
     </div>
   );
 };

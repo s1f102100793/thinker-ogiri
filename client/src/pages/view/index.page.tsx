@@ -22,7 +22,7 @@ const View = () => {
       setOffset(newOffset);
       setCurrentIndex(clickedIndex);
     }
-    router.push(`/view/${boke.bokeId}`);
+    router.push(`/view/${boke.bokeId}?order=like`);
   };
 
   const wrapperRef = useRef<HTMLDivElement | null>(null);

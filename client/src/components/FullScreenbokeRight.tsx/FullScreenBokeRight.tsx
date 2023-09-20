@@ -1,4 +1,4 @@
-import { faSquareXTwitter } from '@fortawesome/free-brands-svg-icons';
+import { faFacebookSquare, faSquareXTwitter } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Rating } from '@mui/material';
 import React from 'react';
@@ -16,6 +16,7 @@ type FullScreenBokeRightProps = {
   handleRatingChange: (event: React.ChangeEvent<unknown>, newValue: number | null) => void;
   handleCancel: () => void;
   openTwitterShare: (text: string) => void;
+  openFacebookShare: (url: string) => void;
   closeBokeDetail: () => void;
   timeSince: (date: Date) => string;
 };
@@ -26,6 +27,7 @@ export const FullScreenBokeRight: React.FC<FullScreenBokeRightProps> = ({
   handleRatingChange,
   handleCancel,
   openTwitterShare,
+  openFacebookShare,
   closeBokeDetail,
   timeSince,
 }) => {
@@ -33,7 +35,7 @@ export const FullScreenBokeRight: React.FC<FullScreenBokeRightProps> = ({
     <div className={styles.fullScreenBokeRight}>
       <p className={styles.fullScreenText}>{selectedBoke.text}</p>
       {/* <div className={styles.middleErea}> */}
-      <p className={styles.middleEreaLikeCount}>★{selectedBoke.like}</p>
+
       <p className={styles.fullScreenTime}>{timeSince(new Date(selectedBoke.createdAt))}</p>
       <div className={styles.twitterShare}>
         <FontAwesomeIcon
@@ -42,8 +44,15 @@ export const FullScreenBokeRight: React.FC<FullScreenBokeRightProps> = ({
           style={{ color: '#434343' }}
           onClick={() => openTwitterShare(selectedBoke.text)}
         />
+        <FontAwesomeIcon
+          icon={faFacebookSquare}
+          size="2xs"
+          style={{ color: '#434343' }}
+          onClick={() => openFacebookShare(selectedBoke.text)}
+        />
       </div>
       {/* </div> */}
+      <p className={styles.middleEreaLikeCount}>★{selectedBoke.like}</p>
       <div className={styles.rating}>
         <Rating
           name="customized-10"

@@ -81,6 +81,9 @@
   width: 30%;
   padding: 1%;
   margin-left: 20%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   background-color: white;
 }
 

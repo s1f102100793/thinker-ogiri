@@ -1,10 +1,8 @@
-import { faSquareXTwitter } from '@fortawesome/free-brands-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Rating } from '@mui/material';
 import type { BokeModel } from 'commonTypesWithClient/models';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
+import FullScreenBokeRight from 'src/components/FullScreenbokeRight.tsx/FullScreenBokeRight';
 import Header from 'src/components/Header/Header';
 import { apiClient } from 'src/utils/apiClient';
 import styles from './bokeid.module.css';
@@ -12,8 +10,48 @@ import styles from './bokeid.module.css';
 const BokeDetail = () => {
   const router = useRouter();
   const rawBokeId = router.query.bokeId;
+  const order = router.query.order;
+
+  const [bokeData, setBokeData] = useState<BokeModel[]>([]);
+  const [sortedBokeData, setSortedBokeData] = useState<BokeModel[]>([]);
+
+  const fetchBoke = async () => {
+    const databaseBoke = await apiClient.boke.$get({});
+    if (Array.isArray(databaseBoke)) {
+      setBokeData(databaseBoke);
+    }
+  };
+
+  useEffect(() => {
+    fetchBoke();
+  }, []);
+
+  useEffect(() => {
+    if (order === 'like') {
+      const orderedData = [...bokeData].sort((a, b) => b.like - a.like);
+      setSortedBokeData(orderedData);
+    } else {
+      setSortedBokeData(bokeData);
+    }
+  }, [order, bokeData]);
 
   let bokeId: number | null = null;
+
+  const currentBokeIndex = sortedBokeData.findIndex((boke) => boke.bokeId === bokeId);
+
+  const navigateToLeft = () => {
+    if (currentBokeIndex > 0) {
+      const newBokeId = sortedBokeData[currentBokeIndex - 1].bokeId;
+      router.push(`/view/${newBokeId}?order=${order}`);
+    }
+  };
+
+  const navigateToRight = () => {
+    if (currentBokeIndex < sortedBokeData.length - 1) {
+      const newBokeId = sortedBokeData[currentBokeIndex + 1].bokeId;
+      router.push(`/view/${newBokeId}?order=${order}`);
+    }
+  };
 
   if (typeof rawBokeId === 'string') {
     const cleanedBokeId = rawBokeId.replace(/\/$/, '');
@@ -34,6 +72,11 @@ const BokeDetail = () => {
   const openTwitterShare = (text: string) => {
     const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
     window.open(url, '_blank', 'noopener,noreferrer');
+  };
+
+  const openFacebookShare = (url: string) => {
+    const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+    window.open(shareUrl, '_blank', 'noopener,noreferrer');
   };
 
   const handleCancel = () => {
@@ -113,6 +156,10 @@ const BokeDetail = () => {
         />
       </Head>
       <Header />
+      <button className={styles.leftButton} onClick={navigateToLeft}>
+        &lt;
+      </button>
+
       {selectedBoke !== null && (
         <div className={styles.contentWrapper}>
           <div className={styles.fullScreenBoke}>
@@ -123,37 +170,22 @@ const BokeDetail = () => {
                 alt={`Boke ${selectedBoke.bokeId}`}
               />
             </div>
-            <div className={styles.fullScreenBokeRight}>
-              <p className={styles.fullScreenText}>{selectedBoke.text}</p>
-              {/* <div className={styles.middleErea}> */}
-              <p className={styles.middleEreaLikeCount}>★{selectedBoke.like}</p>
-              <p className={styles.fullScreenTime}>{timeSince(new Date(selectedBoke.createdAt))}</p>
-              <div className={styles.twitterShare}>
-                <FontAwesomeIcon
-                  icon={faSquareXTwitter}
-                  size="2xs"
-                  style={{ color: '#434343' }}
-                  onClick={() => openTwitterShare(selectedBoke.text)}
-                />
-              </div>
-              {/* </div> */}
-              <div className={styles.rating}>
-                <Rating
-                  name="customized-10"
-                  size="large"
-                  value={value}
-                  onChange={handleRatingChange}
-                  max={3}
-                />
-                {value > 0 && <button onClick={handleCancel}>取り消し</button>}
-              </div>
-              <button className={styles.closeButton} onClick={closeBokeDetail}>
-                閉じる
-              </button>
-            </div>
+            <FullScreenBokeRight
+              selectedBoke={selectedBoke}
+              value={value}
+              handleRatingChange={handleRatingChange}
+              handleCancel={handleCancel}
+              openTwitterShare={openTwitterShare}
+              openFacebookShare={openFacebookShare}
+              closeBokeDetail={closeBokeDetail}
+              timeSince={timeSince}
+            />
           </div>
         </div>
       )}
+      <button className={styles.rightButton} onClick={navigateToRight}>
+        &gt;
+      </button>
     </div>
   );
 };

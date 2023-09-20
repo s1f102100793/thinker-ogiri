@@ -5,7 +5,6 @@ import { apiClient } from 'src/utils/apiClient';
 export const useHome = () => {
   const [homeBokeData, setHomeBokeData] = useState<BokeModel[]>([]);
   const [homeBokeImg, setHomeBokeImg] = useState<string[]>([]);
-  const [displayImages, setDisplayImages] = useState<string[]>([]);
 
   const fetchHomeboke = useCallback(async () => {
     const databaseBoke = await apiClient.boke.$get();
@@ -25,8 +24,6 @@ export const useHome = () => {
     setHomeBokeData,
     homeBokeImg,
     setHomeBokeImg,
-    displayImages,
-    setDisplayImages,
     fetchHomeboke,
   };
 };

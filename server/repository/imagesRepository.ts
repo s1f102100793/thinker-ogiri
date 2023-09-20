@@ -21,7 +21,7 @@ export const createImage = async (): Promise<ImageResponseModel | null> => {
       'https://api.openai.com/v1/images/generations',
       {
         prompt:
-          'Western classical sculpture centered on the screen, striking whimsical and contemplative poses without going beyond the frame, set against a white background',
+          'A black male sculpture, muscular in build, is centered on the screen, captured in scenes of daily life, sports, and work, seamlessly blending into the real world.',
         n: 1,
         size: '512x512',
         response_format: 'b64_json',

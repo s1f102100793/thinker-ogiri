@@ -125,22 +125,26 @@ const BokeDetail = () => {
             </div>
             <div className={styles.fullScreenBokeRight}>
               <p className={styles.fullScreenText}>{selectedBoke.text}</p>
-              <div className={styles.middleErea}>
-                <p className={styles.middleEreaLikeCount}>★{selectedBoke.like}</p>
-                <p className={styles.fullScreenTime}>
-                  {timeSince(new Date(selectedBoke.createdAt))}
-                </p>
-                <div className={styles.twitterShare}>
-                  <FontAwesomeIcon
-                    icon={faSquareXTwitter}
-                    size="2xs"
-                    style={{ color: '#434343' }}
-                    onClick={() => openTwitterShare(selectedBoke.text)}
-                  />
-                </div>
+              {/* <div className={styles.middleErea}> */}
+              <p className={styles.middleEreaLikeCount}>★{selectedBoke.like}</p>
+              <p className={styles.fullScreenTime}>{timeSince(new Date(selectedBoke.createdAt))}</p>
+              <div className={styles.twitterShare}>
+                <FontAwesomeIcon
+                  icon={faSquareXTwitter}
+                  size="2xs"
+                  style={{ color: '#434343' }}
+                  onClick={() => openTwitterShare(selectedBoke.text)}
+                />
               </div>
+              {/* </div> */}
               <div className={styles.rating}>
-                <Rating name="customized-10" value={value} onChange={handleRatingChange} max={3} />
+                <Rating
+                  name="customized-10"
+                  size="large"
+                  value={value}
+                  onChange={handleRatingChange}
+                  max={3}
+                />
                 {value > 0 && <button onClick={handleCancel}>取り消し</button>}
               </div>
               <button className={styles.closeButton} onClick={closeBokeDetail}>

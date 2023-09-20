@@ -15,9 +15,16 @@ const View = () => {
       setBokeData(databaseBoke);
     }
   };
-  const handleBokeClick = (boke: BokeModel) => {
+  const handleBokeClick = (boke: BokeModel, clickedIndex: number) => {
+    if (wrapperRef.current) {
+      const wrapperWidth = wrapperRef.current.clientWidth;
+      const newOffset = clickedIndex * wrapperWidth * 0.33;
+      setOffset(newOffset);
+      setCurrentIndex(clickedIndex);
+    }
     router.push(`/view/${boke.bokeId}`);
   };
+
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [offset, setOffset] = useState(0);
@@ -70,12 +77,15 @@ const View = () => {
             <div
               key={boke.bokeId}
               className={`${styles.bokeItem} ${index === currentIndex ? styles.centerItem : ''}`}
-              onClick={() => handleBokeClick(boke)}
+              onClick={() => handleBokeClick(boke, index)}
             >
               <div className={styles.imageBorder}>
                 <img src={boke.image} alt={`Boke ${boke.bokeId}`} />
               </div>
-              <div className={styles.description}>{boke.text}</div>
+              <div className={styles.description}>
+                <div className={styles.textWrapper}>{boke.text}</div>
+                <div className={styles.likeWrapper}>{boke.like}</div>
+              </div>
             </div>
           ))}
         </div>

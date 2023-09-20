@@ -4,10 +4,21 @@ import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
 import FullScreenBokeRight from 'src/components/FullScreenbokeRight.tsx/FullScreenBokeRight';
 import Header from 'src/components/Header/Header';
+import { useSelected } from 'src/hooks/useSelected';
 import { apiClient } from 'src/utils/apiClient';
 import styles from './bokeid.module.css';
 
 const BokeDetail = () => {
+  const {
+    openTwitterShare,
+    openFacebookShare,
+    handleCancel,
+    handleRatingChange,
+    timeSince,
+    selectedBoke,
+    value,
+    setSelectedBoke,
+  } = useSelected();
   const router = useRouter();
   const rawBokeId = router.query.bokeId;
   const order = router.query.order;
@@ -53,80 +64,6 @@ const BokeDetail = () => {
     }
   };
 
-  if (typeof rawBokeId === 'string') {
-    const cleanedBokeId = rawBokeId.replace(/\/$/, '');
-    const parsedId = parseInt(cleanedBokeId);
-
-    if (!isNaN(parsedId)) {
-      bokeId = parsedId;
-    }
-  }
-  const [selectedBoke, setSelectedBoke] = useState<BokeModel | null>(null);
-  const [value, setValue] = useState(0);
-
-  const closeBokeDetail = () => {
-    setSelectedBoke(null);
-    router.push('/view/');
-  };
-
-  const openTwitterShare = (text: string) => {
-    const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
-    window.open(url, '_blank', 'noopener,noreferrer');
-  };
-
-  const openFacebookShare = (url: string) => {
-    const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
-    window.open(shareUrl, '_blank', 'noopener,noreferrer');
-  };
-
-  const handleCancel = () => {
-    console.log(-value);
-    setValue(0);
-  };
-
-  const handleRatingChange = async (event: React.ChangeEvent<unknown>, newValue: number | null) => {
-    if (newValue !== null) {
-      console.log(newValue - value);
-      const updateLike = newValue - value;
-      await apiClient.boke.post({
-        body: {
-          bokeId: selectedBoke?.bokeId,
-          userId: undefined,
-          text: undefined,
-          image: undefined,
-          like: updateLike,
-        },
-      });
-      setValue(newValue);
-    }
-  };
-
-  function timeSince(date: Date): string {
-    const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
-
-    let interval = Math.floor(seconds / 31536000);
-    if (interval > 1) {
-      return `${interval} 年前`;
-    }
-    interval = Math.floor(seconds / 2592000);
-    if (interval > 1) {
-      return `${interval} 月前`;
-    }
-    interval = Math.floor(seconds / 86400);
-    if (interval > 1) {
-      return `${interval} 日前`;
-    }
-    interval = Math.floor(seconds / 3600);
-    if (interval > 1) {
-      return `${interval} 時間前`;
-    }
-    interval = Math.floor(seconds / 60);
-    if (interval > 1) {
-      return `${interval} 分前`;
-    }
-    return `${Math.floor(seconds)} 秒前`;
-  }
-
   const fetchSelectedBoke = useCallback(async () => {
     if (bokeId !== null) {
       console.log(bokeId);
@@ -139,7 +76,21 @@ const BokeDetail = () => {
         console.error('Expected a single BokeModel but received an array.');
       }
     }
-  }, [bokeId]);
+  }, [bokeId, setSelectedBoke]);
+
+  if (typeof rawBokeId === 'string') {
+    const cleanedBokeId = rawBokeId.replace(/\/$/, '');
+    const parsedId = parseInt(cleanedBokeId);
+
+    if (!isNaN(parsedId)) {
+      bokeId = parsedId;
+    }
+  }
+
+  const closeBokeDetail = () => {
+    setSelectedBoke(null);
+    router.push('/view/');
+  };
 
   useEffect(() => {
     fetchSelectedBoke();

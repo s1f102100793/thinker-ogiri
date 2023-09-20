@@ -4,6 +4,7 @@ import type { ImageResponseModel } from 'commonTypesWithClient/models';
 import Head from 'next/head';
 import { useState } from 'react';
 import BokeImageCarousel from 'src/components/BokeImageCarousel.tsx/BokeImageCarousel';
+import Footer from 'src/components/Fppter/Footer';
 import Header from 'src/components/Header/Header';
 import { apiClient } from 'src/utils/apiClient';
 import styles from './create.module.css';
@@ -160,6 +161,7 @@ const Create = () => {
 
         <BokeImageCarousel customStyle={styles.someCustomStyleForThisPage} />
       </div>
+      <Footer />
     </div>
   );
 };

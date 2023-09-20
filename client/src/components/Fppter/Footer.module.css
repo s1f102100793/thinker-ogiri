@@ -1,0 +1,63 @@
+.footer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 2vh 0;
+  background-color: #434343;
+}
+
+.footerTop {
+  font-size: large;
+  text-align: center;
+}
+
+.textTopLeft {
+  font-size: large;
+  color: #fff;
+}
+
+.column {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  align-self: center;
+  justify-content: center;
+  margin: 1vh 0;
+}
+
+.rightColumn {
+  position: absolute;
+  right: 5vh;
+  display: flex;
+  align-items: flex-start;
+  background-color: #fff;
+  border-radius: 10%;
+}
+
+.topButton {
+  padding: 5px 10px;
+  color: white;
+  cursor: pointer;
+  background-color: #fff;
+  border: none;
+  border-radius: 10%;
+  transition: background-color 0.3s ease;
+}
+
+.topButton:hover {
+  background-color: #fff;
+}
+
+.link {
+  color: inherit;
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.active {
+  color: #fff;
+}

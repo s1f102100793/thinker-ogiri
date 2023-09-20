@@ -4,7 +4,7 @@
   flex-direction: column;
   width: 100%;
   height: auto;
-  height: 200vh;
+  height: 120vh;
   background-color: #e9e5de;
 }
 
@@ -16,6 +16,7 @@
   align-items: center;
   justify-content: center;
   width: 100%;
+  height: auto;
   margin-top: 15vh;
   background-color: #e9e5de;
 }
@@ -26,8 +27,8 @@
   right: 0%;
   left: 10%;
   flex: 1;
-  height: 300px;
-  margin-left: 40px;
+  height: 30vh;
+  margin-left: 4vh;
   background-color: #f5f5f5;
   background-image: url('../assets/HomeThinker.png');
   background-repeat: no-repeat;
@@ -39,10 +40,9 @@
   position: absolute;
   bottom: 0;
   left: 50%;
-  padding: 10px 20px;
+  padding: 1vh 2vh;
   text-align: center;
   background-color: rgb(255 255 255 / 60%);
   border-radius: 5px;
   transform: translate(-75%, 50%);
 }
-

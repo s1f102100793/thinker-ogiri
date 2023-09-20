@@ -1,3 +1,5 @@
+import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
+import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import type { BokeModel } from 'commonTypesWithClient/models';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -85,8 +87,10 @@ const BokeDetail = () => {
       const orderedData = [...bokeData].sort(
         (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
       );
-      console.log(orderedData);
       setSortedBokeData(orderedData);
+    } else if (order === 'random') {
+      const shuffledData = [...bokeData].sort(() => Math.random() - 0.5);
+      setSortedBokeData(shuffledData);
     } else {
       setSortedBokeData(bokeData);
     }
@@ -119,7 +123,7 @@ const BokeDetail = () => {
       </Head>
       <Header />
       <button className={styles.leftButton} onClick={navigateToLeft}>
-        &lt;
+        <ArrowCircleLeftIcon fontSize="large" />
       </button>
 
       {selectedBoke !== null && (
@@ -146,7 +150,7 @@ const BokeDetail = () => {
         </div>
       )}
       <button className={styles.rightButton} onClick={navigateToRight}>
-        &gt;
+        <ArrowCircleRightIcon fontSize="large" />
       </button>
     </div>
   );

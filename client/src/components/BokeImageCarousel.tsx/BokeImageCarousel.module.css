@@ -10,9 +10,7 @@
 
 .displayedImg {
   flex: 1;
-  width: 10vw;
-  min-width: 100px;
-  max-width: 240px;
+  width: 10%;
   height: auto;
   margin-right: 1vw;
   margin-left: 1vw;

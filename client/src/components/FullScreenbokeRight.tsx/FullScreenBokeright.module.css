@@ -75,3 +75,14 @@
 .closeButton:hover {
   background-color: #555;
 }
+
+@media (max-width: 576px) {
+  .fullScreenBokeRight {
+    top: 70%;
+    gap: 1vh;
+  }
+
+  .closeButton {
+    margin-top: 1vh;
+  }
+}

@@ -1,7 +1,7 @@
 import Head from 'next/head';
-import BokeImageCarousel from 'src/components/BokeImageCarousel.tsx/BokeImageCarousel';
 import Footer from 'src/components/Fppter/Footer';
 import Header from 'src/components/Header/Header';
+import HomeMainContent from 'src/components/HomeMainContent/HomeMainContent';
 import styles from './index.module.css';
 
 const Home = () => {
@@ -15,15 +15,8 @@ const Home = () => {
           rel="stylesheet"
         />
       </Head>
-
       <Header />
-      <div className={styles.mainContent}>
-        <div className={styles.mainImage}>
-          <div className={styles.imageContainer} />
-          <div className={styles.textContainer}>WELCOME TO THINKER</div>
-        </div>
-        <BokeImageCarousel />
-      </div>
+      <HomeMainContent />
       <Footer />
     </div>
   );

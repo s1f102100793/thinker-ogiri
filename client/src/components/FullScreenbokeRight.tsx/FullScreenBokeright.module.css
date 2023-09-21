@@ -59,7 +59,10 @@
 }
 
 .closeButton {
+  display: flex;
+  align-items: center;
   align-self: center;
+  justify-content: center;
   width: 60%;
   height: 6%;
   padding: 10px 20px;
@@ -78,11 +81,16 @@
 
 @media (max-width: 576px) {
   .fullScreenBokeRight {
-    top: 70%;
     gap: 1vh;
+    margin-top: 25vh;
+    background-color: #e9e5de;
   }
 
   .closeButton {
     margin-top: 1vh;
+  }
+
+  .twitterShare svg {
+    width: 10%;
   }
 }

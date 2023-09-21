@@ -149,3 +149,22 @@
 .textWrapper {
   margin-bottom: 1%;
 }
+
+@media (max-width: 576px) {
+  .contentWrapper {
+    height: 60vh;
+  }
+
+  .initialMargin {
+    flex: 0 0 0%;
+  }
+
+  .bokeItem {
+    flex: 0 0 100%;
+    opacity: 1;
+  }
+
+  .centerItem {
+    transform: scale(1);
+  }
+}

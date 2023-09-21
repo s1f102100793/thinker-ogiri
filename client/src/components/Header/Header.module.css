@@ -50,3 +50,10 @@
 .active {
   border-bottom: 2px solid black;
 }
+
+@media (max-width: 576px) {
+  .link {
+    padding: 0 2vw;
+    font-size: 1.5vh;
+  }
+}

@@ -16,6 +16,7 @@
   align-items: center;
   justify-content: center;
   padding: 2vh 0;
+  margin-top: 15vh;
 }
 
 .bokeButton {
@@ -31,7 +32,7 @@
 
 .someCustomStyleForThisPage {
   position: absolute;
-  top: 70vh;
+  top: 60vh;
   display: flex;
   width: 100%;
   margin-top: 2vh;
@@ -40,10 +41,12 @@
 
 .imageContainer {
   position: absolute;
-  top: 20%;
+  top: 0;
   width: 100%;
-  height: auto;
+  margin: 4vh;
   text-align: center;
+
+  /* background-color: #333; */
 }
 
 .imageContainer img {
@@ -53,10 +56,9 @@
 
 .textBox {
   position: absolute;
-  top: 55%;
   width: 30%;
-  padding: 8px 10px;
-  margin-bottom: 10px;
+  padding: 0.8vh 1vw;
+  margin: 4vh;
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -64,8 +66,9 @@
 
 .submitButton {
   position: absolute;
-  top: 60%;
-  padding: 10px 20px;
+  top: 50%;
+  padding: 1vh 2vw;
+  margin: 4vh;
   color: white;
   cursor: pointer;
   background-color: #434343;

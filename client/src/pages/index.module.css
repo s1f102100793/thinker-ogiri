@@ -4,7 +4,6 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
-  height: auto;
   height: 120vh;
   background-color: #e9e5de;
 }
@@ -56,4 +55,10 @@
   background-color: rgb(255 255 255 / 60%);
   border-radius: 5px;
   transform: translateX(50%) translateY(50%);
+}
+
+@media (max-width: 576px) {
+  .container {
+    height: 100vh;
+  }
 }

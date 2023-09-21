@@ -59,7 +59,8 @@ const View = () => {
       e.preventDefault();
       if (wrapperRef.current) {
         const wrapperWidth = wrapperRef.current.clientWidth;
-        const oneThirdWidth = wrapperWidth * 0.33;
+
+        const oneThirdWidth = window.innerWidth <= 576 ? wrapperWidth : wrapperWidth * 0.33;
 
         let newOffset = currentIndex * oneThirdWidth;
 

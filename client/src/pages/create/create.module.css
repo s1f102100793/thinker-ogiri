@@ -80,3 +80,23 @@
 .submitButton:hover {
   background-color: #333;
 }
+
+@media (max-width: 576px) {
+  .bokeButton {
+    top: 30%;
+    padding: 8vw 20vw;
+    font-size: large;
+  }
+
+  .imageContainer img {
+    width: 70%;
+  }
+
+  .textBox {
+    width: 70%;
+  }
+
+  .submitButton {
+    width: 45%;
+  }
+}

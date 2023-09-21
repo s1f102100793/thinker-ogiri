@@ -60,7 +60,7 @@
 
 .bokeItem {
   z-index: 2;
-  flex: 0 0 33.33%;
+  flex: 0 0 33%;
   opacity: 0.7;
   transition: transform 0.3s ease;
 }

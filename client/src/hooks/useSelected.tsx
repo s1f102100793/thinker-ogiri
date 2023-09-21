@@ -1,5 +1,6 @@
 import type { BokeModel } from 'commonTypesWithClient/models';
-import { useState } from 'react';
+import { useRouter } from 'next/router';
+import { useCallback, useState } from 'react';
 import { apiClient } from 'src/utils/apiClient';
 
 export const useSelected = () => {
@@ -64,6 +65,60 @@ export const useSelected = () => {
     return `${Math.floor(seconds)} 秒前`;
   }
 
+  const router = useRouter();
+  const rawBokeId = router.query.bokeId;
+  const order = router.query.order;
+
+  const [bokeData, setBokeData] = useState<BokeModel[]>([]);
+  const [sortedBokeData, setSortedBokeData] = useState<BokeModel[]>([]);
+  const [bokeId, setBokeId] = useState<number | null>(null);
+
+  const fetchBoke = async () => {
+    const databaseBoke = await apiClient.boke.$get({});
+    if (Array.isArray(databaseBoke)) {
+      setBokeData(databaseBoke);
+    }
+  };
+
+  const currentBokeIndex = sortedBokeData.findIndex((boke) => boke.bokeId === bokeId);
+
+  const navigateToLeft = () => {
+    console.log('left');
+    console.log(currentBokeIndex);
+    if (currentBokeIndex > 0) {
+      const newBokeId = sortedBokeData[currentBokeIndex - 1].bokeId;
+      router.push(`/view/${newBokeId}?order=${order}`);
+    }
+  };
+
+  const navigateToRight = () => {
+    console.log('right');
+    console.log(currentBokeIndex);
+    if (currentBokeIndex < sortedBokeData.length - 1) {
+      const newBokeId = sortedBokeData[currentBokeIndex + 1].bokeId;
+      router.push(`/view/${newBokeId}?order=${order}`);
+    }
+  };
+
+  const fetchSelectedBoke = useCallback(async () => {
+    if (bokeId !== null) {
+      console.log(bokeId);
+      const databaseSelectedboke = await apiClient.boke.selected.$post({ body: { bokeId } });
+      console.log(databaseSelectedboke);
+
+      if (!Array.isArray(databaseSelectedboke)) {
+        setSelectedBoke(databaseSelectedboke);
+      } else {
+        console.error('Expected a single BokeModel but received an array.');
+      }
+    }
+  }, [bokeId, setSelectedBoke]);
+
+  const closeBokeDetail = () => {
+    setSelectedBoke(null);
+    router.push('/view/');
+  };
+
   return {
     openTwitterShare,
     openFacebookShare,
@@ -73,5 +128,19 @@ export const useSelected = () => {
     selectedBoke,
     value,
     setSelectedBoke,
+    router,
+    rawBokeId,
+    order,
+    bokeData,
+    sortedBokeData,
+    setSortedBokeData,
+    bokeId,
+    setBokeId,
+    fetchBoke,
+    currentBokeIndex,
+    navigateToLeft,
+    navigateToRight,
+    fetchSelectedBoke,
+    closeBokeDetail,
   };
 };

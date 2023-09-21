@@ -8,16 +8,8 @@ import { useCreate } from 'src/hooks/useCreate';
 import styles from './create.module.css';
 
 const Create = () => {
-  const {
-    imageData,
-    setImageData,
-    loading,
-    createImage,
-    imageSize,
-    bokeText,
-    setBokeText,
-    newSubmitBoke,
-  } = useCreate();
+  const { imageData, loading, createImage, imageSize, bokeText, setBokeText, newSubmitBoke } =
+    useCreate();
 
   return (
     <div className={styles.container}>

@@ -1,7 +1,5 @@
-import { Box, CircularProgress } from '@mui/material';
-
 import Head from 'next/head';
-import BokeImageCarousel from 'src/components/BokeImageCarousel.tsx/BokeImageCarousel';
+import CreateMainContent from 'src/components/CreateMainContent/CreateMainContent';
 import Footer from 'src/components/Fppter/Footer';
 import Header from 'src/components/Header/Header';
 import { useCreate } from 'src/hooks/useCreate';
@@ -22,44 +20,15 @@ const Create = () => {
         />
       </Head>
       <Header />
-      <div className={styles.content}>
-        {!imageData ? (
-          <>
-            {loading ? (
-              <Box sx={{ display: 'flex' }}>
-                <CircularProgress color="inherit" size={80} />
-              </Box>
-            ) : (
-              <button className={styles.bokeButton} onClick={createImage}>
-                ぼける
-              </button>
-            )}
-          </>
-        ) : (
-          <>
-            <div className={styles.imageContainer}>
-              <img
-                src={`data:image/png;base64,${imageData}`}
-                alt="Generated Data"
-                width={imageSize}
-                height={imageSize}
-              />
-            </div>
-            <input
-              type="text"
-              className={styles.textBox}
-              value={bokeText}
-              onChange={(e) => setBokeText(e.target.value)}
-              placeholder="ぼけの言葉を入力"
-            />
-            <button className={styles.submitButton} onClick={newSubmitBoke}>
-              投稿する
-            </button>
-          </>
-        )}
-
-        <BokeImageCarousel customStyle={styles.someCustomStyleForThisPage} />
-      </div>
+      <CreateMainContent
+        imageData={imageData}
+        loading={loading}
+        createImage={createImage}
+        imageSize={imageSize}
+        bokeText={bokeText}
+        setBokeText={setBokeText}
+        newSubmitBoke={newSubmitBoke}
+      />
       <Footer />
     </div>
   );

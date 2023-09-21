@@ -1,8 +1,10 @@
+import { Box, CircularProgress } from '@mui/material';
 import imageCompression from 'browser-image-compression';
 import type { ImageResponseModel } from 'commonTypesWithClient/models';
 import Head from 'next/head';
 import { useState } from 'react';
 import BokeImageCarousel from 'src/components/BokeImageCarousel.tsx/BokeImageCarousel';
+import Footer from 'src/components/Fppter/Footer';
 import Header from 'src/components/Header/Header';
 import { apiClient } from 'src/utils/apiClient';
 import styles from './create.module.css';
@@ -10,6 +12,7 @@ import styles from './create.module.css';
 const Create = () => {
   const [imageData, setImageData] = useState<string>('');
   const [bokeText, setBokeText] = useState<string>('');
+  const [loading, setLoading] = useState(false);
 
   const imageSize = 300;
 
@@ -22,6 +25,7 @@ const Create = () => {
   const userId = 'gouta';
 
   const createImage = async () => {
+    setLoading(true);
     try {
       const res: ImageResponseModel | null = await apiClient.image.$post();
       if (!res) {
@@ -36,6 +40,7 @@ const Create = () => {
     } catch (error) {
       console.error('API error:', error);
     }
+    setLoading(false);
   };
 
   type DataURL = string;
@@ -120,9 +125,17 @@ const Create = () => {
       <Header />
       <div className={styles.content}>
         {!imageData ? (
-          <button className={styles.bokeButton} onClick={createImage}>
-            ぼける
-          </button>
+          <>
+            {loading ? (
+              <Box sx={{ display: 'flex' }}>
+                <CircularProgress color="inherit" size={80} />
+              </Box>
+            ) : (
+              <button className={styles.bokeButton} onClick={createImage}>
+                ぼける
+              </button>
+            )}
+          </>
         ) : (
           <>
             <div className={styles.imageContainer}>
@@ -148,6 +161,7 @@ const Create = () => {
 
         <BokeImageCarousel customStyle={styles.someCustomStyleForThisPage} />
       </div>
+      <Footer />
     </div>
   );
 };

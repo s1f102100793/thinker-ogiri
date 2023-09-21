@@ -2,8 +2,20 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  min-height: 100vh;
-  background-color: #e9e5de;
+  height: 120vh;
+  overflow-y: hidden;
+  background-color: #fff;
+}
+
+.mainContent {
+  position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 15vh;
 }
 
 .buttonList {
@@ -15,12 +27,12 @@
   justify-content: center;
   width: 100%;
   height: 8vh;
-  margin-top: 15vh;
   background-color: #fff;
 }
 
 .buttonList button {
-  padding: 10px 20px;
+  padding: 1vh 2vh;
+  font-size: 2vh;
   color: white;
   cursor: pointer;
   background-color: #434343;
@@ -35,12 +47,14 @@
 
 .contentWrapper {
   position: relative;
+  z-index: 2;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
   height: 80vh;
   overflow-x: hidden;
+  overflow-y: hidden;
   background-color: #fff;
   perspective: 1000px;
 }
@@ -50,6 +64,7 @@
   z-index: 1;
   display: flex;
   align-self: center;
+  height: 80%;
   transition: transform 0.5s ease;
 }
 
@@ -59,7 +74,7 @@
 
 .bokeItem {
   z-index: 2;
-  flex: 0 0 33.33%;
+  flex: 0 0 33%;
   opacity: 0.7;
   transition: transform 0.3s ease;
 }

@@ -2,9 +2,10 @@
   position: relative;
   display: flex;
   flex-direction: column;
+  align-items: center;
   width: 100%;
   height: auto;
-  height: 200vh;
+  height: 120vh;
   background-color: #e9e5de;
 }
 
@@ -16,6 +17,7 @@
   align-items: center;
   justify-content: center;
   width: 100%;
+  height: auto;
   margin-top: 15vh;
   background-color: #e9e5de;
 }
@@ -25,10 +27,20 @@
   top: 20px;
   right: 0%;
   left: 10%;
+  display: flex;
   flex: 1;
-  height: 300px;
-  margin-left: 40px;
+  align-items: center;
+  justify-content: center;
+  height: 30vh;
   background-color: #f5f5f5;
+}
+
+.imageContainer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   background-image: url('../assets/HomeThinker.png');
   background-repeat: no-repeat;
   background-position: right top;
@@ -37,12 +49,11 @@
 
 .textContainer {
   position: absolute;
+  right: 55%;
   bottom: 0;
-  left: 50%;
-  padding: 10px 20px;
+  padding: 1vh 2vh;
   text-align: center;
   background-color: rgb(255 255 255 / 60%);
   border-radius: 5px;
-  transform: translate(-75%, 50%);
+  transform: translateX(50%) translateY(50%);
 }
-

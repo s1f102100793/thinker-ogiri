@@ -117,10 +117,15 @@ const CreateMainContent: React.FC<CreateMainContentProps> = ({
           </button>
         </>
       )}
-      <Modal open={isDialogOpen} aria-labelledby="modal-title" aria-describedby="modal-description">
-        <Box sx={{ padding: '16px', backgroundColor: 'white' }}>
+      <Modal
+        className={styles.modal}
+        open={isDialogOpen}
+        aria-labelledby="modal-title"
+        aria-describedby="modal-description"
+      >
+        <Box className={styles.someClass}>
           <Typography id="modal-title" variant="h6" component="h2">
-            時間切れ
+            終了！
           </Typography>
           <Typography id="modal-description" sx={{ mt: 2 }}>
             あなたの時間は切れました。投稿するか、広告を見て時間を延長しますか？

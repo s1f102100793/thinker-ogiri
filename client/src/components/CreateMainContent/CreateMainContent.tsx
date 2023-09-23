@@ -26,7 +26,17 @@ const CreateMainContent: React.FC<CreateMainContentProps> = ({
       {!imageData ? (
         <>
           {loading ? (
-            <Box sx={{ display: 'flex' }}>
+            <Box
+              sx={{
+                display: 'flex',
+                position: 'absolute',
+                top: '20vh',
+                height: 'desired_height_here',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '100%',
+              }}
+            >
               <CircularProgress color="inherit" size={80} />
             </Box>
           ) : (

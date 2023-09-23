@@ -44,19 +44,19 @@ const BokeImageCarousel: React.FC<BokeImageCarouselProps> = ({ customStyle }) =>
     return () => clearInterval(interval);
   }, [displayImages, homeBokeData]);
 
-  const handleBokeClick = (boke: BokeModel, clickedIndex: number) => {
+  const handleBokeClick = (boke: BokeModel) => {
     router.push(`/view/${boke.bokeId}?order=createdAt`);
   };
 
   return (
     <div className={`${styles.imageContainer} ${customStyle}`}>
-      {displayImages.map((boke, index) => (
+      {displayImages.map((boke) => (
         <img
           key={boke.bokeId}
           src={boke.image}
           alt={`Boke image ${boke.bokeId}`}
           className={styles.displayedImg}
-          onClick={() => handleBokeClick(boke, index)}
+          onClick={() => handleBokeClick(boke)}
         />
       ))}
     </div>

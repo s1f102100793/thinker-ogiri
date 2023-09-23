@@ -46,3 +46,12 @@
   border-radius: 5px;
   transform: translateX(50%) translateY(50%);
 }
+
+.subTextContainer {
+  position: absolute;
+  right: 55%;
+  width: 80%;
+  font-size: 150%;
+  text-align: center;
+  transform: translateX(50%) translateY(50%);
+}

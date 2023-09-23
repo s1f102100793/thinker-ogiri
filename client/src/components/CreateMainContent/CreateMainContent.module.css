@@ -4,15 +4,40 @@
   flex: 1;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   padding: 2vh 0;
   margin-top: 15vh;
 }
 
+.instructionsContainer {
+  position: relative;
+  top: 5vh;
+  padding: 1.6vh;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 0.8vh;
+}
+
+.instructionsText {
+  margin: 0;
+  font-size: 3vh;
+  line-height: 2;
+}
+
+.heading {
+  display: inline-block;
+  width: 100%;
+  padding: 0.5vh;
+  color: #f9f9f9;
+  text-align: center;
+  background-color: #434343;
+  border-radius: 0.4vh;
+}
+
 .bokeButton {
   position: absolute;
-  padding: 1vw 2vw;
-  margin-bottom: 2vh;
+  top: 45vh;
+  padding: 2vh 4vh;
+  font-size: 2vh;
   color: white;
   background-color: #434343;
   border: none;
@@ -31,12 +56,9 @@
 
 .imageContainer {
   position: absolute;
-  top: 0;
   width: 100%;
   margin: 4vh;
   text-align: center;
-
-  /* background-color: #333; */
 }
 
 .imageContainer img {
@@ -46,17 +68,22 @@
 
 .textBox {
   position: absolute;
+  top: 38vh;
   width: 30%;
   padding: 0.8vh 1vw;
   margin: 4vh;
-  font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
 
+.timerContainer {
+  position: absolute;
+  top: 38vh;
+}
+
 .submitButton {
   position: absolute;
-  top: 50%;
+  top: 45vh;
   padding: 1vh 2vw;
   margin: 4vh;
   color: white;
@@ -72,10 +99,8 @@
 }
 
 @media (max-width: 576px) {
-  .bokeButton {
-    top: 30%;
-    padding: 8vw 20vw;
-    font-size: large;
+  .instructionsText {
+    font-size: 2vh;
   }
 
   .imageContainer img {

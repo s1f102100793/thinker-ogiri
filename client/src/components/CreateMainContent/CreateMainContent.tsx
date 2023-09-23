@@ -1,4 +1,11 @@
-import { Box, CircularProgress } from '@mui/material';
+import {
+  Box,
+  CircularProgress,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from '@mui/material';
 import { useEffect, useState } from 'react';
 import BokeImageCarousel from 'src/components/BokeImageCarousel.tsx/BokeImageCarousel';
 import styles from './CreateMainContent.module.css';
@@ -23,13 +30,19 @@ const CreateMainContent: React.FC<CreateMainContentProps> = ({
   newSubmitBoke,
 }) => {
   const [timeRemaining, setTimeRemaining] = useState(30);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   useEffect(() => {
     let timerId: NodeJS.Timeout;
 
     if (imageData && !loading) {
       timerId = setInterval(() => {
-        setTimeRemaining((prevTime) => Math.max(prevTime - 1, 0));
+        setTimeRemaining((prevTime) => {
+          if (prevTime === 1) {
+            setIsDialogOpen(true);
+          }
+          return Math.max(prevTime - 1, 0);
+        });
       }, 1000);
     }
 
@@ -37,6 +50,11 @@ const CreateMainContent: React.FC<CreateMainContentProps> = ({
       clearInterval(timerId);
     };
   }, [imageData, loading]);
+
+  const extendTime = () => {
+    setTimeRemaining((prevTime) => prevTime + 15);
+    setIsDialogOpen(false);
+  };
 
   return (
     <div className={styles.content}>
@@ -100,6 +118,28 @@ const CreateMainContent: React.FC<CreateMainContentProps> = ({
           </button>
         </>
       )}
+      <Dialog
+        open={isDialogOpen}
+        onClose={() => setIsDialogOpen(false)}
+        BackdropProps={{
+          onClick: (event) => {
+            event.stopPropagation();
+          },
+        }}
+      >
+        <DialogTitle>時間切れ</DialogTitle>
+        <DialogContent>
+          あなたの時間は切れました。投稿するか、広告を見て時間を延長しますか？
+        </DialogContent>
+        <DialogActions>
+          <button className={styles.submitButton} onClick={newSubmitBoke}>
+            投稿する
+          </button>
+          <button className={styles.submitButton} onClick={extendTime}>
+            広告を見て15秒延長
+          </button>
+        </DialogActions>
+      </Dialog>
 
       <BokeImageCarousel customStyle={styles.someCustomStyleForThisPage} />
     </div>

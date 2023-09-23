@@ -10,7 +10,8 @@ export const HomeMainContent = () => {
           WELCOME TO THINKER
         </a>
         <a href="/create" className={styles.subTextContainer}>
-          あなたの大喜利力、ここで試してみませんか
+          <span>あなたの大喜利力、</span>
+          <span>ここで試してみませんか</span>
         </a>
       </div>
       <BokeImageCarousel />

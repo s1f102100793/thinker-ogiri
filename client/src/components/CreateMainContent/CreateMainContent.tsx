@@ -32,16 +32,15 @@ const CreateMainContent: React.FC<CreateMainContentProps> = ({
           ) : (
             <>
               <div className={styles.instructionsContainer}>
+                <p className={`${styles.instructionsText} ${styles.heading}`}>作り方</p>
                 <p className={styles.instructionsText}>
-                  作り方
-                  <br />
                   1.「ぼける」ボタンをクリック！
                   <br />
                   2.画像生成
                   <br />
                   3.30秒以内にボケを考える
                   <br />
-                  4.提出
+                  4.提出！
                 </p>
               </div>
 

@@ -6,7 +6,9 @@ export const HomeMainContent = () => {
     <div className={styles.mainContent}>
       <div className={styles.mainImage}>
         <div className={styles.imageContainer} />
-        <div className={styles.textContainer}>WELCOME TO THINKER</div>
+        <a href="/view" className={styles.textContainer}>
+          WELCOME TO THINKER
+        </a>
       </div>
       <BokeImageCarousel />
     </div>

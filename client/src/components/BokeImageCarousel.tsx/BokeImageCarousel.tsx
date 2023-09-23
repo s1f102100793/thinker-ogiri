@@ -1,4 +1,5 @@
 import type { BokeModel } from 'commonTypesWithClient/models';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useHome } from 'src/hooks/useHome';
 import styles from './BokeImageCarousel.module.css';
@@ -10,6 +11,8 @@ type BokeImageCarouselProps = {
 const BokeImageCarousel: React.FC<BokeImageCarouselProps> = ({ customStyle }) => {
   const { homeBokeData, fetchHomeboke } = useHome();
   const [displayImages, setDisplayImages] = useState<BokeModel[]>([]);
+
+  const router = useRouter();
 
   useEffect(() => {
     fetchHomeboke();
@@ -41,6 +44,10 @@ const BokeImageCarousel: React.FC<BokeImageCarouselProps> = ({ customStyle }) =>
     return () => clearInterval(interval);
   }, [displayImages, homeBokeData]);
 
+  const handleBokeClick = (boke: BokeModel, clickedIndex: number) => {
+    router.push(`/view/${boke.bokeId}?order=createdAt`);
+  };
+
   return (
     <div className={`${styles.imageContainer} ${customStyle}`}>
       {displayImages.map((boke, index) => (
@@ -49,6 +56,7 @@ const BokeImageCarousel: React.FC<BokeImageCarouselProps> = ({ customStyle }) =>
           src={boke.image}
           alt={`Boke image ${boke.bokeId}`}
           className={styles.displayedImg}
+          onClick={() => handleBokeClick(boke, index)}
         />
       ))}
     </div>

@@ -17,6 +17,9 @@ interface CreateMainContentProps {
   imageSize: number;
   bokeText: string;
   setBokeText: (text: string) => void;
+  timeRemaining: number;
+  setTimeRemaining: React.Dispatch<React.SetStateAction<number>>;
+
   newSubmitBoke: () => void;
 }
 
@@ -27,9 +30,10 @@ const CreateMainContent: React.FC<CreateMainContentProps> = ({
   imageSize,
   bokeText,
   setBokeText,
+  timeRemaining,
+  setTimeRemaining,
   newSubmitBoke,
 }) => {
-  const [timeRemaining, setTimeRemaining] = useState(30);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   useEffect(() => {
@@ -37,7 +41,7 @@ const CreateMainContent: React.FC<CreateMainContentProps> = ({
 
     if (imageData && !loading) {
       timerId = setInterval(() => {
-        setTimeRemaining((prevTime) => {
+        setTimeRemaining((prevTime: number) => {
           if (prevTime === 1) {
             setIsDialogOpen(true);
           }
@@ -49,10 +53,10 @@ const CreateMainContent: React.FC<CreateMainContentProps> = ({
     return () => {
       clearInterval(timerId);
     };
-  }, [imageData, loading]);
+  }, [imageData, loading, setTimeRemaining]);
 
   const extendTime = () => {
-    setTimeRemaining((prevTime) => prevTime + 15);
+    setTimeRemaining((prevTime: number) => prevTime + 15);
     setIsDialogOpen(false);
   };
 

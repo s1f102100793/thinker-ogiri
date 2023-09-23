@@ -6,8 +6,17 @@ import { useCreate } from 'src/hooks/useCreate';
 import styles from './create.module.css';
 
 const Create = () => {
-  const { imageData, loading, createImage, imageSize, bokeText, setBokeText, newSubmitBoke } =
-    useCreate();
+  const {
+    imageData,
+    loading,
+    timeRemaining,
+    setTimeRemaining,
+    createImage,
+    imageSize,
+    bokeText,
+    setBokeText,
+    newSubmitBoke,
+  } = useCreate();
 
   return (
     <div className={styles.container}>
@@ -27,6 +36,8 @@ const Create = () => {
         imageSize={imageSize}
         bokeText={bokeText}
         setBokeText={setBokeText}
+        timeRemaining={timeRemaining}
+        setTimeRemaining={setTimeRemaining}
         newSubmitBoke={newSubmitBoke}
       />
       <Footer />

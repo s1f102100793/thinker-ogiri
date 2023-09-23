@@ -7,6 +7,7 @@ export const useCreate = () => {
   const [imageData, setImageData] = useState<string>('');
   const [bokeText, setBokeText] = useState<string>('');
   const [loading, setLoading] = useState(false);
+  const [timeRemaining, setTimeRemaining] = useState<number>(30);
 
   const imageSize = 300;
 
@@ -20,6 +21,7 @@ export const useCreate = () => {
 
   const createImage = async () => {
     setLoading(true);
+    setTimeRemaining(30);
     try {
       const res: ImageResponseModel | null = await apiClient.image.$post();
       if (!res) {
@@ -110,6 +112,8 @@ export const useCreate = () => {
     imageData,
     setImageData,
     loading,
+    timeRemaining,
+    setTimeRemaining,
     createImage,
     imageSize,
     bokeText,

@@ -11,6 +11,8 @@ const Create = () => {
     loading,
     timeRemaining,
     setTimeRemaining,
+    isDialogOpen,
+    setIsDialogOpen,
     createImage,
     imageSize,
     bokeText,
@@ -38,6 +40,8 @@ const Create = () => {
         setBokeText={setBokeText}
         timeRemaining={timeRemaining}
         setTimeRemaining={setTimeRemaining}
+        isDialogOpen={isDialogOpen}
+        setIsDialogOpen={setIsDialogOpen}
         newSubmitBoke={newSubmitBoke}
       />
       <Footer />

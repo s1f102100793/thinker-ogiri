@@ -8,6 +8,7 @@ export const useCreate = () => {
   const [bokeText, setBokeText] = useState<string>('');
   const [loading, setLoading] = useState(false);
   const [timeRemaining, setTimeRemaining] = useState<number>(30);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const imageSize = 300;
 
@@ -106,6 +107,7 @@ export const useCreate = () => {
     } catch (error) {
       console.error('Error in newSubmitBoke:', error);
     }
+    setIsDialogOpen(false);
   };
 
   return {
@@ -114,6 +116,8 @@ export const useCreate = () => {
     loading,
     timeRemaining,
     setTimeRemaining,
+    isDialogOpen,
+    setIsDialogOpen,
     createImage,
     imageSize,
     bokeText,

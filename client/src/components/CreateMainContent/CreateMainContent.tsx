@@ -30,9 +30,25 @@ const CreateMainContent: React.FC<CreateMainContentProps> = ({
               <CircularProgress color="inherit" size={80} />
             </Box>
           ) : (
-            <button className={styles.bokeButton} onClick={createImage}>
-              ぼける
-            </button>
+            <>
+              <div className={styles.instructionsContainer}>
+                <p className={styles.instructionsText}>
+                  作り方
+                  <br />
+                  1.「ぼける」ボタンをクリック！
+                  <br />
+                  2.画像生成
+                  <br />
+                  3.30秒以内にボケを考える
+                  <br />
+                  4.提出
+                </p>
+              </div>
+
+              <button className={styles.bokeButton} onClick={createImage}>
+                ぼける
+              </button>
+            </>
           )}
         </>
       ) : (

@@ -4,15 +4,29 @@
   flex: 1;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   padding: 2vh 0;
   margin-top: 15vh;
 }
 
+.instructionsContainer {
+  position: relative;
+  top: 1vh;
+  padding: 1.6vh;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 0.8vh;
+}
+
+.instructionsText {
+  margin: 0;
+  font-size: 1.4vh;
+  line-height: 1.5;
+}
+
 .bokeButton {
   position: absolute;
-  padding: 1vw 2vw;
-  margin-bottom: 2vh;
+  top: 40vh;
+  padding: 2vh 4vh;
   color: white;
   background-color: #434343;
   border: none;
@@ -35,8 +49,6 @@
   width: 100%;
   margin: 4vh;
   text-align: center;
-
-  /* background-color: #333; */
 }
 
 .imageContainer img {

@@ -124,18 +124,20 @@ const CreateMainContent: React.FC<CreateMainContentProps> = ({
         aria-describedby="modal-description"
       >
         <Box className={styles.someClass}>
-          <Typography id="modal-title" variant="h6" component="h2">
+          <Typography className={styles.modalText} variant="h6" component="h2">
             終了！
           </Typography>
-          <Typography id="modal-description" sx={{ mt: 2 }}>
+          <Typography className={styles.modalDescription}>
             あなたの時間は切れました。投稿するか、広告を見て時間を延長しますか？
           </Typography>
-          <Button className={styles.submitButton} onClick={newSubmitBoke}>
-            投稿する
-          </Button>
-          <Button className={styles.submitButton} onClick={extendTime}>
-            広告を見て15秒延長
-          </Button>
+          <div className={styles.buttonContainer}>
+            <Button className={styles.modalButton} onClick={newSubmitBoke}>
+              投稿する
+            </Button>
+            <Button className={styles.modalButton} onClick={extendTime}>
+              広告を見て15秒延長
+            </Button>
+          </div>
         </Box>
       </Modal>
 

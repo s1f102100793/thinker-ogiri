@@ -106,7 +106,7 @@
 }
 
 .someClass {
-  position: absolute;
+  /* position: fixed; */
   top: 20vh;
   display: flex;
   flex-direction: column;
@@ -118,6 +118,29 @@
   overflow: hidden;
   background-color: #f9f9f9;
   border-radius: 10px;
+}
+
+.modalText {
+  font-size: 2vh;
+}
+
+.modalDescription {
+  margin: 0;
+  font-size: 2vh;
+  line-height: 2;
+}
+
+.buttonContainer {
+  font-size: 2vh;
+}
+
+.modalButton {
+  position: absolute;
+  padding: 1vh 2vw;
+  margin: 4vh;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: 0.3s;
 }
 
 @media (max-width: 576px) {

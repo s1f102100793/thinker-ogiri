@@ -1,4 +1,5 @@
 import { Box, CircularProgress } from '@mui/material';
+import { useEffect, useState } from 'react';
 import BokeImageCarousel from 'src/components/BokeImageCarousel.tsx/BokeImageCarousel';
 import styles from './CreateMainContent.module.css';
 
@@ -21,6 +22,22 @@ const CreateMainContent: React.FC<CreateMainContentProps> = ({
   setBokeText,
   newSubmitBoke,
 }) => {
+  const [timeRemaining, setTimeRemaining] = useState(30);
+
+  useEffect(() => {
+    let timerId: NodeJS.Timeout;
+
+    if (imageData && !loading) {
+      timerId = setInterval(() => {
+        setTimeRemaining((prevTime) => Math.max(prevTime - 1, 0));
+      }, 1000);
+    }
+
+    return () => {
+      clearInterval(timerId);
+    };
+  }, [imageData, loading]);
+
   return (
     <div className={styles.content}>
       {!imageData ? (
@@ -77,6 +94,7 @@ const CreateMainContent: React.FC<CreateMainContentProps> = ({
             onChange={(e) => setBokeText(e.target.value)}
             placeholder="ぼけの言葉を入力"
           />
+          <div className={styles.timerContainer}>残り時間: {timeRemaining}秒</div>
           <button className={styles.submitButton} onClick={newSubmitBoke}>
             投稿する
           </button>

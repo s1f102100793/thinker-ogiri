@@ -48,7 +48,7 @@
 
 .twitterShare svg {
   align-self: center;
-  width: 5%;
+  width: 8%;
   height: auto;
   margin-right: 10px;
 }
@@ -88,9 +88,5 @@
 
   .closeButton {
     margin-top: 1vh;
-  }
-
-  .twitterShare svg {
-    width: 10%;
   }
 }

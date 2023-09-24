@@ -158,4 +158,9 @@
   .submitButton {
     width: 45%;
   }
+
+  .someClass {
+    width: 90%;
+    height: 40%;
+  }
 }

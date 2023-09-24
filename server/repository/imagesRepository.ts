@@ -48,36 +48,31 @@ export const uploadBoke = async (
   image: string | undefined,
   like: number
 ) => {
-  try {
-    const validatedUserId = userId ?? '';
-    const validatedText = text ?? '';
-    const validatedImage = image ?? '';
+  const validatedUserId = userId ?? '';
+  const validatedText = text ?? '';
+  const validatedImage = image ?? '';
 
-    console.log(validatedText, like);
-    let prismaBoke;
+  console.log(validatedText, like);
+  let prismaBoke;
 
-    if (bokeId !== undefined) {
-      prismaBoke = await prismaClient.boke.update({
-        where: { bokeId },
-        data: {
-          like,
-        },
-      });
-    } else {
-      prismaBoke = await prismaClient.boke.create({
-        data: {
-          userId: validatedUserId,
-          text: validatedText,
-          image: validatedImage,
-          like,
-        },
-      });
-    }
-    return toBokeModel(prismaBoke);
-  } catch (err) {
-    console.log(err);
-    return null;
+  if (bokeId !== undefined) {
+    prismaBoke = await prismaClient.boke.update({
+      where: { bokeId },
+      data: {
+        like,
+      },
+    });
+  } else {
+    prismaBoke = await prismaClient.boke.create({
+      data: {
+        userId: validatedUserId,
+        text: validatedText,
+        image: validatedImage,
+        like,
+      },
+    });
   }
+  return toBokeModel(prismaBoke);
 };
 
 export const getBoke = async (

@@ -8,7 +8,7 @@ export const useCreate = () => {
   const [bokeText, setBokeText] = useState<string>('');
   const [loading, setLoading] = useState(false);
   const [timeRemaining, setTimeRemaining] = useState<number>(30);
-  const [isDialogOpen, setIsDialogOpen] = useState(true);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const imageSize = 300;
 

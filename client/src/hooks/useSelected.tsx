@@ -39,29 +39,29 @@ export const useSelected = () => {
     }
   };
 
+  function calculateInterval(seconds: number, divisor: number, unit: string): string | null {
+    const interval = Math.floor(seconds / divisor);
+    if (interval > 1) {
+      return `${interval} ${unit}前`;
+    }
+    return null;
+  }
+
   function timeSince(date: Date): string {
     const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
+    const timeUnits = [
+      { divisor: 31536000, unit: '年' },
+      { divisor: 2592000, unit: '月' },
+      { divisor: 86400, unit: '日' },
+      { divisor: 3600, unit: '時間' },
+      { divisor: 60, unit: '分' },
+    ];
 
-    let interval = Math.floor(seconds / 31536000);
-    if (interval > 1) {
-      return `${interval} 年前`;
+    for (const timeUnit of timeUnits) {
+      const result = calculateInterval(seconds, timeUnit.divisor, timeUnit.unit);
+      if (result !== null) return result;
     }
-    interval = Math.floor(seconds / 2592000);
-    if (interval > 1) {
-      return `${interval} 月前`;
-    }
-    interval = Math.floor(seconds / 86400);
-    if (interval > 1) {
-      return `${interval} 日前`;
-    }
-    interval = Math.floor(seconds / 3600);
-    if (interval > 1) {
-      return `${interval} 時間前`;
-    }
-    interval = Math.floor(seconds / 60);
-    if (interval > 1) {
-      return `${interval} 分前`;
-    }
+
     return `${Math.floor(seconds)} 秒前`;
   }
 

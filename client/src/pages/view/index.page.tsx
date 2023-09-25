@@ -55,6 +55,7 @@ const View = () => {
   const [offset, setOffset] = useState(0);
 
   useEffect(() => {
+    // eslint-disable-next-line complexity
     const handleScroll = (e: WheelEvent) => {
       e.preventDefault();
       if (wrapperRef.current) {

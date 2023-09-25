@@ -14,10 +14,14 @@ const S3_ACCESS_KEY = process.env.S3_ACCESS_KEY ?? '';
 const S3_SECRET_KEY = process.env.S3_SECRET_KEY ?? '';
 const S3_REGION = process.env.S3_REGION ?? '';
 const OPENAIAPI = process.env.OPENAI_API_KEY ?? '';
+const AWS_ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY_ID ?? '';
+const AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY ?? '';
 
 export {
   API_BASE_PATH,
   API_ORIGIN,
+  AWS_ACCESS_KEY_ID,
+  AWS_SECRET_ACCESS_KEY,
   CORS_ORIGIN,
   FIREBASE_AUTH_EMULATOR_HOST,
   FIREBASE_SERVER_KEY,

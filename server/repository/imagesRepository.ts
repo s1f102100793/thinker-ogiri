@@ -1,7 +1,8 @@
 import type { BokeModel, ImageResponseModel } from '$/commonTypesWithClient/models';
-import { OPENAIAPI } from '$/service/envValues';
+import { AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, OPENAIAPI } from '$/service/envValues';
 import { prismaClient } from '$/service/prismaClient';
 import type { Boke } from '@prisma/client';
+import { S3 } from 'aws-sdk';
 import axios from 'axios';
 
 export const toBokeModel = (prismaBoke: Boke): BokeModel => ({
@@ -41,6 +42,12 @@ export const createImage = async (): Promise<ImageResponseModel | null> => {
   }
 };
 
+const s3 = new S3({
+  accessKeyId: AWS_ACCESS_KEY_ID,
+  secretAccessKey: AWS_SECRET_ACCESS_KEY,
+  region: 'ap-northeast-1',
+});
+
 export const uploadBoke = async (
   bokeId: number | undefined,
   userId: string | undefined,
@@ -48,36 +55,50 @@ export const uploadBoke = async (
   image: string | undefined,
   like: number
 ) => {
-  try {
-    const validatedUserId = userId ?? '';
-    const validatedText = text ?? '';
-    const validatedImage = image ?? '';
+  const validatedUserId = userId ?? '';
+  const validatedText = text ?? '';
+  let imageKey = '';
 
-    console.log(validatedText, like);
-    let prismaBoke;
-
-    if (bokeId !== undefined) {
-      prismaBoke = await prismaClient.boke.update({
-        where: { bokeId },
-        data: {
-          like,
-        },
-      });
-    } else {
-      prismaBoke = await prismaClient.boke.create({
-        data: {
-          userId: validatedUserId,
-          text: validatedText,
-          image: validatedImage,
-          like,
-        },
-      });
-    }
-    return toBokeModel(prismaBoke);
-  } catch (err) {
-    console.log(err);
-    return null;
+  // 画像データをS3にアップロード
+  if (image !== null && image !== undefined) {
+    // ここでの条件を変更
+    imageKey = `boke-images/${validatedUserId}/${Date.now()}.png`;
+    console.log(imageKey);
+    await s3
+      .putObject({
+        Bucket: 'thinker-ogiri-images',
+        Key: imageKey,
+        Body: Buffer.from(image.split('base64,')[1], 'base64'),
+        ContentType: 'image/png',
+      })
+      .promise();
   }
+
+  let prismaBoke;
+
+  if (bokeId !== undefined) {
+    prismaBoke = await prismaClient.boke.update({
+      where: { bokeId },
+      data: {
+        like,
+        image: imageKey ? `https://thinker-ogiri-images.s3.amazonaws.com/${imageKey}` : '',
+      },
+    });
+  } else if (validatedUserId !== undefined) {
+    prismaBoke = await prismaClient.boke.create({
+      data: {
+        userId: validatedUserId,
+        text: validatedText,
+        image: imageKey ? `https://thinker-ogiri-images.s3.amazonaws.com/${imageKey}` : '',
+        like,
+      },
+    });
+  }
+  if (!prismaBoke) {
+    throw new Error('Failed to create or update boke');
+  }
+
+  return toBokeModel(prismaBoke);
 };
 
 export const getBoke = async (

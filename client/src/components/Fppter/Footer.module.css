@@ -19,6 +19,7 @@
   color: #fff;
 }
 
+.linklist,
 .column {
   display: flex;
   gap: 10px;

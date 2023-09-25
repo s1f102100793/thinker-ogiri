@@ -1,12 +1,5 @@
-import {
-  Box,
-  CircularProgress,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-} from '@mui/material';
-import { useEffect, useState } from 'react';
+import { Box, Button, CircularProgress, Modal, Typography } from '@mui/material';
+import { useEffect } from 'react';
 import BokeImageCarousel from 'src/components/BokeImageCarousel.tsx/BokeImageCarousel';
 import styles from './CreateMainContent.module.css';
 
@@ -17,6 +10,11 @@ interface CreateMainContentProps {
   imageSize: number;
   bokeText: string;
   setBokeText: (text: string) => void;
+  timeRemaining: number;
+  setTimeRemaining: React.Dispatch<React.SetStateAction<number>>;
+  isDialogOpen: boolean;
+  setIsDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
+
   newSubmitBoke: () => void;
 }
 
@@ -27,17 +25,18 @@ const CreateMainContent: React.FC<CreateMainContentProps> = ({
   imageSize,
   bokeText,
   setBokeText,
+  timeRemaining,
+  setTimeRemaining,
+  isDialogOpen,
+  setIsDialogOpen,
   newSubmitBoke,
 }) => {
-  const [timeRemaining, setTimeRemaining] = useState(30);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-
   useEffect(() => {
     let timerId: NodeJS.Timeout;
 
     if (imageData && !loading) {
       timerId = setInterval(() => {
-        setTimeRemaining((prevTime) => {
+        setTimeRemaining((prevTime: number) => {
           if (prevTime === 1) {
             setIsDialogOpen(true);
           }
@@ -49,10 +48,10 @@ const CreateMainContent: React.FC<CreateMainContentProps> = ({
     return () => {
       clearInterval(timerId);
     };
-  }, [imageData, loading]);
+  }, [imageData, loading, setTimeRemaining, setIsDialogOpen]);
 
   const extendTime = () => {
-    setTimeRemaining((prevTime) => prevTime + 15);
+    setTimeRemaining((prevTime: number) => prevTime + 15);
     setIsDialogOpen(false);
   };
 
@@ -118,28 +117,29 @@ const CreateMainContent: React.FC<CreateMainContentProps> = ({
           </button>
         </>
       )}
-      <Dialog
+      <Modal
+        className={styles.modal}
         open={isDialogOpen}
-        onClose={() => setIsDialogOpen(false)}
-        BackdropProps={{
-          onClick: (event) => {
-            event.stopPropagation();
-          },
-        }}
+        aria-labelledby="modal-title"
+        aria-describedby="modal-description"
       >
-        <DialogTitle>時間切れ</DialogTitle>
-        <DialogContent>
-          あなたの時間は切れました。投稿するか、広告を見て時間を延長しますか？
-        </DialogContent>
-        <DialogActions>
-          <button className={styles.submitButton} onClick={newSubmitBoke}>
-            投稿する
-          </button>
-          <button className={styles.submitButton} onClick={extendTime}>
-            広告を見て15秒延長
-          </button>
-        </DialogActions>
-      </Dialog>
+        <Box className={styles.someClass}>
+          <Typography className={styles.modalText} variant="h6" component="h2">
+            終了！
+          </Typography>
+          <Typography className={styles.modalDescription}>
+            あなたの時間は切れました。投稿するか、広告を見て時間を延長しますか？
+          </Typography>
+          <div className={styles.buttonContainer}>
+            <Button className={styles.modalButton} onClick={newSubmitBoke}>
+              投稿する
+            </Button>
+            <Button className={styles.modalButton} onClick={extendTime}>
+              広告を見て15秒延長
+            </Button>
+          </div>
+        </Box>
+      </Modal>
 
       <BokeImageCarousel customStyle={styles.someCustomStyleForThisPage} />
     </div>

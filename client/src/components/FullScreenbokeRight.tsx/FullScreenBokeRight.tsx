@@ -40,7 +40,7 @@ export const FullScreenBokeRight: React.FC<FullScreenBokeRightProps> = ({
       <div className={styles.twitterShare}>
         <FontAwesomeIcon
           icon={faSquareXTwitter}
-          size="2xs"
+          size="xs"
           style={{ color: '#434343' }}
           onClick={() => openTwitterShare(selectedBoke.text)}
         />

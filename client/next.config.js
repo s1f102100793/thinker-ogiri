@@ -1,5 +1,9 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
+  env: {
+    FIRE_BASE_API_KEY: process.env.FIRE_BASE_API_KEY,
+    FIREBASE_AUTH_DOMAIN: process.env.FIREBASE_AUTH_DOMAIN,
+  },
   reactStrictMode: true,
   pageExtensions: ['page.tsx'],
   basePath:

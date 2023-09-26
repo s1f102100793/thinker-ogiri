@@ -22,7 +22,8 @@ export const createImage = async (): Promise<ImageResponseModel | null> => {
       'https://api.openai.com/v1/images/generations',
       {
         prompt:
-          'A black male sculpture, muscular in build, is centered on the screen, captured in scenes of daily life, sports, and work, seamlessly blending into the real world.',
+          //   'A thinker sclupture with many poses, is centered on the screen, captured in scenes of daily life, sports, and work, seamlessly blending into the real world.',
+          'A black male sculpture, muscular in build, , is centered on the screen, captured in scenes of daily life, sports, and work, seamlessly blending into the real world.',
         n: 1,
         size: '512x512',
         response_format: 'b64_json',

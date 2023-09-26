@@ -15,6 +15,7 @@ const View = () => {
     if (Array.isArray(databaseBoke)) {
       setBokeData(databaseBoke);
     }
+    console.log(databaseBoke);
   };
 
   const [sortOrder, setSortOrder] = useState<'like' | 'createdAt' | 'random'>('like');

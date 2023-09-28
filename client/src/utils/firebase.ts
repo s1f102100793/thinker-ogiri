@@ -10,7 +10,9 @@ export const createAuth = () => {
 
   if (process.env.NEXT_PUBLIC_AUTH_EMULATOR_URL !== undefined) {
     // https://firebase.google.com/docs/emulator-suite/connect_auth
-    const auth = getAuth(initializeApp({ apiKey: 'fake-api-key', authDomain: location.hostname }));
+    const auth = getAuth(
+      initializeApp({ apiKey: process.env.FIRE_BASE_API_KEY, authDomain: location.hostname })
+    );
     connectAuthEmulator(auth, process.env.NEXT_PUBLIC_AUTH_EMULATOR_URL, { disableWarnings: true });
     cachedAuth = auth;
 

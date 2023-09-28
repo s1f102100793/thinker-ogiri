@@ -2,6 +2,7 @@ import type { User } from 'firebase/auth';
 import { GoogleAuthProvider, onAuthStateChanged, signInWithPopup } from 'firebase/auth';
 import { useEffect, useState } from 'react';
 import { auth } from '../../utils/firebaseConfig';
+import styles from './SignInbutton.module.css';
 
 export const SignInButton = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -29,10 +30,10 @@ export const SignInButton = () => {
   }
 
   return (
-    <div>
+    <div className={styles.signInButtonContainer}>
       {user ? (
-        <div>
-          {user.displayName}
+        <div className={styles.userContainer}>
+          <div className={styles.buttonLeftPart}>{user.displayName}</div>
           <button onClick={() => auth.signOut()}>Sign Out</button>
         </div>
       ) : (

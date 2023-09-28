@@ -1,0 +1,13 @@
+.signInButtonContainer {
+  background-color: #434343;
+}
+
+.userContainer {
+  display: flex;
+  align-items: center;
+}
+
+.buttonLeftPart {
+  padding-right: 10px;
+  color: white;
+}

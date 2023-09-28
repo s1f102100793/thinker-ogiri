@@ -12,6 +12,9 @@ export const SignInButton = () => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
       setLoading(false);
+      if (user && window.location.pathname !== '/user/') {
+        window.location.href = '/user';
+      }
     });
     return () => unsubscribe();
   }, []);

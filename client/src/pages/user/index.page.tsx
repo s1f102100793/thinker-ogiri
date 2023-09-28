@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Header from 'src/components/Header/Header';
+import { apiClient } from 'src/utils/apiClient';
 import styles from './user.module.css';
 
 const User = () => {
@@ -11,7 +12,17 @@ const User = () => {
     console.log(userId);
     console.log(gender);
     console.log(location);
+    const UserModel = {
+      userId,
+      mailAddress: '',
+      location,
+      gender,
+      totallike: 0,
+      otherUserLike: [],
+    };
+    const aaa = await apiClient.user.$post({ body: UserModel });
   };
+
   return (
     <div className={styles.container}>
       <Header />

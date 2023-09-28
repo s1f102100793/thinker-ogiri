@@ -33,3 +33,17 @@ export type BokeModel = {
   image: string;
   like: number;
 };
+
+type OtherUserLikeModel = {
+  bokeId: number;
+  like: number;
+};
+
+export type UserModel = {
+  userId: string;
+  mailaddress: string;
+  location: string;
+  gender: string;
+  totallike: number;
+  otherUserLike: OtherUserLikeModel[];
+};

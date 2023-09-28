@@ -1,5 +1,5 @@
 import type { User } from 'firebase/auth';
-import { GoogleAuthProvider, onAuthStateChanged, signInWithPopup } from 'firebase/auth';
+import { GoogleAuthProvider, onAuthStateChanged, signInWithRedirect } from 'firebase/auth';
 import { useEffect, useState } from 'react';
 import { auth } from '../../utils/firebaseConfig';
 import styles from './SignInbutton.module.css';
@@ -19,7 +19,10 @@ export const SignInButton = () => {
   const signInWithGoogle = async () => {
     try {
       const provider = new GoogleAuthProvider();
-      await signInWithPopup(auth, provider);
+      console.log('provider', provider);
+      console.log('auth', auth);
+      const aa = await signInWithRedirect(auth, provider);
+      console.log('aa', aa);
     } catch (error) {
       console.error(error);
     }

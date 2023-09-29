@@ -34,12 +34,12 @@ export type BokeModel = {
   like: number;
 };
 
-type OtherUserLikeModel = {
+export type OtherUserLikeModel = {
   bokeId: number;
   like: number;
 };
 
-export type UserModel = {
+export type UserProfileModel = {
   userId: string;
   mailaddress: string;
   location: string;

@@ -47,3 +47,8 @@ export type UserProfileModel = {
   totallike: number;
   otherUserLike: OtherUserLikeModel[];
 };
+
+export type UserProfileResponse = {
+  userProfile: UserProfileModel | null;
+  error: string | null;
+};

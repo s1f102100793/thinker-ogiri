@@ -25,8 +25,8 @@ model Boke {
 }
 
 model UserProfile {
-  userId        String @id
-  mailaddress   String
+  userId        String @unique
+  mailAddress   String @unique
   location      String
   gender        String
   totallike     Int

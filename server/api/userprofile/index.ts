@@ -1,5 +1,5 @@
 import type { DefineMethods } from 'aspida';
-import type { UserProfileModel } from '../../commonTypesWithClient/models';
+import type { UserProfileModel, UserProfileResponse } from '../../commonTypesWithClient/models';
 
 export type Methods = DefineMethods<{
   get: {
@@ -7,6 +7,6 @@ export type Methods = DefineMethods<{
   };
   post: {
     reqBody: UserProfileModel;
-    resBody: UserProfileModel | null;
+    resBody: UserProfileResponse;
   };
 }>;

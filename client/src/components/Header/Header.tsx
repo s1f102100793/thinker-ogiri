@@ -10,10 +10,12 @@ const Header = () => {
       <div className={styles.headerTop}>
         <div className={styles.textBottomLeft}>Thinker</div>
         <div className={styles.signInButtonContainer}>
-          <SignInButton />
+          <SignInButton currentPath={currentPath} />
         </div>
       </div>
-      <LinkList currentPath={currentPath} styles={styles} />
+      {currentPath !== '/createuserprofile/' && (
+        <LinkList currentPath={currentPath} styles={styles} />
+      )}
     </div>
   );
 };

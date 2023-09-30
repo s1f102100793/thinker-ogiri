@@ -10,6 +10,9 @@ export const useAuth = () => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
       setLoading(false);
+      if (user && window.location.pathname !== '/createuserprofile/') {
+        window.location.href = '/createuserprofile';
+      }
     });
     return () => unsubscribe();
   }, []);

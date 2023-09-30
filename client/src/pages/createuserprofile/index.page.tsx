@@ -9,6 +9,7 @@ const User = () => {
   const [userId, setUserId] = useState('');
   const [gender, setGender] = useState('');
   const [location, setLocation] = useState('');
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async () => {
     console.log(userId);
@@ -24,8 +25,15 @@ const User = () => {
       totallike: 0,
       otherUserLike: [],
     };
-    const aaa = await apiClient.userprofile.$post({ body: UserModel });
-    console.log(aaa);
+    const response = await apiClient.userprofile.$post({ body: UserModel });
+    console.log(response);
+    if (response.error !== null) {
+      console.log(response.error);
+      setError(response.error);
+    } else {
+      console.log('success');
+      setError(null);
+    }
   };
 
   return (
@@ -33,12 +41,16 @@ const User = () => {
       <Header />
       <div className={styles.formContainer}>
         <input
+          className={styles.hoge}
           type="text"
           value={userId}
           onChange={(e) => setUserId(e.target.value)}
           placeholder="UserName"
         />
-        <select value={gender} onChange={(e) => setGender(e.target.value)}>
+        {error !== null && error.includes('userId') && (
+          <div className={styles.error}>このuserNameは既に使われています。</div>
+        )}
+        <select value={gender} className={styles.hoge} onChange={(e) => setGender(e.target.value)}>
           <option value="" disabled>
             Select gender
           </option>
@@ -47,12 +59,18 @@ const User = () => {
           <option value="other">Other</option>
         </select>
         <input
+          className={styles.hoge}
           type="text"
           value={location}
           onChange={(e) => setLocation(e.target.value)}
           placeholder="Location"
         />
-        <button onClick={handleSubmit}>Submit</button>
+        {/* {error !== null && error.includes('mailAddress') && (
+          <div className={styles.error}>このメールアドレスは既に使われています。</div>
+        )} */}
+        <button className={styles.hoge} onClick={handleSubmit}>
+          Submit
+        </button>
       </div>
     </div>
   );

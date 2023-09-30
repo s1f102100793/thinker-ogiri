@@ -1,10 +1,16 @@
 import { GoogleAuthProvider, signInWithRedirect } from 'firebase/auth';
+import React from 'react';
 import { useAuth } from 'src/hooks/useAuth';
 import { auth } from '../../utils/firebaseConfig';
 import styles from './SignInbutton.module.css';
 
-export const SignInButton = () => {
+type SignInButtonProps = {
+  currentPath: string;
+};
+
+export const SignInButton: React.FC<SignInButtonProps> = ({ currentPath }) => {
   const { user, loading } = useAuth();
+
   const signInWithGoogle = async () => {
     try {
       const provider = new GoogleAuthProvider();
@@ -24,10 +30,14 @@ export const SignInButton = () => {
   return (
     <div className={styles.signInButtonContainer}>
       {user ? (
-        <div className={styles.userContainer}>
-          <div className={styles.buttonLeftPart}>{user.displayName}</div>
-          <button onClick={() => auth.signOut()}>Sign Out</button>
-        </div>
+        currentPath === '/createuserprofile' ? (
+          <div className={styles.userContainer}>
+            <div className={styles.buttonLeftPart}>{user.displayName}</div>
+            <button onClick={() => auth.signOut()}>Sign Out</button>
+          </div>
+        ) : (
+          <button onClick={signInWithGoogle}>Sign in with Google</button>
+        )
       ) : (
         <button onClick={signInWithGoogle}>Sign in with Google</button>
       )}

@@ -16,10 +16,19 @@ model Task {
 }
 
 model Boke {
-  bokeId        Int      @id @default(autoincrement())
+  bokeId    Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   userId    String
   text      String
   image     String
-  like Int
+  like      Int
+}
+
+model UserProfile {
+  userId        String @unique
+  mailAddress   String @unique
+  location      String
+  gender        String
+  totallike     Int
+  otherUserLike Json
 }

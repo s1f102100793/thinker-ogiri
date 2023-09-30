@@ -22,7 +22,8 @@ export const createImage = async (): Promise<ImageResponseModel | null> => {
       'https://api.openai.com/v1/images/generations',
       {
         prompt:
-          'A black male sculpture, muscular in build, is centered on the screen, captured in scenes of daily life, sports, and work, seamlessly blending into the real world.',
+          //   'A thinker sclupture with many poses, is centered on the screen, captured in scenes of daily life, sports, and work, seamlessly blending into the real world.',
+          'A black male sculpture, muscular in build, , is centered on the screen, captured in scenes of daily life, sports, and work, seamlessly blending into the real world.',
         n: 1,
         size: '512x512',
         response_format: 'b64_json',
@@ -101,83 +102,6 @@ export const uploadBoke = async (
 
   return toBokeModel(prismaBoke);
 };
-
-const getSignedUrl = async (key: string): Promise<string> => {
-  const params = {
-    Bucket: 'thinker-ogiri-images',
-    Key: key,
-    Expires: 3600,
-  };
-
-  return new Promise((resolve, reject) => {
-    s3.getSignedUrl('getObject', params, (err, url) => {
-      if (err !== null && err !== undefined) {
-        reject(err);
-        return;
-      }
-      resolve(url);
-    });
-  });
-};
-
-// export const getBoke = async (
-//   bokeId: number | undefined
-// ): Promise<BokeModel | BokeModel[] | null> => {
-//   console.log('bokeId', bokeId);
-//   try {
-//     if (bokeId !== null && bokeId !== undefined) {
-//       const singleBoke = await prismaClient.boke.findUnique({
-//         where: {
-//           bokeId,
-//         },
-//       });
-
-//       if (!singleBoke) {
-//         return null;
-//       }
-
-//       const imageKey = singleBoke.image ? singleBoke.image.split('/').pop() : null;
-//       console.log('Image Key:', imageKey);
-//       const signedUrl =
-//         imageKey !== null && imageKey !== undefined && imageKey !== ''
-//           ? await getSignedUrl(imageKey)
-//           : '';
-
-//       return {
-//         ...toBokeModel(singleBoke),
-//         image: signedUrl,
-//       };
-//     }
-
-//     const prismaBoke = await prismaClient.boke.findMany({
-//       orderBy: { createdAt: 'desc' },
-//     });
-
-//     console.log(prismaBoke);
-
-//     const bokeModels = await Promise.all(
-//       prismaBoke.map(async (boke) => {
-//         const imageKey = boke.image ? boke.image.split('/').pop() : null;
-//         console.log('Image Key:', imageKey);
-//         const signedUrl =
-//           imageKey !== null && imageKey !== undefined && imageKey !== ''
-//             ? await getSignedUrl(imageKey)
-//             : '';
-//         console.log('Signed URL:', signedUrl);
-
-//         return {
-//           ...toBokeModel(boke),
-//           image: signedUrl,
-//         };
-//       })
-//     );
-
-//     return bokeModels;
-//   } catch (err) {
-//     console.log(err);
-//     return null;
-//   }
-// };
 
 export const getBoke = async (
   bokeId: number | undefined

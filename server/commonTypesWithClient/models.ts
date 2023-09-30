@@ -33,3 +33,22 @@ export type BokeModel = {
   image: string;
   like: number;
 };
+
+export type OtherUserLikeModel = {
+  bokeId: number;
+  like: number;
+};
+
+export type UserProfileModel = {
+  userId: string;
+  mailAddress: string;
+  location: string;
+  gender: string;
+  totallike: number;
+  otherUserLike: OtherUserLikeModel[];
+};
+
+export type UserProfileResponse = {
+  userProfile: UserProfileModel | null;
+  error: string | null;
+};

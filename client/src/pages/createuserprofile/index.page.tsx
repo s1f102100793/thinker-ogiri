@@ -1,7 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import Footer from 'src/components/Footer/Footer';
 import Header from 'src/components/Header/Header';
 import { useAuth } from 'src/hooks/useAuth';
+import useURLChange from 'src/hooks/useURLChange';
 import { apiClient } from 'src/utils/apiClient';
+import { auth } from 'src/utils/firebaseConfig';
 import styles from './user.module.css';
 
 const User = () => {
@@ -10,6 +13,14 @@ const User = () => {
   const [gender, setGender] = useState('');
   const [location, setLocation] = useState('');
   const [error, setError] = useState<string | null>(null);
+
+  const currentPath = useURLChange();
+
+  useEffect(() => {
+    if (currentPath !== '/createuserprofile') {
+      auth.signOut();
+    }
+  }, [currentPath]);
 
   const handleSubmit = async () => {
     console.log(userId);
@@ -72,6 +83,7 @@ const User = () => {
           Submit
         </button>
       </div>
+      <Footer />
     </div>
   );
 };

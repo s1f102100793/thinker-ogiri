@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import CreateMainContent from 'src/components/CreateMainContent/CreateMainContent';
-import Footer from 'src/components/Fppter/Footer';
+import Footer from 'src/components/Footer/Footer';
 import Header from 'src/components/Header/Header';
 import { useCreate } from 'src/hooks/useCreate';
 import styles from './create.module.css';

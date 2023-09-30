@@ -41,7 +41,7 @@ export type OtherUserLikeModel = {
 
 export type UserProfileModel = {
   userId: string;
-  mailaddress: string;
+  mailAddress: string;
   location: string;
   gender: string;
   totallike: number;

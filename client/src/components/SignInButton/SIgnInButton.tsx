@@ -1,24 +1,10 @@
-import type { User } from 'firebase/auth';
-import { GoogleAuthProvider, onAuthStateChanged, signInWithRedirect } from 'firebase/auth';
-import { useEffect, useState } from 'react';
+import { GoogleAuthProvider, signInWithRedirect } from 'firebase/auth';
+import { useAuth } from 'src/hooks/useAuth';
 import { auth } from '../../utils/firebaseConfig';
 import styles from './SignInbutton.module.css';
 
 export const SignInButton = () => {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
-      setLoading(false);
-      if (user && window.location.pathname !== '/user/') {
-        window.location.href = '/user';
-      }
-    });
-    return () => unsubscribe();
-  }, []);
-
+  const { user, loading } = useAuth();
   const signInWithGoogle = async () => {
     try {
       const provider = new GoogleAuthProvider();

@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import Header from 'src/components/Header/Header';
+import { useAuth } from 'src/hooks/useAuth';
 import { apiClient } from 'src/utils/apiClient';
 import styles from './user.module.css';
 
 const User = () => {
+  const { user } = useAuth();
   const [userId, setUserId] = useState('');
   const [gender, setGender] = useState('');
   const [location, setLocation] = useState('');
@@ -12,15 +14,18 @@ const User = () => {
     console.log(userId);
     console.log(gender);
     console.log(location);
+    console.log(user);
+    if (!user) return;
     const UserModel = {
       userId,
-      mailAddress: '',
+      mailAddress: user.email as string,
       location,
       gender,
       totallike: 0,
       otherUserLike: [],
     };
-    const aaa = await apiClient.user.$post({ body: UserModel });
+    const aaa = await apiClient.userprofile.$post({ body: UserModel });
+    console.log(aaa);
   };
 
   return (

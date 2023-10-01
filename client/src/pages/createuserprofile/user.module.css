@@ -15,6 +15,7 @@
   flex-direction: column;
   align-items: center;
   width: 80%;
+  max-width: 1000px;
   height: 100vh;
   padding: 1.6vh;
   margin-top: 15vh;
@@ -40,9 +41,26 @@
   border-radius: 0.4vh;
 }
 
+.formList {
+  width: 90%;
+  padding: 2vh;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.label {
+  flex: 1;
+  text-align: left;
+}
+
 .hoge {
-  position: relative;
-  margin-top: 5vh;
+  flex: 2;
 }
 
 .error {

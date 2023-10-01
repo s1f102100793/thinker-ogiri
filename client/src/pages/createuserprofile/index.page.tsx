@@ -1,8 +1,8 @@
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Footer from 'src/components/Footer/Footer';
 import Header from 'src/components/Header/Header';
 import { useAuth } from 'src/hooks/useAuth';
-import useURLChange from 'src/hooks/useURLChange';
 import { apiClient } from 'src/utils/apiClient';
 import { auth } from 'src/utils/firebaseConfig';
 import styles from './user.module.css';
@@ -13,14 +13,23 @@ const User = () => {
   const [gender, setGender] = useState('');
   const [location, setLocation] = useState('');
   const [error, setError] = useState<string | null>(null);
-
-  const currentPath = useURLChange();
+  const router = useRouter();
 
   useEffect(() => {
-    if (currentPath !== '/createuserprofile') {
-      auth.signOut();
-    }
-  }, [currentPath]);
+    const handleRouteChange = (url: string) => {
+      console.log(url);
+      console.log(router.asPath);
+      if (url !== router.asPath) {
+        auth.signOut();
+      }
+    };
+
+    router.events.on('routeChangeStart', handleRouteChange);
+
+    return () => {
+      router.events.off('routeChangeStart', handleRouteChange);
+    };
+  }, [router]);
 
   const handleSubmit = async () => {
     console.log(userId);
@@ -52,37 +61,61 @@ const User = () => {
       <Header />
       <div className={styles.formContainer}>
         <p className={`${styles.instructionsText} ${styles.heading}`}>プロフィール作成</p>
-        <input
-          className={styles.hoge}
-          type="text"
-          value={userId}
-          onChange={(e) => setUserId(e.target.value)}
-          placeholder="UserName"
-        />
-        {error !== null && error.includes('userId') && (
-          <div className={styles.error}>このuserNameは既に使われています。</div>
-        )}
-        <select value={gender} className={styles.hoge} onChange={(e) => setGender(e.target.value)}>
-          <option value="" disabled>
-            Select gender
-          </option>
-          <option value="male">Male</option>
-          <option value="female">Female</option>
-          <option value="other">Other</option>
-        </select>
-        <input
-          className={styles.hoge}
-          type="text"
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-          placeholder="Location"
-        />
-        {/* {error !== null && error.includes('mailAddress') && (
+        <div className={styles.formList}>
+          <div className={styles.formGroup}>
+            <label htmlFor="userName" className={styles.label}>
+              ニックネーム
+            </label>
+            <input
+              id="userName"
+              className={styles.hoge}
+              type="text"
+              value={userId}
+              onChange={(e) => setUserId(e.target.value)}
+              placeholder="UserName"
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <label htmlFor="userEmail" className={styles.label}>
+              メールアドレス
+            </label>
+            <p id="userEmail" className={styles.hoge}>
+              {user ? (user.email as string) : ''}
+            </p>
+          </div>
+          <div className={styles.formGroup}>
+            <label htmlFor="userGender" className={styles.label}>
+              性別
+            </label>
+            <select
+              id="userGender"
+              value={gender}
+              className={styles.hoge}
+              onChange={(e) => setGender(e.target.value)}
+            >
+              {/* ... options ... */}
+            </select>
+          </div>
+          <div className={styles.formGroup}>
+            <label htmlFor="userLocation" className={styles.label}>
+              住んでいる場所
+            </label>
+            <input
+              id="userLocation"
+              className={styles.hoge}
+              type="text"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+              placeholder="Location"
+            />
+          </div>
+          {/* {error !== null && error.includes('mailAddress') && (
           <div className={styles.error}>このメールアドレスは既に使われています。</div>
         )} */}
-        <button className={styles.hoge} onClick={handleSubmit}>
-          Submit
-        </button>
+          <button className={styles.hoge} onClick={handleSubmit}>
+            Submit
+          </button>
+        </div>
       </div>
       <Footer />
     </div>

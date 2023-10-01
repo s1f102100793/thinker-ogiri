@@ -118,12 +118,11 @@ const User = () => {
                 onChange={(e) => setLocation(e.target.value)}
               />
             </div>
-            {/* {error !== null && error.includes('mailAddress') && (
-          <div className={styles.error}>このメールアドレスは既に使われています。</div>
-        )} */}
-            <button className={styles.registrationButton} onClick={handleSubmit}>
-              登録する
-            </button>
+            <div className={styles.buttonContainer}>
+              <button className={styles.registrationButton} onClick={handleSubmit}>
+                登録する
+              </button>
+            </div>
           </div>
         </div>
       </div>

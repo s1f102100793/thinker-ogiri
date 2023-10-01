@@ -124,6 +124,11 @@
   border-radius: 5px;
 }
 
+.buttonContainer {
+  width: 100%;
+  text-align: right;
+}
+
 .registrationButton {
   position: relative;
   align-self: center;

@@ -1,35 +1,16 @@
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Footer from 'src/components/Footer/Footer';
 import Header from 'src/components/Header/Header';
 import { useAuth } from 'src/hooks/useAuth';
 import { apiClient } from 'src/utils/apiClient';
-import { auth } from 'src/utils/firebaseConfig';
 import styles from './user.module.css';
 
 const User = () => {
-  const { user } = useAuth();
+  const { user, auth, router } = useAuth();
   const [userId, setUserId] = useState('');
   const [gender, setGender] = useState('');
   const [location, setLocation] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const router = useRouter();
-
-  useEffect(() => {
-    const handleRouteChange = (url: string) => {
-      console.log(url);
-      console.log(router.asPath);
-      if (url !== router.asPath) {
-        auth.signOut();
-      }
-    };
-
-    router.events.on('routeChangeStart', handleRouteChange);
-
-    return () => {
-      router.events.off('routeChangeStart', handleRouteChange);
-    };
-  }, [router]);
 
   const handleSubmit = async () => {
     console.log(userId);

@@ -1,9 +1,10 @@
+import { useAuth } from 'src/hooks/useAuth';
 import LinkList from '../LinkList/LinkList';
 import SignInButton from '../SignInButton/SIgnInButton';
 import styles from './Header.module.css';
 
 const Header = () => {
-  const currentPath = window.location.pathname;
+  const { currentPath } = useAuth();
 
   return (
     <div className={styles.headerContainer}>
@@ -13,7 +14,7 @@ const Header = () => {
           <SignInButton currentPath={currentPath} />
         </div>
       </div>
-      {currentPath !== '/createuserprofile/' && (
+      {currentPath !== '/createuserprofile' && (
         <LinkList currentPath={currentPath} styles={styles} />
       )}
     </div>

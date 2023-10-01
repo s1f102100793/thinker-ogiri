@@ -1,11 +1,12 @@
 import { faSquareGithub, faSquareXTwitter } from '@fortawesome/free-brands-svg-icons';
 import { faUpLong } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useAuth } from 'src/hooks/useAuth';
 import LinkList from '../LinkList/LinkList';
 import styles from './Footer.module.css';
 
 const Footer = () => {
-  const currentPath = typeof window !== 'undefined' ? window.location.pathname : '';
+  const { currentPath } = useAuth();
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });

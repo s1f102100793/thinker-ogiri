@@ -1,19 +1,21 @@
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 export const useURLChange = () => {
-  const [path, setPath] = useState(window.location.pathname);
+  const router = useRouter();
+  const [path, setPath] = useState(router.pathname);
 
   useEffect(() => {
-    const onPopState = () => {
-      setPath(window.location.pathname);
+    const handleRouteChange = (url: string) => {
+      setPath(url);
     };
 
-    window.addEventListener('popstate', onPopState);
+    router.events.on('routeChangeComplete', handleRouteChange);
 
     return () => {
-      window.removeEventListener('popstate', onPopState);
+      router.events.off('routeChangeComplete', handleRouteChange);
     };
-  }, []);
+  }, [router]);
 
   return path;
 };

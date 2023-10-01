@@ -1,35 +1,31 @@
 import type { User } from 'firebase/auth';
 import { onAuthStateChanged } from 'firebase/auth';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { auth } from '../utils/firebaseConfig';
-import useURLChange from './useURLChange';
+
 export const useAuth = () => {
   const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [prevPath, setPrevPath] = useState(window.location.pathname); 
-  const path = useURLChange();
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+  const currentPath = router.pathname;
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
       setLoading(false);
-      if (user && window.location.pathname !== '/createuserprofile/') {
-        window.location.href = '/createuserprofile';
+      if (user !== null && router.pathname !== '/createuserprofile') {
+        router.push('/createuserprofile');
       }
     });
     return () => unsubscribe();
-  }, []);
+  }, [router]);
 
-  useEffect(() => {
-    if (
-      user &&
-      prevPath === '/createuserprofile' && 
-      path !== '/createuserprofile' 
-    ) {
-      auth.signOut();
+  const signOut = async () => {
+    if (router.pathname === '/createuserprofile') {
+      await auth.signOut();
     }
-    setPrevPath(path);
-  }, [path, user, prevPath]);
+  };
 
-  return { user, loading };
+  return { user, loading, currentPath, auth, router, signOut };
 };

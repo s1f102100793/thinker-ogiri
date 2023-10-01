@@ -51,6 +51,7 @@ const User = () => {
     <div className={styles.container}>
       <Header />
       <div className={styles.formContainer}>
+        <p className={`${styles.instructionsText} ${styles.heading}`}>プロフィール作成</p>
         <input
           className={styles.hoge}
           type="text"

@@ -55,8 +55,15 @@ export const useAuth = () => {
   const signOut = async () => {
     if (router.pathname === '/createuserprofile') {
       await auth.signOut();
+      setUser(null);
     }
   };
 
-  return { user, loading, currentPath, auth, router, signOut };
+  const signOutButton = async () => {
+    await auth.signOut();
+    setUser(null);
+    setProfile(null);
+  };
+
+  return { user, loading, currentPath, auth, router, signOut, profile, signOutButton };
 };

@@ -9,7 +9,7 @@ type SignInButtonProps = {
 };
 
 export const SignInButton: React.FC<SignInButtonProps> = ({ currentPath }) => {
-  const { user, loading } = useAuth();
+  const { user, loading, profile, signOutButton } = useAuth();
 
   const signInWithGoogle = async () => {
     try {
@@ -30,10 +30,10 @@ export const SignInButton: React.FC<SignInButtonProps> = ({ currentPath }) => {
   return (
     <div className={styles.signInButtonContainer}>
       {user ? (
-        currentPath === '/createuserprofile/' ? (
+        currentPath !== '/createuserprofile' ? (
           <div className={styles.userContainer}>
-            <div className={styles.buttonLeftPart}>{user.displayName}</div>
-            <button onClick={() => auth.signOut()}>Sign Out</button>
+            <div className={styles.buttonLeftPart}>{profile?.userId}</div>
+            <button onClick={signOutButton}>Sign Out</button>
           </div>
         ) : (
           <button onClick={signInWithGoogle}>Sign in with Google</button>

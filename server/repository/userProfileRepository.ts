@@ -52,3 +52,18 @@ export const uploadUserProfile = async (
     return { userProfile: null, error: 'An internal server error occurred.' };
   }
 };
+
+export const getMyProfile = async (mailAddress: string): Promise<UserProfileModel | null> => {
+  console.log('mailAddress', mailAddress);
+  const myProfile = await prismaClient.userProfile.findFirst({
+    where: {
+      mailAddress,
+    },
+  });
+
+  if (!myProfile) {
+    return null;
+  }
+  console.log(myProfile);
+  return toUserProfileModel(myProfile);
+};

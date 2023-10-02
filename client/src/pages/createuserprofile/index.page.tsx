@@ -6,17 +6,13 @@ import { apiClient } from 'src/utils/apiClient';
 import styles from './user.module.css';
 
 const User = () => {
-  const { user, auth, router } = useAuth();
+  const { user } = useAuth();
   const [userId, setUserId] = useState('');
   const [gender, setGender] = useState('');
   const [location, setLocation] = useState('');
   const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async () => {
-    console.log(userId);
-    console.log(gender);
-    console.log(location);
-    console.log(user);
     if (!user) return;
     const UserModel = {
       userId,

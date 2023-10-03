@@ -1,14 +1,15 @@
 import imageCompression from 'browser-image-compression';
-import type { ImageResponseModel } from 'commonTypesWithClient/models';
+import type { ImageResponseModel, UserProfileModel } from 'commonTypesWithClient/models';
 import { useState } from 'react';
 import { apiClient } from 'src/utils/apiClient';
 
-export const useCreate = () => {
+export const useCreate = (profile: UserProfileModel | null) => {
   const [imageData, setImageData] = useState<string>('');
   const [bokeText, setBokeText] = useState<string>('');
   const [loading, setLoading] = useState(false);
   const [timeRemaining, setTimeRemaining] = useState<number>(30);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [loginalert, setLoginAlert] = useState(false);
 
   const imageSize = 300;
 
@@ -21,36 +22,42 @@ export const useCreate = () => {
   const userId = 'gouta';
 
   const createImage = async () => {
-    setLoading(true);
-    setTimeRemaining(30);
-    try {
-      const res: ImageResponseModel | null = await apiClient.image.$post();
-      if (!res) {
-        console.error('API response is null');
-        return;
-      }
+    setLoginAlert(false);
+    if (profile !== null) {
+      setLoading(true);
+      setTimeRemaining(30);
+      try {
+        const res: ImageResponseModel | null = await apiClient.image.$post();
+        if (!res) {
+          console.error('API response is null');
+          return;
+        }
 
-      console.log(res.data[0]?.b64_json);
-      if (res.data[0]?.b64_json) {
-        setImageData(res.data[0].b64_json);
+        // console.log(res.data[0]?.b64_json);
+        if (res.data[0]?.b64_json) {
+          setImageData(res.data[0].b64_json);
+        }
+      } catch (error) {
+        console.error('API error:', error);
       }
-    } catch (error) {
-      console.error('API error:', error);
+      setLoading(false);
+    } else {
+      setLoginAlert(true);
     }
-    setLoading(false);
+    console.log(loginalert);
   };
 
   type DataURL = string;
 
   function dataURLToBlob(dataURL: DataURL): Blob {
     const BASE64_MARKER = ';base64,';
-    console.log('BASE64_MARKER', BASE64_MARKER);
+    // console.log('BASE64_MARKER', BASE64_MARKER);
     const parts = dataURL.split(BASE64_MARKER);
-    console.log('parts', parts);
+    // console.log('parts', parts);
     const contentType = parts[0].split(':')[1] || 'image/png';
-    console.log('Content Type:', contentType);
+    // console.log('Content Type:', contentType);
     const raw = atob(parts[1]);
-    console.log('Raw:', raw);
+    // console.log('Raw:', raw);
     const rawLength = raw.length;
     const uInt8Array = new Uint8Array(rawLength);
 
@@ -73,11 +80,11 @@ export const useCreate = () => {
 
     const dataURL = `data:image/png;base64,${base64String}`;
     const blob = dataURLToBlob(dataURL);
-    console.log('Blob:', blob);
+    // console.log('Blob:', blob);
     const file = blobToFile(blob, 'compressed_image.png');
     const compressedBlob = await imageCompression(file, compressionOptions);
 
-    console.log('Compressed Blob:', compressedBlob);
+    // console.log('Compressed Blob:', compressedBlob);
     const reader = new FileReader();
 
     return new Promise((resolve, reject) => {
@@ -89,19 +96,19 @@ export const useCreate = () => {
   }
 
   const newSubmitBoke = async () => {
-    console.log('Starting newSubmitBoke function...');
+    // console.log('Starting newSubmitBoke function...');
 
     try {
-      console.log('Compressing image...');
-      console.log('Image data:', imageData);
+      // console.log('Compressing image...');
+      // console.log('Image data:', imageData);
       const compressedImageData = await compressImage(imageData);
-      console.log('Image compressed successfully.');
+      // console.log('Image compressed successfully.');
 
-      console.log('Sending compressed image data...');
+      // console.log('Sending compressed image data...');
       await apiClient.boke.post({
         body: { bokeId: undefined, userId, text: bokeText, image: compressedImageData, like: 0 },
       });
-      console.log('Data sent successfully.');
+      // console.log('Data sent successfully.');
       setImageData('');
       setBokeText('');
     } catch (error) {
@@ -118,6 +125,7 @@ export const useCreate = () => {
     setTimeRemaining,
     isDialogOpen,
     setIsDialogOpen,
+    loginalert,
     createImage,
     imageSize,
     bokeText,

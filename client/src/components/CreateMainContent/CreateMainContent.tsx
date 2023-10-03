@@ -16,6 +16,7 @@ interface CreateMainContentProps {
   setIsDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
 
   newSubmitBoke: () => void;
+  loginalert: boolean;
 }
 
 const CreateMainContent: React.FC<CreateMainContentProps> = ({
@@ -30,6 +31,7 @@ const CreateMainContent: React.FC<CreateMainContentProps> = ({
   isDialogOpen,
   setIsDialogOpen,
   newSubmitBoke,
+  loginalert,
 }) => {
   useEffect(() => {
     let timerId: NodeJS.Timeout;
@@ -87,10 +89,13 @@ const CreateMainContent: React.FC<CreateMainContentProps> = ({
                   4.提出！
                 </p>
               </div>
-
-              <button className={styles.bokeButton} onClick={createImage}>
-                ぼける
-              </button>
+              {loginalert !== true ? (
+                <button className={styles.bokeButton} onClick={createImage}>
+                  ぼける
+                </button>
+              ) : (
+                <div className={styles.instructionsContainer} />
+              )}
             </>
           )}
         </>

@@ -2,10 +2,12 @@ import Head from 'next/head';
 import CreateMainContent from 'src/components/CreateMainContent/CreateMainContent';
 import Footer from 'src/components/Footer/Footer';
 import Header from 'src/components/Header/Header';
+import { useAuth } from 'src/hooks/useAuth';
 import { useCreate } from 'src/hooks/useCreate';
 import styles from './create.module.css';
 
 const Create = () => {
+  const { user, profile } = useAuth();
   const {
     imageData,
     loading,
@@ -13,12 +15,13 @@ const Create = () => {
     setTimeRemaining,
     isDialogOpen,
     setIsDialogOpen,
+    loginalert,
     createImage,
     imageSize,
     bokeText,
     setBokeText,
     newSubmitBoke,
-  } = useCreate();
+  } = useCreate(profile);
 
   return (
     <div className={styles.container}>
@@ -43,6 +46,7 @@ const Create = () => {
         isDialogOpen={isDialogOpen}
         setIsDialogOpen={setIsDialogOpen}
         newSubmitBoke={newSubmitBoke}
+        loginalert={loginalert}
       />
       <Footer />
     </div>

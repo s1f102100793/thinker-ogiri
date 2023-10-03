@@ -1,18 +1,34 @@
 import type { UserProfileModel } from 'commonTypesWithClient/models';
 import type { User } from 'firebase/auth';
-import { onAuthStateChanged } from 'firebase/auth';
+import { GoogleAuthProvider, onAuthStateChanged, signInWithRedirect } from 'firebase/auth';
+import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
 import { apiClient } from 'src/utils/apiClient';
 import { auth } from '../utils/firebaseConfig';
 
+import { atom } from 'jotai';
+
+const userAtom = atom<User | null>(null);
+const userProfileAtom = atom<UserProfileModel | null>(null);
+
 export const useAuth = () => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useAtom(userAtom);
+  const [profile, setProfile] = useAtom(userProfileAtom);
   const [loading, setLoading] = useState(false);
-  const [profile, setProfile] = useState<UserProfileModel | null>(null);
   const [stage, setStage] = useState(0);
   const router = useRouter();
   const currentPath = router.pathname;
+
+  const signInWithGoogle = async () => {
+    try {
+      const provider = new GoogleAuthProvider();
+      const aa = await signInWithRedirect(auth, provider);
+      console.log('aa', aa);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const fetchUserProfile = useCallback(async () => {
     const myProfile = await apiClient.myprofile.$post({
@@ -22,7 +38,7 @@ export const useAuth = () => {
       setProfile(myProfile);
     }
     setStage(2);
-  }, [user?.email]);
+  }, [user?.email, setProfile]);
 
   useEffect(() => {
     if (stage === 0) {
@@ -33,7 +49,7 @@ export const useAuth = () => {
       });
       return () => unsubscribe();
     }
-  }, [stage]);
+  }, [stage, setUser]);
 
   useEffect(() => {
     if (stage === 1 && user) {
@@ -65,5 +81,15 @@ export const useAuth = () => {
     setProfile(null);
   };
 
-  return { user, loading, currentPath, auth, router, signOut, profile, signOutButton };
+  return {
+    user,
+    loading,
+    currentPath,
+    auth,
+    router,
+    signOut,
+    profile,
+    signOutButton,
+    signInWithGoogle,
+  };
 };

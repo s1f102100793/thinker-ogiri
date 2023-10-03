@@ -1,7 +1,5 @@
-import { GoogleAuthProvider, signInWithRedirect } from 'firebase/auth';
 import React from 'react';
 import { useAuth } from 'src/hooks/useAuth';
-import { auth } from '../../utils/firebaseConfig';
 import styles from './SignInbutton.module.css';
 
 type SignInButtonProps = {
@@ -9,19 +7,7 @@ type SignInButtonProps = {
 };
 
 export const SignInButton: React.FC<SignInButtonProps> = ({ currentPath }) => {
-  const { user, loading, profile, signOutButton } = useAuth();
-
-  const signInWithGoogle = async () => {
-    try {
-      const provider = new GoogleAuthProvider();
-      console.log('provider', provider);
-      console.log('auth', auth);
-      const aa = await signInWithRedirect(auth, provider);
-      console.log('aa', aa);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const { user, loading, profile, signOutButton, signInWithGoogle } = useAuth();
 
   if (loading) {
     return <div>Loading...</div>;

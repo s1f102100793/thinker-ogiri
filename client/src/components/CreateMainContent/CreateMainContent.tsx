@@ -89,12 +89,12 @@ const CreateMainContent: React.FC<CreateMainContentProps> = ({
                   4.提出！
                 </p>
               </div>
-              {loginalert !== true ? (
+              {loginalert === true ? (
                 <button className={styles.bokeButton} onClick={createImage}>
                   ぼける
                 </button>
               ) : (
-                <div className={styles.instructionsContainer} />
+                <div className={styles.noUserAlert}>ぼけるにはユーザーログインが必要です</div>
               )}
             </>
           )}

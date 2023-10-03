@@ -45,6 +45,17 @@
   transition: 0.3s;
 }
 
+.noUserAlert {
+  position: absolute;
+  top: 45vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.6vh 2vh;
+  text-align: center;
+  background-color: aqua;
+}
+
 .someCustomStyleForThisPage {
   position: absolute;
   top: 60vh;

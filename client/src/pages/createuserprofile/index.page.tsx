@@ -10,7 +10,12 @@ const User = () => {
   const [userId, setUserId] = useState('');
   const [gender, setGender] = useState('');
   const [location, setLocation] = useState('');
-  const [error, setError] = useState<{ userId?: string; gender?: string; location?: string }>({});
+  const [error, setError] = useState<{
+    userId?: string;
+    gender?: string;
+    location?: string;
+    mailAddress?: string;
+  }>({});
   const MAX_USERID_LENGTH = 32;
 
   const handleSubmit = async () => {
@@ -36,10 +41,10 @@ const User = () => {
     const response = await apiClient.userprofile.$post({ body: UserModel });
 
     if (response.error !== null) {
-      console.log(response.error);
-      // setError(response.error);
+      const apiErrors = parseApiErrors(response.error);
+      console.log(apiErrors);
+      setError(apiErrors);
     } else {
-      // setError(null);
       router.push('/');
     }
   };
@@ -61,6 +66,21 @@ const User = () => {
 
     return errors;
   };
+
+  const parseApiErrors = (errorMessage: string) => {
+    const errors: { userId?: string; gender?: string; location?: string; mailAddress?: string } =
+      {};
+
+    if (errorMessage.includes('The userId is already taken.')) {
+      errors.userId = '※このニックネームは既に使われています。';
+    }
+    if (errorMessage.includes('The mailAddress is already taken.')) {
+      errors.mailAddress = '※このメールアドレスは既に使われています。';
+    }
+
+    return errors;
+  };
+
   return (
     <div className={styles.container}>
       <Header />
@@ -90,9 +110,14 @@ const User = () => {
               <label htmlFor="userEmail" className={styles.label}>
                 メールアドレス
               </label>
-              <p id="userEmail" className={styles.mailaddres}>
-                {user ? (user.email as string) : ''}
-              </p>
+              <div className={styles.rightarea}>
+                <p id="userEmail" className={styles.mailaddres}>
+                  {user ? (user.email as string) : ''}
+                </p>
+                {error.mailAddress !== null && (
+                  <div className={styles.errorMsg}>{error.mailAddress}</div>
+                )}
+              </div>
             </div>
             <div className={styles.formGroup}>
               <label className={styles.label}>性別</label>

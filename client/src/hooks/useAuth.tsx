@@ -1,12 +1,11 @@
 import type { UserProfileModel } from 'commonTypesWithClient/models';
 import type { User } from 'firebase/auth';
 import { GoogleAuthProvider, onAuthStateChanged, signInWithRedirect } from 'firebase/auth';
-import { useAtom } from 'jotai';
+import { atom, useAtom } from 'jotai';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
 import { apiClient } from 'src/utils/apiClient';
 import { auth } from '../utils/firebaseConfig';
-import { atom } from 'jotai';
 
 const userAtom = atom<User | null>(null);
 const userProfileAtom = atom<UserProfileModel | null>(null);

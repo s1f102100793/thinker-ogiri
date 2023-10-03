@@ -18,20 +18,23 @@ export const uploadUserProfile = async (
   userProfile: UserProfileModel
 ): Promise<UserProfileResponse> => {
   try {
-    const existingUserProfile = await prismaClient.userProfile.findFirst({
-      where: {
-        OR: [{ userId: userProfile.userId }, { mailAddress: userProfile.mailAddress }],
-      },
+    const existingUserIdProfile = await prismaClient.userProfile.findFirst({
+      where: { userId: userProfile.userId },
     });
 
-    if (existingUserProfile) {
-      const errorMessages = [];
-      if (existingUserProfile.userId === userProfile.userId) {
-        errorMessages.push('The userId is already taken.');
-      }
-      if (existingUserProfile.mailAddress === userProfile.mailAddress) {
-        errorMessages.push('The mailAddress is already taken.');
-      }
+    const existingMailProfile = await prismaClient.userProfile.findFirst({
+      where: { mailAddress: userProfile.mailAddress },
+    });
+
+    const errorMessages = [];
+    if (existingUserIdProfile) {
+      errorMessages.push('The userId is already taken.');
+    }
+    if (existingMailProfile) {
+      errorMessages.push('The mailAddress is already taken.');
+    }
+
+    if (errorMessages.length > 0) {
       return { userProfile: null, error: errorMessages.join(' ') };
     }
 

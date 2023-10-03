@@ -6,7 +6,6 @@ import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
 import { apiClient } from 'src/utils/apiClient';
 import { auth } from '../utils/firebaseConfig';
-
 import { atom } from 'jotai';
 
 const userAtom = atom<User | null>(null);

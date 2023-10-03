@@ -7,7 +7,7 @@ import { useCreate } from 'src/hooks/useCreate';
 import styles from './create.module.css';
 
 const Create = () => {
-  const { user, profile } = useAuth();
+  const { profile, signInWithGoogle } = useAuth();
   const {
     imageData,
     loading,
@@ -47,6 +47,7 @@ const Create = () => {
         setIsDialogOpen={setIsDialogOpen}
         newSubmitBoke={newSubmitBoke}
         loginalert={loginalert}
+        signInWithGoogle={signInWithGoogle}
       />
       <Footer />
     </div>

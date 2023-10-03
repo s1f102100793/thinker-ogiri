@@ -17,6 +17,7 @@ interface CreateMainContentProps {
 
   newSubmitBoke: () => void;
   loginalert: boolean;
+  signInWithGoogle: () => void;
 }
 
 const CreateMainContent: React.FC<CreateMainContentProps> = ({
@@ -32,6 +33,7 @@ const CreateMainContent: React.FC<CreateMainContentProps> = ({
   setIsDialogOpen,
   newSubmitBoke,
   loginalert,
+  signInWithGoogle,
 }) => {
   useEffect(() => {
     let timerId: NodeJS.Timeout;
@@ -89,12 +91,14 @@ const CreateMainContent: React.FC<CreateMainContentProps> = ({
                   4.提出！
                 </p>
               </div>
-              {loginalert === true ? (
+              {loginalert !== true ? (
                 <button className={styles.bokeButton} onClick={createImage}>
                   ぼける
                 </button>
               ) : (
-                <div className={styles.noUserAlert}>ぼけるにはユーザーログインが必要です</div>
+                <div onClick={signInWithGoogle} className={styles.noUserAlert}>
+                  ぼけるにはユーザーログインが必要です
+                </div>
               )}
             </>
           )}

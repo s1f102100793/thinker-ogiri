@@ -26,21 +26,21 @@ const LinkList: React.FC<LinkListProps> = ({ currentPath, styles }) => {
       <a
         href="/view"
         onClick={signOut}
-        className={`${styles.link} ${currentPath === '/view/' ? styles.active : ''}`}
+        className={`${styles.link} ${currentPath === '/view' ? styles.active : ''}`}
       >
         View
       </a>
       <a
         href="/create"
         onClick={signOut}
-        className={`${styles.link} ${currentPath === '/create/' ? styles.active : ''}`}
+        className={`${styles.link} ${currentPath === '/create' ? styles.active : ''}`}
       >
         Create
       </a>
       <a
         href="/outstanding"
         onClick={signOut}
-        className={`${styles.link} ${currentPath === '/outstanding/' ? styles.active : ''}`}
+        className={`${styles.link} ${currentPath === '/outstanding' ? styles.active : ''}`}
       >
         Outstanding
       </a>

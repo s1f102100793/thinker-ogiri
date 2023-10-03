@@ -61,11 +61,9 @@ export const uploadBoke = async (
   const validatedText = text ?? '';
   let imageKey = '';
 
-  // 画像データをS3にアップロード
   if (image !== null && image !== undefined) {
-    // ここでの条件を変更
     imageKey = `boke-images/${validatedUserId}/${Date.now()}.png`;
-    console.log(imageKey);
+    // console.log(imageKey);
     await s3
       .putObject({
         Bucket: 'thinker-ogiri-images',
@@ -97,16 +95,28 @@ export const uploadBoke = async (
     });
   }
   if (!prismaBoke) {
-    throw new Error('Failed to create or update boke');
+    console.log('Failed to create or update boke');
   }
 
-  return toBokeModel(prismaBoke);
+  const latestBoke = await prismaClient.boke.findFirst({
+    where: {
+      userId: validatedUserId,
+    },
+    orderBy: {
+      bokeId: 'desc',
+    },
+  });
+
+  if (!latestBoke) {
+    throw new Error('Failed to fetch the latest boke for the given userId');
+  }
+  console.log('latestboke', latestBoke);
+  return toBokeModel(latestBoke);
 };
 
 export const getBoke = async (
   bokeId: number | undefined
 ): Promise<BokeModel | BokeModel[] | null> => {
-  console.log('bokeId', bokeId);
   try {
     if (bokeId !== null && bokeId !== undefined) {
       const singleBoke = await prismaClient.boke.findUnique({
@@ -119,16 +129,14 @@ export const getBoke = async (
         return null;
       }
 
-      return toBokeModel(singleBoke); // updated this line
+      return toBokeModel(singleBoke);
     }
 
     const prismaBoke = await prismaClient.boke.findMany({
       orderBy: { createdAt: 'desc' },
     });
 
-    console.log(prismaBoke);
-
-    const bokeModels = prismaBoke.map((boke) => toBokeModel(boke)); // updated this line
+    const bokeModels = prismaBoke.map((boke) => toBokeModel(boke));
 
     return bokeModels;
   } catch (err) {

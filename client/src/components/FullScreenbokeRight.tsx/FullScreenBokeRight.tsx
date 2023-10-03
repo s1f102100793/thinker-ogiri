@@ -71,7 +71,7 @@ export const FullScreenBokeRight: React.FC<FullScreenBokeRightProps> = ({
         </div>
       ) : (
         <div onClick={signInWithGoogle} className={styles.noUserAlert}>
-          ぼけるにはユーザーログインが必要です
+          評価するにはユーザーログインが必要です
         </div>
       )}
       <button className={styles.closeButton} onClick={closeBokeDetail}>

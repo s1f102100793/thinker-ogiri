@@ -52,3 +52,8 @@ export type UserProfileResponse = {
   userProfile: UserProfileModel | null;
   error: string | null;
 };
+
+export type UpdateOtherUserLikeModel = {
+  userId: string;
+  otherUserLike: OtherUserLikeModel;
+};

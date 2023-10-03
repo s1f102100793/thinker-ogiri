@@ -1,4 +1,9 @@
-import type { BokeModel, UserProfileModel } from 'commonTypesWithClient/models';
+import type {
+  BokeModel,
+  OtherUserLikeModel,
+  UpdateOtherUserLikeModel,
+  UserProfileModel,
+} from 'commonTypesWithClient/models';
 import { useRouter } from 'next/router';
 import { useCallback, useState } from 'react';
 import { apiClient } from 'src/utils/apiClient';
@@ -38,9 +43,25 @@ export const useSelected = (profile: UserProfileModel | null) => {
             like: updateLike,
           },
         });
-        console.log(newBokeState);
+        if (newBokeState.bokeId === null || selectedBoke === null) {
+          console.error('bokeId is null or selectedBoke is null');
+          return;
+        }
+        const otherUserLike: OtherUserLikeModel = { bokeId: selectedBoke.bokeId, like: updateLike };
+        const UpdateInfo: UpdateOtherUserLikeModel = {
+          userId: profile.userId,
+          otherUserLike,
+        };
+        const myrating: UserProfileModel = await apiClient.profile.updateprofile.$post({
+          body: UpdateInfo,
+        });
         setSelectedBoke(newBokeState);
-        setValue(newValue);
+        const matchedLike = myrating.otherUserLike.find(
+          (like) => like.bokeId === selectedBoke.bokeId
+        );
+        if (matchedLike !== null && matchedLike !== undefined) {
+          setValue(matchedLike.like);
+        }
       }
     } else {
       setLoginAlert(true);
@@ -151,5 +172,6 @@ export const useSelected = (profile: UserProfileModel | null) => {
     fetchSelectedBoke,
     closeBokeDetail,
     loginAlert,
+    setValue,
   };
 };

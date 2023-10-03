@@ -23,6 +23,7 @@ const BokeDetail = () => {
     value,
     setSelectedBoke,
     loginAlert,
+    setValue,
   } = useSelected(profile);
 
   const router = useRouter();
@@ -61,9 +62,7 @@ const BokeDetail = () => {
 
   const fetchSelectedBoke = useCallback(async () => {
     if (bokeId !== null) {
-      console.log(bokeId);
       const databaseSelectedboke = await apiClient.boke.selected.$post({ body: { bokeId } });
-      console.log(databaseSelectedboke);
 
       if (!Array.isArray(databaseSelectedboke)) {
         setSelectedBoke(databaseSelectedboke);
@@ -81,6 +80,15 @@ const BokeDetail = () => {
   useEffect(() => {
     fetchBoke();
   }, []);
+
+  useEffect(() => {
+    if (bokeId !== null && profile?.otherUserLike) {
+      const matchedLike = profile.otherUserLike.find((like) => like.bokeId === bokeId);
+      if (matchedLike) {
+        setValue(matchedLike.like);
+      }
+    }
+  }, [bokeId, profile?.otherUserLike, setValue]);
 
   useEffect(() => {
     if (order === 'like') {

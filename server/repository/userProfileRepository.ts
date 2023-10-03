@@ -1,5 +1,6 @@
 import type {
   OtherUserLikeModel,
+  UpdateOtherUserLikeModel,
   UserProfileModel,
   UserProfileResponse,
 } from '$/commonTypesWithClient/models';
@@ -69,4 +70,46 @@ export const getMyProfile = async (mailAddress: string): Promise<UserProfileMode
   }
   console.log(myProfile);
   return toUserProfileModel(myProfile);
+};
+
+export const updateMyProfile = async (
+  UpdateOtherUserLike: UpdateOtherUserLikeModel
+): Promise<UserProfileModel> => {
+  const currentProfile = await prismaClient.userProfile.findUnique({
+    where: {
+      userId: UpdateOtherUserLike.userId,
+    },
+  });
+
+  if (currentProfile === null) {
+    throw new Error('Profile not found');
+  }
+
+  if (currentProfile.otherUserLike === null) {
+    throw new Error('ProfileOtherUserLike not found');
+  }
+
+  const currentOtherUserLikeList: OtherUserLikeModel[] =
+    currentProfile.otherUserLike as OtherUserLikeModel[];
+
+  const existingLikeIndex = currentOtherUserLikeList.findIndex(
+    (like) => like.bokeId === UpdateOtherUserLike.otherUserLike.bokeId
+  );
+
+  if (existingLikeIndex !== -1) {
+    currentOtherUserLikeList[existingLikeIndex].like = UpdateOtherUserLike.otherUserLike.like;
+  } else {
+    currentOtherUserLikeList.push(UpdateOtherUserLike.otherUserLike);
+  }
+
+  const updatedProfile = await prismaClient.userProfile.update({
+    where: {
+      userId: UpdateOtherUserLike.userId,
+    },
+    data: {
+      otherUserLike: currentOtherUserLikeList,
+    },
+  });
+
+  return toUserProfileModel(updatedProfile);
 };

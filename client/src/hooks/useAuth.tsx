@@ -29,7 +29,7 @@ export const useAuth = () => {
   };
 
   const fetchUserProfile = useCallback(async () => {
-    const myProfile = await apiClient.myprofile.$post({
+    const myProfile = await apiClient.profile.myprofile.$post({
       body: { mailAddress: user?.email as string },
     });
     if (myProfile !== null) {

@@ -30,7 +30,7 @@ export const SignInButton: React.FC<SignInButtonProps> = ({ currentPath }) => {
   return (
     <div className={styles.signInButtonContainer}>
       {user ? (
-        currentPath === '/createuserprofile' ? (
+        currentPath === '/createuserprofile/' ? (
           <div className={styles.userContainer}>
             <div className={styles.buttonLeftPart}>{user.displayName}</div>
             <button onClick={() => auth.signOut()}>Sign Out</button>

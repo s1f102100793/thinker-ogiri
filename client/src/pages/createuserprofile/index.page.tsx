@@ -1,11 +1,12 @@
 import { useState } from 'react';
+import Footer from 'src/components/Footer/Footer';
 import Header from 'src/components/Header/Header';
 import { useAuth } from 'src/hooks/useAuth';
 import { apiClient } from 'src/utils/apiClient';
 import styles from './user.module.css';
 
 const User = () => {
-  const { user } = useAuth();
+  const { user, auth, router } = useAuth();
   const [userId, setUserId] = useState('');
   const [gender, setGender] = useState('');
   const [location, setLocation] = useState('');
@@ -39,39 +40,93 @@ const User = () => {
   return (
     <div className={styles.container}>
       <Header />
-      <div className={styles.formContainer}>
-        <input
-          className={styles.hoge}
-          type="text"
-          value={userId}
-          onChange={(e) => setUserId(e.target.value)}
-          placeholder="UserName"
-        />
-        {error !== null && error.includes('userId') && (
-          <div className={styles.error}>このuserNameは既に使われています。</div>
-        )}
-        <select value={gender} className={styles.hoge} onChange={(e) => setGender(e.target.value)}>
-          <option value="" disabled>
-            Select gender
-          </option>
-          <option value="male">Male</option>
-          <option value="female">Female</option>
-          <option value="other">Other</option>
-        </select>
-        <input
-          className={styles.hoge}
-          type="text"
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-          placeholder="Location"
-        />
-        {/* {error !== null && error.includes('mailAddress') && (
-          <div className={styles.error}>このメールアドレスは既に使われています。</div>
-        )} */}
-        <button className={styles.hoge} onClick={handleSubmit}>
-          Submit
-        </button>
+      <div className={styles.maincontent}>
+        <div className={styles.formContainer}>
+          <p className={`${styles.instructionsText} ${styles.heading}`}>プロフィール作成</p>
+          <div className={styles.formList}>
+            <div className={styles.formGroup}>
+              <label htmlFor="userName" className={styles.label}>
+                ニックネーム
+              </label>
+              <div className={styles.rightarea}>
+                <input
+                  id="userName"
+                  className={styles.inputarea}
+                  type="text"
+                  value={userId}
+                  onChange={(e) => setUserId(e.target.value)}
+                />
+                <div className={styles.characterCount}>32文字以下で入力してください</div>
+              </div>
+            </div>
+            <div className={styles.formGroup}>
+              <label htmlFor="userEmail" className={styles.label}>
+                メールアドレス
+              </label>
+              <p id="userEmail" className={styles.mailaddres}>
+                {user ? (user.email as string) : ''}
+              </p>
+            </div>
+            <div className={styles.formGroup}>
+              <label className={styles.label}>性別</label>
+              <div className={styles.radioGroup}>
+                <div className={styles.radioItem}>
+                  <input
+                    type="radio"
+                    id="male"
+                    name="gender"
+                    value="male"
+                    checked={gender === 'male'}
+                    onChange={(e) => setGender(e.target.value)}
+                  />
+                  <label htmlFor="male">男性</label>
+                </div>
+                <div className={styles.radioItem}>
+                  <input
+                    type="radio"
+                    id="female"
+                    name="gender"
+                    value="female"
+                    checked={gender === 'female'}
+                    onChange={(e) => setGender(e.target.value)}
+                  />
+                  <label htmlFor="female">女性</label>
+                </div>
+                <div className={styles.radioItem}>
+                  <input
+                    type="radio"
+                    id="other"
+                    name="gender"
+                    value="other"
+                    checked={gender === 'other'}
+                    onChange={(e) => setGender(e.target.value)}
+                  />
+                  <label htmlFor="other">その他</label>
+                </div>
+              </div>
+            </div>
+
+            <div className={styles.formGroup}>
+              <label htmlFor="userLocation" className={styles.label}>
+                住んでいる場所
+              </label>
+              <input
+                id="userLocation"
+                className={styles.locationarea}
+                type="text"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+              />
+            </div>
+            <div className={styles.buttonContainer}>
+              <button className={styles.registrationButton} onClick={handleSubmit}>
+                登録する
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
+      <Footer />
     </div>
   );
 };

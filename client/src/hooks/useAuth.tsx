@@ -9,11 +9,13 @@ import { auth } from '../utils/firebaseConfig';
 
 const userAtom = atom<User | null>(null);
 const userProfileAtom = atom<UserProfileModel | null>(null);
+const loadingAtom = atom<boolean>(false);
 
 export const useAuth = () => {
   const [user, setUser] = useAtom(userAtom);
   const [profile, setProfile] = useAtom(userProfileAtom);
   const [loading, setLoading] = useState(false);
+  const [loadingProfile, setLoadingProfile] = useAtom(loadingAtom);
   const [stage, setStage] = useState(0);
   const router = useRouter();
   const currentPath = router.pathname;
@@ -21,22 +23,26 @@ export const useAuth = () => {
   const signInWithGoogle = async () => {
     try {
       const provider = new GoogleAuthProvider();
-      const aa = await signInWithRedirect(auth, provider);
-      console.log('aa', aa);
+      await signInWithRedirect(auth, provider);
+      
     } catch (error) {
       console.error(error);
     }
   };
 
   const fetchUserProfile = useCallback(async () => {
-    const myProfile = await apiClient.profile.myprofile.$post({
-      body: { mailAddress: user?.email as string },
-    });
-    if (myProfile !== null) {
-      setProfile(myProfile);
+    try {
+      const myProfile = await apiClient.profile.myprofile.$post({
+        body: { mailAddress: user?.email as string },
+      });
+      if (myProfile !== null) {
+        setProfile(myProfile);
+      }
+      setStage(2);
+    } finally {
+      setLoadingProfile(false);
     }
-    setStage(2);
-  }, [user?.email, setProfile]);
+  }, [user?.email, setProfile, setLoadingProfile]);
 
   useEffect(() => {
     if (stage === 0) {
@@ -47,7 +53,7 @@ export const useAuth = () => {
       });
       return () => unsubscribe();
     }
-  }, [stage, setUser]);
+  }, [stage, setUser, setLoadingProfile]);
 
   useEffect(() => {
     if (stage === 1 && user) {
@@ -89,5 +95,6 @@ export const useAuth = () => {
     profile,
     signOutButton,
     signInWithGoogle,
+    loadingProfile,
   };
 };

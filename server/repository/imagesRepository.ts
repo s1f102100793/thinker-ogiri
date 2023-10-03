@@ -77,13 +77,14 @@ export const uploadBoke = async (
   let prismaBoke;
 
   if (bokeId !== undefined) {
+    console.log('bokeId', bokeId);
     prismaBoke = await prismaClient.boke.update({
       where: { bokeId },
       data: {
         like,
-        image: imageKey ? `https://thinker-ogiri-images.s3.amazonaws.com/${imageKey}` : '',
       },
     });
+    return toBokeModel(prismaBoke);
   } else if (validatedUserId !== undefined) {
     prismaBoke = await prismaClient.boke.create({
       data: {

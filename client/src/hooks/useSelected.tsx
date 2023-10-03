@@ -1,10 +1,11 @@
-import type { BokeModel } from 'commonTypesWithClient/models';
+import type { BokeModel, UserProfileModel } from 'commonTypesWithClient/models';
 import { useRouter } from 'next/router';
 import { useCallback, useState } from 'react';
 import { apiClient } from 'src/utils/apiClient';
 
-export const useSelected = () => {
+export const useSelected = (profile: UserProfileModel | null) => {
   const [selectedBoke, setSelectedBoke] = useState<BokeModel | null>(null);
+  const [loginAlert, setLoginAlert] = useState(false);
   const [value, setValue] = useState(0);
 
   const openTwitterShare = (text: string) => {
@@ -23,19 +24,26 @@ export const useSelected = () => {
   };
 
   const handleRatingChange = async (event: React.ChangeEvent<unknown>, newValue: number | null) => {
-    if (newValue !== null) {
-      console.log(newValue - value);
-      const updateLike = newValue - value;
-      await apiClient.boke.post({
-        body: {
-          bokeId: selectedBoke?.bokeId,
-          userId: undefined,
-          text: undefined,
-          image: undefined,
-          like: updateLike,
-        },
-      });
-      setValue(newValue);
+    setLoginAlert(false);
+    if (profile !== null) {
+      if (newValue !== null) {
+        console.log(newValue - value);
+        const updateLike = newValue - value;
+        const newBokeState = await apiClient.boke.$post({
+          body: {
+            bokeId: selectedBoke?.bokeId,
+            userId: undefined,
+            text: undefined,
+            image: undefined,
+            like: updateLike,
+          },
+        });
+        console.log(newBokeState);
+        setSelectedBoke(newBokeState);
+        setValue(newValue);
+      }
+    } else {
+      setLoginAlert(true);
     }
   };
 
@@ -142,5 +150,6 @@ export const useSelected = () => {
     navigateToRight,
     fetchSelectedBoke,
     closeBokeDetail,
+    loginAlert,
   };
 };

@@ -19,6 +19,8 @@ type FullScreenBokeRightProps = {
   openFacebookShare: (url: string) => void;
   closeBokeDetail: () => void;
   timeSince: (date: Date) => string;
+  loginAlert: boolean;
+  signInWithGoogle: () => void;
 };
 
 export const FullScreenBokeRight: React.FC<FullScreenBokeRightProps> = ({
@@ -30,6 +32,8 @@ export const FullScreenBokeRight: React.FC<FullScreenBokeRightProps> = ({
   openFacebookShare,
   closeBokeDetail,
   timeSince,
+  loginAlert,
+  signInWithGoogle,
 }) => {
   return (
     <div className={styles.fullScreenBokeRight}>
@@ -44,6 +48,7 @@ export const FullScreenBokeRight: React.FC<FullScreenBokeRightProps> = ({
           style={{ color: '#434343' }}
           onClick={() => openTwitterShare(selectedBoke.text)}
         />
+
         <FontAwesomeIcon
           icon={faFacebookSquare}
           size="2xs"
@@ -53,16 +58,22 @@ export const FullScreenBokeRight: React.FC<FullScreenBokeRightProps> = ({
       </div>
       {/* </div> */}
       <p className={styles.middleEreaLikeCount}>★{selectedBoke.like}</p>
-      <div className={styles.rating}>
-        <Rating
-          name="customized-10"
-          size="large"
-          value={value}
-          onChange={handleRatingChange}
-          max={3}
-        />
-        {value > 0 && <button onClick={handleCancel}>取り消し</button>}
-      </div>
+      {loginAlert !== true ? (
+        <div className={styles.rating}>
+          <Rating
+            name="customized-10"
+            size="large"
+            value={value}
+            onChange={handleRatingChange}
+            max={3}
+          />
+          {value > 0 && <button onClick={handleCancel}>取り消し</button>}
+        </div>
+      ) : (
+        <div onClick={signInWithGoogle} className={styles.noUserAlert}>
+          ぼけるにはユーザーログインが必要です
+        </div>
+      )}
       <button className={styles.closeButton} onClick={closeBokeDetail}>
         閉じる
       </button>

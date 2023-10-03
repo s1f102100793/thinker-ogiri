@@ -6,11 +6,13 @@ import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
 import FullScreenBokeRight from 'src/components/FullScreenbokeRight.tsx/FullScreenBokeRight';
 import Header from 'src/components/Header/Header';
+import { useAuth } from 'src/hooks/useAuth';
 import { useSelected } from 'src/hooks/useSelected';
 import { apiClient } from 'src/utils/apiClient';
 import styles from './bokeid.module.css';
 
 const BokeDetail = () => {
+  const { profile, signInWithGoogle } = useAuth();
   const {
     openTwitterShare,
     openFacebookShare,
@@ -20,7 +22,8 @@ const BokeDetail = () => {
     selectedBoke,
     value,
     setSelectedBoke,
-  } = useSelected();
+    loginAlert,
+  } = useSelected(profile);
 
   const router = useRouter();
   const rawBokeId = router.query.bokeId;
@@ -145,6 +148,8 @@ const BokeDetail = () => {
               openFacebookShare={openFacebookShare}
               closeBokeDetail={closeBokeDetail}
               timeSince={timeSince}
+              loginAlert={loginAlert}
+              signInWithGoogle={signInWithGoogle}
             />
           </div>
         </div>

@@ -23,8 +23,32 @@ export const useSelected = (profile: UserProfileModel | null) => {
     window.open(shareUrl, '_blank', 'noopener,noreferrer');
   };
 
-  const handleCancel = () => {
-    console.log(-value);
+  const handleCancel = async () => {
+    if (selectedBoke === null) {
+      return;
+    }
+    const minusLike = selectedBoke?.like - value;
+    const newBokeState = await apiClient.boke.$post({
+      body: {
+        bokeId: selectedBoke?.bokeId,
+        userId: undefined,
+        text: undefined,
+        image: undefined,
+        like: minusLike,
+      },
+    });
+    if (selectedBoke === null || profile === null) {
+      return;
+    }
+    const otherUserLike: OtherUserLikeModel = { bokeId: selectedBoke.bokeId, like: 0 };
+    const UpdateInfo: UpdateOtherUserLikeModel = {
+      userId: profile.userId,
+      otherUserLike,
+    };
+    await apiClient.profile.updateprofile.$post({
+      body: UpdateInfo,
+    });
+    setSelectedBoke(newBokeState);
     setValue(0);
   };
 
@@ -32,8 +56,12 @@ export const useSelected = (profile: UserProfileModel | null) => {
     setLoginAlert(false);
     if (profile !== null) {
       if (newValue !== null) {
+        setValue(newValue);
         console.log(newValue - value);
-        const updateLike = newValue - value;
+        if (selectedBoke === null) {
+          return;
+        }
+        const updateLike = selectedBoke?.like + (newValue - value);
         const newBokeState = await apiClient.boke.$post({
           body: {
             bokeId: selectedBoke?.bokeId,
@@ -52,16 +80,10 @@ export const useSelected = (profile: UserProfileModel | null) => {
           userId: profile.userId,
           otherUserLike,
         };
-        const myrating: UserProfileModel = await apiClient.profile.updateprofile.$post({
+        await apiClient.profile.updateprofile.$post({
           body: UpdateInfo,
         });
         setSelectedBoke(newBokeState);
-        const matchedLike = myrating.otherUserLike.find(
-          (like) => like.bokeId === selectedBoke.bokeId
-        );
-        if (matchedLike !== null && matchedLike !== undefined) {
-          setValue(matchedLike.like);
-        }
       }
     } else {
       setLoginAlert(true);

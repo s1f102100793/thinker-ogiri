@@ -1,6 +1,6 @@
 import LinearProgress from '@mui/material/LinearProgress';
-import * as React from 'react';
 import { styled } from '@mui/system';
+import * as React from 'react';
 
 interface LoadingModalProps {
   open: boolean;

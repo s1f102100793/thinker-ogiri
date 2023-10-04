@@ -16,7 +16,6 @@ export const useAuth = () => {
   const [profile, setProfile] = useAtom(userProfileAtom);
   const [loading, setLoading] = useState(false);
   const [loadingProfile, setLoadingProfile] = useAtom(loadingAtom);
-  const [stage, setStage] = useState(0);
   const router = useRouter();
   const currentPath = router.pathname;
 
@@ -24,7 +23,6 @@ export const useAuth = () => {
     try {
       const provider = new GoogleAuthProvider();
       await signInWithRedirect(auth, provider);
-      
     } catch (error) {
       console.error(error);
     }
@@ -37,40 +35,22 @@ export const useAuth = () => {
       });
       if (myProfile !== null) {
         setProfile(myProfile);
+      } else if (router.pathname !== '/createuserprofile') {
+        router.push('/createuserprofile');
       }
-      setStage(2);
     } finally {
       setLoadingProfile(false);
     }
-  }, [user?.email, setProfile, setLoadingProfile]);
+  }, [user?.email, setProfile, setLoadingProfile, router]);
 
   useEffect(() => {
-    if (stage === 0) {
-      const unsubscribe = onAuthStateChanged(auth, (user) => {
-        setUser(user);
-        setLoading(false);
-        setStage(1);
-      });
-      return () => unsubscribe();
-    }
-  }, [stage, setUser, setLoadingProfile]);
-
-  useEffect(() => {
-    if (stage === 1 && user) {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+      setLoading(false);
       fetchUserProfile();
-    }
-  }, [stage, user, fetchUserProfile]);
-
-  useEffect(() => {
-    if (
-      stage === 2 &&
-      profile === null &&
-      user !== null &&
-      router.pathname !== '/createuserprofile'
-    ) {
-      router.push('/createuserprofile');
-    }
-  }, [stage, profile, user, router]);
+    });
+    return () => unsubscribe();
+  }, [setUser, setLoadingProfile, fetchUserProfile, loadingProfile]);
 
   const signOut = async () => {
     if (router.pathname === '/createuserprofile') {

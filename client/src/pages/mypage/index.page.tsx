@@ -10,6 +10,11 @@ const Mypage = () => {
   const { profile } = useAuth();
 
   const [bokes, setBokes] = useState<BokeModel[]>([]);
+  const [visibleBokesCount, setVisibleBokesCount] = useState(10);
+
+  const handleShowMore = () => {
+    setVisibleBokesCount((prevCount) => prevCount + 10);
+  };
 
   const fetchUserIdBoke = useCallback(async () => {
     if (profile === null) {
@@ -74,7 +79,7 @@ const Mypage = () => {
               </div>
               <div className={styles.title}>{profile?.userId}さんの投稿したぼけ</div>
               <div className={styles.bokelist}>
-                {bokes.map((boke) => (
+                {bokes.slice(0, visibleBokesCount).map((boke) => (
                   <div key={boke.bokeId} className={styles.boke}>
                     <img src={boke.image} alt="boke" />
                     <p>{boke.text}</p>
@@ -82,6 +87,13 @@ const Mypage = () => {
                     <span>{`Date: ${new Date(boke.createdAt).toLocaleDateString()}`}</span>
                   </div>
                 ))}
+              </div>
+              <div className={styles.buttonContainer}>
+                {bokes.length > visibleBokesCount && (
+                  <button onClick={handleShowMore} className={styles.button}>
+                    もっと見る
+                  </button>
+                )}
               </div>
             </div>
             <div className={styles.rightcontent} />

@@ -26,7 +26,7 @@ export const useCreate = (profile: UserProfileModel | null) => {
     setLoginAlert(false);
     if (profile !== null) {
       setLoading(true);
-      setTimeRemaining(3000);
+      setTimeRemaining(30);
       try {
         const res: ImageResponseModel | null = await apiClient.image.$post();
         if (!res) {
@@ -76,7 +76,6 @@ export const useCreate = (profile: UserProfileModel | null) => {
     const file = blobToFile(blob, 'compressed_image.png');
     const compressedBlob = await imageCompression(file, compressionOptions);
     const reader = new FileReader();
-
     return new Promise((resolve, reject) => {
       reader.onload = (event) => resolve(event.target?.result as DataURL);
       reader.onerror = (error) => reject(new Error('Failed to read blob as DataURL'));
@@ -110,7 +109,6 @@ export const useCreate = (profile: UserProfileModel | null) => {
     } catch (error) {
       console.error('Error in newSubmitBoke:', error);
     }
-
     setIsDialogOpen(false);
   };
 

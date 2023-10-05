@@ -17,6 +17,7 @@ const Create = () => {
     isDialogOpen,
     setIsDialogOpen,
     loginalert,
+    createAlert,
     createImage,
     imageSize,
     bokeText,
@@ -53,6 +54,7 @@ const Create = () => {
           newSubmitBoke={newSubmitBoke}
           loginalert={loginalert}
           signInWithGoogle={signInWithGoogle}
+          createAlert={createAlert}
         />
       )}
 

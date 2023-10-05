@@ -11,6 +11,7 @@ export const useCreate = (profile: UserProfileModel | null) => {
   const [timeRemaining, setTimeRemaining] = useState<number>(30);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [loginalert, setLoginAlert] = useState(false);
+  const [createAlert, setCreateAlert] = useState(false);
   const router = useRouter();
 
   const imageSize = 300;
@@ -25,7 +26,7 @@ export const useCreate = (profile: UserProfileModel | null) => {
     setLoginAlert(false);
     if (profile !== null) {
       setLoading(true);
-      setTimeRemaining(30);
+      setTimeRemaining(3000);
       try {
         const res: ImageResponseModel | null = await apiClient.image.$post();
         if (!res) {
@@ -85,6 +86,10 @@ export const useCreate = (profile: UserProfileModel | null) => {
   }
 
   const newSubmitBoke = async () => {
+    if (bokeText === '') {
+      setCreateAlert(true);
+      return;
+    }
     try {
       const compressedImageData = await compressImage(imageData);
       if (profile === null) {
@@ -118,6 +123,7 @@ export const useCreate = (profile: UserProfileModel | null) => {
     isDialogOpen,
     setIsDialogOpen,
     loginalert,
+    createAlert,
     createImage,
     imageSize,
     bokeText,

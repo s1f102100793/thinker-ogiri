@@ -72,6 +72,7 @@ const Mypage = () => {
                   <span className={styles.detailValue}>{profile?.totallike}</span>
                 </div>
               </div>
+              <div className={styles.title}>{profile?.userId}さんの投稿したぼけ</div>
               <div className={styles.bokelist}>
                 {bokes.map((boke) => (
                   <div key={boke.bokeId} className={styles.boke}>

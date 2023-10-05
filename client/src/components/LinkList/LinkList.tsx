@@ -38,11 +38,11 @@ const LinkList: React.FC<LinkListProps> = ({ currentPath, styles }) => {
         Create
       </a>
       <a
-        href="/outstanding"
+        href="/mypage"
         onClick={signOut}
-        className={`${styles.link} ${currentPath === '/outstanding' ? styles.active : ''}`}
+        className={`${styles.link} ${currentPath === '/mypage' ? styles.active : ''}`}
       >
-        Outstanding
+        Mypage
       </a>
     </div>
   );

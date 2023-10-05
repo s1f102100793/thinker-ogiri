@@ -60,10 +60,10 @@ const Mypage = () => {
                   <span className={styles.detailKey}>ユーザーID:</span>
                   <span className={styles.detailValue}>{profile?.userId}</span>
                 </div>
-                {/* <div className={styles.detailItem}>
+                <div className={styles.detailItem}>
                 <span className={styles.detailKey}>メールアドレス:</span>
                 <span className={styles.detailValue}>{profile?.mailAddress}</span>
-              </div> */}
+              </div>
                 <div className={styles.detailItem}>
                   <span className={styles.detailKey}>場所:</span>
                   <span className={styles.detailValue}>{profile?.location}</span>

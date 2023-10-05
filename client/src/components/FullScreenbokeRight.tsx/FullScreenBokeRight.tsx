@@ -1,7 +1,9 @@
 import { faFacebookSquare, faSquareXTwitter } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Rating } from '@mui/material';
+import { useRouter } from 'next/router';
 import React from 'react';
+
 import styles from './FullScreenBokeright.module.css';
 
 type FullScreenBokeRightProps = {
@@ -10,6 +12,7 @@ type FullScreenBokeRightProps = {
     like: number;
     image: string;
     bokeId: number;
+    userId: string;
     createdAt: Date;
   };
   value: number;
@@ -35,9 +38,17 @@ export const FullScreenBokeRight: React.FC<FullScreenBokeRightProps> = ({
   loginAlert,
   signInWithGoogle,
 }) => {
+  const router = useRouter();
+  const handleUserIdClick = () => {
+    router.push(`/${selectedBoke.userId}`);
+  };
+
   return (
     <div className={styles.fullScreenBokeRight}>
       <p className={styles.fullScreenText}>{selectedBoke.text}</p>
+      <p className={styles.fullScreenTime} onClick={handleUserIdClick}>
+        {selectedBoke.userId}
+      </p>
       {/* <div className={styles.middleErea}> */}
 
       <p className={styles.fullScreenTime}>{timeSince(new Date(selectedBoke.createdAt))}</p>

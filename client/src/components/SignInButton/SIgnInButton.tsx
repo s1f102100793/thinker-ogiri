@@ -18,8 +18,10 @@ export const SignInButton: React.FC<SignInButtonProps> = ({ currentPath }) => {
       {user ? (
         currentPath !== '/createuserprofile' ? (
           <div className={styles.userContainer}>
-            <div className={styles.buttonLeftPart}>{profile?.userId}</div>
-            <button onClick={signOutButton}>Sign Out</button>
+            <div className={styles.buttonLeftPart}>
+              <a href="/mypage">{profile?.userId}</a>
+            </div>
+            {/* <button onClick={signOutButton}>Sign Out</button> */}
           </div>
         ) : (
           <button onClick={signInWithGoogle}>Sign in with Google</button>

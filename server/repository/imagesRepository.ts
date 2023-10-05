@@ -145,3 +145,16 @@ export const getBoke = async (
     return null;
   }
 };
+
+export const getUserIdBoke = async (userId: string): Promise<BokeModel[]> => {
+  const prismaBoke = await prismaClient.boke.findMany({
+    where: {
+      userId,
+    },
+    orderBy: { createdAt: 'desc' },
+  });
+
+  const bokeModels = prismaBoke.map((boke) => toBokeModel(boke));
+
+  return bokeModels;
+};

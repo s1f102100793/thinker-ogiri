@@ -1,0 +1,133 @@
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: auto;
+  min-height: 120vh;
+  background-color: #e9e5de;
+}
+
+.maincontent {
+  position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: auto;
+  margin-top: 15vh;
+}
+
+.background {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+  height: auto;
+  min-height: 100vh;
+  background-color: #ccc;
+  border-radius: 4px;
+  box-shadow: 0 4px 6px rgb(0 0 0 / 10%);
+}
+
+.profile {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 90%;
+  height: auto;
+  min-height: 90%;
+  padding: 2rem;
+  margin: 5vh 0;
+  background-color: white;
+  border-radius: 4px;
+}
+
+.leftcontent {
+  position: relative;
+  width: 68%;
+  height: auto;
+  background-color: #e9e5de;
+}
+
+.title {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 1rem;
+  background-color: #f9f9f9;
+  border: 2px solid #ddd;
+}
+
+.detailItem {
+  display: flex;
+  margin-bottom: 1rem;
+}
+
+.detailKey {
+  width: auto;
+  min-width: 150px;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.detailValue {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.bokelist {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  background-color: #f9f9f9;
+}
+
+.boke {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+  height: auto;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 2px 2px 4px rgb(0 0 0 / 10%);
+}
+
+.bokelist img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.bokelist p {
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: #333;
+  text-align: center;
+}
+
+.bokelist span {
+  margin-bottom: 5px;
+  font-size: 12px;
+  color: #777;
+}
+
+.rightcontent {
+  position: relative;
+  width: 28%;
+  height: auto;
+  background-color: antiquewhite;
+}

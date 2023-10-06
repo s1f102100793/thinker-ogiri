@@ -1,14 +1,15 @@
-import type { BokeModel } from 'commonTypesWithClient/models';
+import type { BokeModel, UserProfileModel } from 'commonTypesWithClient/models';
+import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
 import Footer from 'src/components/Footer/Footer';
 import Header from 'src/components/Header/Header';
-import { useAuth } from 'src/hooks/useAuth';
+import styles from 'src/pages/mypage/mypage.module.css';
 import { apiClient } from 'src/utils/apiClient';
-import styles from './mypage.module.css';
 
-const Mypage = () => {
-  const { profile } = useAuth();
-
+const Userpage = () => {
+  const router = useRouter();
+  const userId = router.query.userId as string;
+  const [profile, setProfile] = useState<UserProfileModel | null>(null);
   const [bokes, setBokes] = useState<BokeModel[]>([]);
   const [visibleBokesCount, setVisibleBokesCount] = useState(10);
 
@@ -17,16 +18,21 @@ const Mypage = () => {
   };
 
   const fetchUserIdBoke = useCallback(async () => {
-    if (profile === null) {
-      return;
-    }
-    const response = await apiClient.boke.userboke.$post({ body: { userId: profile?.userId } });
+    const response = await apiClient.boke.userboke.$post({ body: { userId } });
     setBokes(response);
-  }, [profile]);
+  }, [userId]);
+
+  const fetchUserProfile = useCallback(async () => {
+    const userProfile = await apiClient.profile.userprofile.$post({
+      body: { userId },
+    });
+    setProfile(userProfile);
+  }, [userId]);
 
   useEffect(() => {
+    fetchUserProfile();
     fetchUserIdBoke();
-  }, [fetchUserIdBoke]);
+  }, [fetchUserProfile, fetchUserIdBoke]);
 
   let displayGender;
   if (profile?.mailAddress !== null) {
@@ -41,7 +47,6 @@ const Mypage = () => {
         break;
       case 'other':
         displayGender = 'その他';
-
         break;
       default:
         displayGender = profile?.gender;
@@ -106,4 +111,4 @@ const Mypage = () => {
   );
 };
 
-export default Mypage;
+export default Userpage;

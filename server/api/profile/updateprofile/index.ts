@@ -1,5 +1,5 @@
-import type { UpdateOtherUserLikeModel, UserProfileModel } from 'commonTypesWithClient/models';
 import type { DefineMethods } from 'aspida';
+import type { UpdateOtherUserLikeModel, UserProfileModel } from 'commonTypesWithClient/models';
 
 export type Methods = DefineMethods<{
   get: {

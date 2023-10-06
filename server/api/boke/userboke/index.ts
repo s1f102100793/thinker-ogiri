@@ -1,4 +1,4 @@
-import type { BokeModel } from '$/commonTypesWithClient/models';
+import type { BokeModel } from 'commonTypesWithClient/models';
 import type { DefineMethods } from 'aspida';
 
 export type Methods = DefineMethods<{

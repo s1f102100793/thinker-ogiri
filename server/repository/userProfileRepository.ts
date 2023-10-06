@@ -72,6 +72,20 @@ export const getMyProfile = async (mailAddress: string): Promise<UserProfileMode
   return toUserProfileModel(myProfile);
 };
 
+export const getUserProfile = async (userId: string): Promise<UserProfileModel | null> => {
+  const myProfile = await prismaClient.userProfile.findFirst({
+    where: {
+      userId,
+    },
+  });
+
+  if (!myProfile) {
+    return null;
+  }
+
+  return toUserProfileModel(myProfile);
+};
+
 export const updateMyProfile = async (
   UpdateOtherUserLike: UpdateOtherUserLikeModel
 ): Promise<UserProfileModel> => {

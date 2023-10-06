@@ -1,15 +1,19 @@
 import type { BokeModel } from 'commonTypesWithClient/models';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
+import Footer from 'src/components/Footer/Footer';
+import Header from 'src/components/Header/Header';
 import ProfilePage from 'src/components/ProfilePage/ProfilePage';
 import { useAuth } from 'src/hooks/useAuth';
 import { apiClient } from 'src/utils/apiClient';
+import styles from './mypage.module.css';
 
 const Mypage = () => {
   const { profile } = useAuth();
   const router = useRouter();
   const [bokes, setBokes] = useState<BokeModel[] | null>([]);
   const [visibleBokesCount, setVisibleBokesCount] = useState(10);
+  const { signInWithGoogle } = useAuth();
 
   const handleShowMore = () => {
     setVisibleBokesCount((prevCount) => prevCount + 10);
@@ -42,7 +46,17 @@ const Mypage = () => {
       visibleBokesCount={visibleBokesCount}
       redirectToBokePage={redirectToBokePage}
     />
-  ) : null;
+  ) : (
+    <>
+      <Header />
+      <div className={styles.maincontent}>
+        <div className={styles.alert} onClick={signInWithGoogle}>
+          GoogleでSign inしてください
+        </div>
+      </div>
+      <Footer />
+    </>
+  );
 };
 
 export default Mypage;

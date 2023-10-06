@@ -1,7 +1,7 @@
 import type { BokeModel, UserProfileModel } from 'commonTypesWithClient/models';
-import styles from 'src/pages/mypage/mypage.module.css';
 import Footer from '../Footer/Footer';
 import Header from '../Header/Header';
+import styles from './profilepage.module.css';
 
 type ProfileProps = {
   profile: UserProfileModel | null;

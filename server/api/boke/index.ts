@@ -13,5 +13,6 @@ export type Methods = DefineMethods<{
       image: string | undefined;
       like: number;
     };
+    resBody: BokeModel;
   };
 }>;

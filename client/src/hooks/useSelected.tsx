@@ -1,10 +1,16 @@
-import type { BokeModel } from 'commonTypesWithClient/models';
+import type {
+  BokeModel,
+  OtherUserLikeModel,
+  UpdateOtherUserLikeModel,
+  UserProfileModel,
+} from 'commonTypesWithClient/models';
 import { useRouter } from 'next/router';
 import { useCallback, useState } from 'react';
 import { apiClient } from 'src/utils/apiClient';
 
-export const useSelected = () => {
+export const useSelected = (profile: UserProfileModel | null) => {
   const [selectedBoke, setSelectedBoke] = useState<BokeModel | null>(null);
+  const [loginAlert, setLoginAlert] = useState(false);
   const [value, setValue] = useState(0);
 
   const openTwitterShare = (text: string) => {
@@ -17,25 +23,70 @@ export const useSelected = () => {
     window.open(shareUrl, '_blank', 'noopener,noreferrer');
   };
 
-  const handleCancel = () => {
-    console.log(-value);
+  const handleCancel = async () => {
+    if (selectedBoke === null) {
+      return;
+    }
+    const minusLike = selectedBoke?.like - value;
+    const newBokeState = await apiClient.boke.$post({
+      body: {
+        bokeId: selectedBoke?.bokeId,
+        userId: undefined,
+        text: undefined,
+        image: undefined,
+        like: minusLike,
+      },
+    });
+    if (selectedBoke === null || profile === null) {
+      return;
+    }
+    const otherUserLike: OtherUserLikeModel = { bokeId: selectedBoke.bokeId, like: 0 };
+    const UpdateInfo: UpdateOtherUserLikeModel = {
+      userId: profile.userId,
+      otherUserLike,
+    };
+    await apiClient.profile.updateprofile.$post({
+      body: UpdateInfo,
+    });
+    setSelectedBoke(newBokeState);
     setValue(0);
   };
 
   const handleRatingChange = async (event: React.ChangeEvent<unknown>, newValue: number | null) => {
-    if (newValue !== null) {
-      console.log(newValue - value);
-      const updateLike = newValue - value;
-      await apiClient.boke.post({
-        body: {
-          bokeId: selectedBoke?.bokeId,
-          userId: undefined,
-          text: undefined,
-          image: undefined,
-          like: updateLike,
-        },
-      });
-      setValue(newValue);
+    setLoginAlert(false);
+    if (profile !== null) {
+      if (newValue !== null) {
+        setValue(newValue);
+        console.log(newValue - value);
+        if (selectedBoke === null) {
+          return;
+        }
+        const updateLike = selectedBoke?.like + (newValue - value);
+        const newBokeState = await apiClient.boke.$post({
+          body: {
+            bokeId: selectedBoke?.bokeId,
+            userId: undefined,
+            text: undefined,
+            image: undefined,
+            like: updateLike,
+          },
+        });
+        if (newBokeState.bokeId === null || selectedBoke === null) {
+          console.error('bokeId is null or selectedBoke is null');
+          return;
+        }
+        const otherUserLike: OtherUserLikeModel = { bokeId: selectedBoke.bokeId, like: updateLike };
+        const UpdateInfo: UpdateOtherUserLikeModel = {
+          userId: profile.userId,
+          otherUserLike,
+        };
+        await apiClient.profile.updateprofile.$post({
+          body: UpdateInfo,
+        });
+        setSelectedBoke(newBokeState);
+      }
+    } else {
+      setLoginAlert(true);
     }
   };
 
@@ -142,5 +193,7 @@ export const useSelected = () => {
     navigateToRight,
     fetchSelectedBoke,
     closeBokeDetail,
+    loginAlert,
+    setValue,
   };
 };

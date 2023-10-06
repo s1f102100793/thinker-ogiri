@@ -58,6 +58,20 @@
   width: 60%;
 }
 
+.noUserAlert {
+  display: flex;
+  align-items: center;
+  align-self: center;
+  max-width: 60%;
+  padding: 10px 20px;
+  font-size: 2vh;
+  color: #587bcd;
+  text-align: center;
+  background-color: #d1e0fd;
+  border: #587bcd 1.5px solid;
+  border-radius: 5px;
+}
+
 .closeButton {
   display: flex;
   align-items: center;

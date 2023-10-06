@@ -18,6 +18,7 @@ interface CreateMainContentProps {
   newSubmitBoke: () => void;
   loginalert: boolean;
   signInWithGoogle: () => void;
+  createAlert: boolean;
 }
 
 const CreateMainContent: React.FC<CreateMainContentProps> = ({
@@ -34,6 +35,7 @@ const CreateMainContent: React.FC<CreateMainContentProps> = ({
   newSubmitBoke,
   loginalert,
   signInWithGoogle,
+  createAlert,
 }) => {
   useEffect(() => {
     let timerId: NodeJS.Timeout;
@@ -121,6 +123,7 @@ const CreateMainContent: React.FC<CreateMainContentProps> = ({
             placeholder="ぼけの言葉を入力"
           />
           <div className={styles.timerContainer}>残り時間: {timeRemaining}秒</div>
+          {createAlert ? <div className={styles.alert}>※ぼけの言葉を入力してください</div> : null}
           <button className={styles.submitButton} onClick={newSubmitBoke}>
             投稿する
           </button>

@@ -92,15 +92,28 @@
 }
 
 .timerContainer {
-  position: absolute;
-  top: 38vh;
+  position: relative;
+  top: 35vh;
+}
+
+.alert {
+  position: relative;
+  top: 42vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3vh;
+  color: #587bcd;
+  text-align: center;
+  background-color: #d1e0fd;
+  border: #587bcd 1.5px solid;
+  border-radius: 5px;
 }
 
 .submitButton {
-  position: absolute;
-  top: 45vh;
+  position: relative;
+  top: 43vh;
   padding: 1vh 2vw;
-  margin: 4vh;
   color: white;
   cursor: pointer;
   background-color: #434343;

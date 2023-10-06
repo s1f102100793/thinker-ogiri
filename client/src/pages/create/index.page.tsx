@@ -2,12 +2,13 @@ import Head from 'next/head';
 import CreateMainContent from 'src/components/CreateMainContent/CreateMainContent';
 import Footer from 'src/components/Footer/Footer';
 import Header from 'src/components/Header/Header';
+import LoadingModal from 'src/components/LoadingModal/LoadingModal';
 import { useAuth } from 'src/hooks/useAuth';
 import { useCreate } from 'src/hooks/useCreate';
 import styles from './create.module.css';
 
 const Create = () => {
-  const { profile, signInWithGoogle } = useAuth();
+  const { profile, signInWithGoogle, loadingProfile } = useAuth();
   const {
     imageData,
     loading,
@@ -16,6 +17,7 @@ const Create = () => {
     isDialogOpen,
     setIsDialogOpen,
     loginalert,
+    createAlert,
     createImage,
     imageSize,
     bokeText,
@@ -34,21 +36,28 @@ const Create = () => {
         />
       </Head>
       <Header />
-      <CreateMainContent
-        imageData={imageData}
-        loading={loading}
-        createImage={createImage}
-        imageSize={imageSize}
-        bokeText={bokeText}
-        setBokeText={setBokeText}
-        timeRemaining={timeRemaining}
-        setTimeRemaining={setTimeRemaining}
-        isDialogOpen={isDialogOpen}
-        setIsDialogOpen={setIsDialogOpen}
-        newSubmitBoke={newSubmitBoke}
-        loginalert={loginalert}
-        signInWithGoogle={signInWithGoogle}
-      />
+
+      {loadingProfile ? (
+        <LoadingModal open={loadingProfile} />
+      ) : (
+        <CreateMainContent
+          imageData={imageData}
+          loading={loading}
+          createImage={createImage}
+          imageSize={imageSize}
+          bokeText={bokeText}
+          setBokeText={setBokeText}
+          timeRemaining={timeRemaining}
+          setTimeRemaining={setTimeRemaining}
+          isDialogOpen={isDialogOpen}
+          setIsDialogOpen={setIsDialogOpen}
+          newSubmitBoke={newSubmitBoke}
+          loginalert={loginalert}
+          signInWithGoogle={signInWithGoogle}
+          createAlert={createAlert}
+        />
+      )}
+
       <Footer />
     </div>
   );

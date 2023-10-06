@@ -1,5 +1,6 @@
 import imageCompression from 'browser-image-compression';
 import type { ImageResponseModel, UserProfileModel } from 'commonTypesWithClient/models';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { apiClient } from 'src/utils/apiClient';
 
@@ -10,6 +11,8 @@ export const useCreate = (profile: UserProfileModel | null) => {
   const [timeRemaining, setTimeRemaining] = useState<number>(30);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [loginalert, setLoginAlert] = useState(false);
+  const [createAlert, setCreateAlert] = useState(false);
+  const router = useRouter();
 
   const imageSize = 300;
 
@@ -18,8 +21,6 @@ export const useCreate = (profile: UserProfileModel | null) => {
     maxWidthOrHeight: 1920,
     useWebWorker: true,
   };
-
-  const userId = 'gouta';
 
   const createImage = async () => {
     setLoginAlert(false);
@@ -32,8 +33,6 @@ export const useCreate = (profile: UserProfileModel | null) => {
           console.error('API response is null');
           return;
         }
-
-        // console.log(res.data[0]?.b64_json);
         if (res.data[0]?.b64_json) {
           setImageData(res.data[0].b64_json);
         }
@@ -51,13 +50,9 @@ export const useCreate = (profile: UserProfileModel | null) => {
 
   function dataURLToBlob(dataURL: DataURL): Blob {
     const BASE64_MARKER = ';base64,';
-    // console.log('BASE64_MARKER', BASE64_MARKER);
     const parts = dataURL.split(BASE64_MARKER);
-    // console.log('parts', parts);
     const contentType = parts[0].split(':')[1] || 'image/png';
-    // console.log('Content Type:', contentType);
     const raw = atob(parts[1]);
-    // console.log('Raw:', raw);
     const rawLength = raw.length;
     const uInt8Array = new Uint8Array(rawLength);
 
@@ -76,17 +71,11 @@ export const useCreate = (profile: UserProfileModel | null) => {
   }
 
   async function compressImage(base64String: string): Promise<string> {
-    console.log('Starting compressImage function...');
-
     const dataURL = `data:image/png;base64,${base64String}`;
     const blob = dataURLToBlob(dataURL);
-    // console.log('Blob:', blob);
     const file = blobToFile(blob, 'compressed_image.png');
     const compressedBlob = await imageCompression(file, compressionOptions);
-
-    // console.log('Compressed Blob:', compressedBlob);
     const reader = new FileReader();
-
     return new Promise((resolve, reject) => {
       reader.onload = (event) => resolve(event.target?.result as DataURL);
       reader.onerror = (error) => reject(new Error('Failed to read blob as DataURL'));
@@ -96,21 +85,27 @@ export const useCreate = (profile: UserProfileModel | null) => {
   }
 
   const newSubmitBoke = async () => {
-    // console.log('Starting newSubmitBoke function...');
-
+    if (bokeText === '') {
+      setCreateAlert(true);
+      return;
+    }
     try {
-      // console.log('Compressing image...');
-      // console.log('Image data:', imageData);
       const compressedImageData = await compressImage(imageData);
-      // console.log('Image compressed successfully.');
-
-      // console.log('Sending compressed image data...');
-      await apiClient.boke.post({
-        body: { bokeId: undefined, userId, text: bokeText, image: compressedImageData, like: 0 },
+      if (profile === null) {
+        return;
+      }
+      const latestboke = await apiClient.boke.$post({
+        body: {
+          bokeId: undefined,
+          userId: profile.userId,
+          text: bokeText,
+          image: compressedImageData,
+          like: 0,
+        },
       });
-      // console.log('Data sent successfully.');
       setImageData('');
       setBokeText('');
+      router.push(`/view/${latestboke.bokeId}?order=createdAt`);
     } catch (error) {
       console.error('Error in newSubmitBoke:', error);
     }
@@ -126,6 +121,7 @@ export const useCreate = (profile: UserProfileModel | null) => {
     isDialogOpen,
     setIsDialogOpen,
     loginalert,
+    createAlert,
     createImage,
     imageSize,
     bokeText,

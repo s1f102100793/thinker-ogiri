@@ -6,11 +6,14 @@ import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
 import FullScreenBokeRight from 'src/components/FullScreenbokeRight.tsx/FullScreenBokeRight';
 import Header from 'src/components/Header/Header';
+import LoadingModal from 'src/components/LoadingModal/LoadingModal';
+import { useAuth } from 'src/hooks/useAuth';
 import { useSelected } from 'src/hooks/useSelected';
 import { apiClient } from 'src/utils/apiClient';
 import styles from './bokeid.module.css';
 
 const BokeDetail = () => {
+  const { profile, signInWithGoogle, loadingProfile } = useAuth();
   const {
     openTwitterShare,
     openFacebookShare,
@@ -20,7 +23,9 @@ const BokeDetail = () => {
     selectedBoke,
     value,
     setSelectedBoke,
-  } = useSelected();
+    loginAlert,
+    setValue,
+  } = useSelected(profile);
 
   const router = useRouter();
   const rawBokeId = router.query.bokeId;
@@ -58,9 +63,7 @@ const BokeDetail = () => {
 
   const fetchSelectedBoke = useCallback(async () => {
     if (bokeId !== null) {
-      console.log(bokeId);
       const databaseSelectedboke = await apiClient.boke.selected.$post({ body: { bokeId } });
-      console.log(databaseSelectedboke);
 
       if (!Array.isArray(databaseSelectedboke)) {
         setSelectedBoke(databaseSelectedboke);
@@ -78,6 +81,15 @@ const BokeDetail = () => {
   useEffect(() => {
     fetchBoke();
   }, []);
+
+  useEffect(() => {
+    if (bokeId !== null && profile?.otherUserLike) {
+      const matchedLike = profile.otherUserLike.find((like) => like.bokeId === bokeId);
+      if (matchedLike) {
+        setValue(matchedLike.like);
+      }
+    }
+  }, [bokeId, profile?.otherUserLike, setValue]);
 
   useEffect(() => {
     if (order === 'like') {
@@ -122,36 +134,45 @@ const BokeDetail = () => {
         />
       </Head>
       <Header />
-      <button className={styles.leftButton} onClick={navigateToLeft}>
-        <ArrowCircleLeftIcon fontSize="large" />
-      </button>
+      {loadingProfile ? (
+        <LoadingModal open={loadingProfile} />
+      ) : (
+        <>
+          <button className={styles.leftButton} onClick={navigateToLeft}>
+            <ArrowCircleLeftIcon fontSize="large" />
+          </button>
 
-      {selectedBoke !== null && (
-        <div className={styles.contentWrapper}>
-          <div className={styles.fullScreenBoke}>
-            <div className={styles.fullScreenBokeLeft}>
-              <img
-                className={styles.fullScreenImage}
-                src={selectedBoke.image}
-                alt={`Boke ${selectedBoke.bokeId}`}
-              />
+          {selectedBoke && (
+            <div className={styles.contentWrapper}>
+              <div className={styles.fullScreenBoke}>
+                <div className={styles.fullScreenBokeLeft}>
+                  <img
+                    className={styles.fullScreenImage}
+                    src={selectedBoke.image}
+                    alt={`Boke ${selectedBoke.bokeId}`}
+                  />
+                </div>
+                <FullScreenBokeRight
+                  selectedBoke={selectedBoke}
+                  value={value}
+                  handleRatingChange={handleRatingChange}
+                  handleCancel={handleCancel}
+                  openTwitterShare={openTwitterShare}
+                  openFacebookShare={openFacebookShare}
+                  closeBokeDetail={closeBokeDetail}
+                  timeSince={timeSince}
+                  loginAlert={loginAlert}
+                  signInWithGoogle={signInWithGoogle}
+                />
+              </div>
             </div>
-            <FullScreenBokeRight
-              selectedBoke={selectedBoke}
-              value={value}
-              handleRatingChange={handleRatingChange}
-              handleCancel={handleCancel}
-              openTwitterShare={openTwitterShare}
-              openFacebookShare={openFacebookShare}
-              closeBokeDetail={closeBokeDetail}
-              timeSince={timeSince}
-            />
-          </div>
-        </div>
+          )}
+
+          <button className={styles.rightButton} onClick={navigateToRight}>
+            <ArrowCircleRightIcon fontSize="large" />
+          </button>
+        </>
       )}
-      <button className={styles.rightButton} onClick={navigateToRight}>
-        <ArrowCircleRightIcon fontSize="large" />
-      </button>
     </div>
   );
 };

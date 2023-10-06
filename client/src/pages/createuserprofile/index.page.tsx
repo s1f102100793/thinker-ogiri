@@ -38,7 +38,7 @@ const User = () => {
       otherUserLike: [],
     };
 
-    const response = await apiClient.userprofile.$post({ body: UserModel });
+    const response = await apiClient.profile.uploadprofile.$post({ body: UserModel });
 
     if (response.error !== null) {
       const apiErrors = parseApiErrors(response.error);

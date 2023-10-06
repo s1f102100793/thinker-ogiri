@@ -8,6 +8,7 @@ type ProfileProps = {
   bokes: BokeModel[];
   handleShowMore: () => void;
   visibleBokesCount: number;
+  redirectToBokePage: (bokeId: number) => void;
 };
 
 const ProfilePage: React.FC<ProfileProps> = ({
@@ -15,6 +16,7 @@ const ProfilePage: React.FC<ProfileProps> = ({
   bokes,
   handleShowMore,
   visibleBokesCount,
+  redirectToBokePage,
 }) => {
   let displayGender;
   if (profile?.mailAddress !== null) {
@@ -68,7 +70,11 @@ const ProfilePage: React.FC<ProfileProps> = ({
               <div className={styles.title}>{profile?.userId}さんの投稿したぼけ</div>
               <div className={styles.bokelist}>
                 {bokes.slice(0, visibleBokesCount).map((boke) => (
-                  <div key={boke.bokeId} className={styles.boke}>
+                  <div
+                    key={boke.bokeId}
+                    className={styles.boke}
+                    onClick={() => redirectToBokePage(boke.bokeId)}
+                  >
                     <img src={boke.image} alt="boke" />
                     <p>{boke.text}</p>
                     <span>{`Likes: ${boke.like}`}</span>

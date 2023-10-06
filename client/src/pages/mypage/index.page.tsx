@@ -1,4 +1,5 @@
 import type { BokeModel } from 'commonTypesWithClient/models';
+import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
 import ProfilePage from 'src/components/ProfilePage/ProfilePage';
 import { useAuth } from 'src/hooks/useAuth';
@@ -6,7 +7,7 @@ import { apiClient } from 'src/utils/apiClient';
 
 const Mypage = () => {
   const { profile } = useAuth();
-
+  const router = useRouter();
   const [bokes, setBokes] = useState<BokeModel[]>([]);
   const [visibleBokesCount, setVisibleBokesCount] = useState(10);
 
@@ -26,12 +27,17 @@ const Mypage = () => {
     fetchUserIdBoke();
   }, [fetchUserIdBoke]);
 
+  const redirectToBokePage = (bokeId: number) => {
+    router.push(`/view/${bokeId}?order=random`);
+  };
+
   return (
     <ProfilePage
       profile={profile}
       bokes={bokes}
       handleShowMore={handleShowMore}
       visibleBokesCount={visibleBokesCount}
+      redirectToBokePage={redirectToBokePage}
     />
   );
 };

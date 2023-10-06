@@ -1,4 +1,5 @@
 import type { BokeModel, UserProfileModel } from 'commonTypesWithClient/models';
+import { useRouter } from 'next/router';
 import Footer from '../Footer/Footer';
 import Header from '../Header/Header';
 import styles from './profilepage.module.css';
@@ -18,6 +19,7 @@ const ProfilePage: React.FC<ProfileProps> = ({
   visibleBokesCount,
   redirectToBokePage,
 }) => {
+  const router = useRouter();
   let displayGender;
   if (profile?.mailAddress !== null) {
     displayGender = '男性';
@@ -50,10 +52,12 @@ const ProfilePage: React.FC<ProfileProps> = ({
                   <span className={styles.detailKey}>ユーザーID:</span>
                   <span className={styles.detailValue}>{profile?.userId}</span>
                 </div>
-                <div className={styles.detailItem}>
-                  <span className={styles.detailKey}>メールアドレス:</span>
-                  <span className={styles.detailValue}>{profile?.mailAddress}</span>
-                </div>
+                {router.pathname === '/mypage' && (
+                  <div className={styles.detailItem}>
+                    <span className={styles.detailKey}>メールアドレス:</span>
+                    <span className={styles.detailValue}>{profile?.mailAddress}</span>
+                  </div>
+                )}
                 <div className={styles.detailItem}>
                   <span className={styles.detailKey}>場所:</span>
                   <span className={styles.detailValue}>{profile?.location}</span>
@@ -90,7 +94,7 @@ const ProfilePage: React.FC<ProfileProps> = ({
                 )}
               </div>
             </div>
-            <div className={styles.rightcontent} />
+            <div className={styles.rightcontent}>広告をこちらに表示</div>
           </div>
         </div>
       </div>

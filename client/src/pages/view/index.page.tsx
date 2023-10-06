@@ -55,34 +55,36 @@ const View = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [offset, setOffset] = useState(0);
 
-  useEffect(() => {
-    // eslint-disable-next-line complexity
-    const handleScroll = (e: WheelEvent) => {
-      e.preventDefault();
-      if (wrapperRef.current) {
-        const wrapperWidth = wrapperRef.current.clientWidth;
+  // useEffect(() => {
+  //   // eslint-disable-next-line complexity
+  //   const handleScroll = (e: WheelEvent) => {
+  //     e.preventDefault();
+  //     if (wrapperRef.current) {
+  //       const wrapperWidth = wrapperRef.current.clientWidth;
+  //       const oneThirdWidth = window.innerWidth <= 576 ? wrapperWidth : wrapperWidth * 0.33;
 
-        const oneThirdWidth = window.innerWidth <= 576 ? wrapperWidth : wrapperWidth * 0.33;
+  //       if (e.deltaY > 0 && currentIndex < bokeData.length - 1) {
+  //         setCurrentIndex((prevIndex) => prevIndex + 1);
+  //       } else if (e.deltaY < 0 && currentIndex > 0) {
+  //         setCurrentIndex((prevIndex) => prevIndex - 1);
+  //       }
+  //     }
+  //   };
 
-        let newOffset = currentIndex * oneThirdWidth;
+  //   window.addEventListener('wheel', handleScroll, { passive: false });
+  //   return () => {
+  //     window.removeEventListener('wheel', handleScroll);
+  //   };
+  // }, [bokeData.length, currentIndex]);
 
-        if (e.deltaY > 0 && currentIndex < bokeData.length - 1) {
-          setCurrentIndex((prevIndex) => prevIndex + 1);
-          newOffset += oneThirdWidth;
-        } else if (e.deltaY < 0 && currentIndex > 0) {
-          setCurrentIndex((prevIndex) => prevIndex - 1);
-          newOffset -= oneThirdWidth;
-        }
-
-        setOffset(newOffset);
-      }
-    };
-
-    window.addEventListener('wheel', handleScroll, { passive: false });
-    return () => {
-      window.removeEventListener('wheel', handleScroll);
-    };
-  }, [bokeData.length, currentIndex]);
+  // useEffect(() => {
+  //   if (wrapperRef.current) {
+  //     const wrapperWidth = wrapperRef.current.clientWidth;
+  //     const oneThirdWidth = window.innerWidth <= 576 ? wrapperWidth : wrapperWidth * 0.33;
+  //     const newOffset = (currentIndex - 1) * oneThirdWidth; // ここでoffsetを更新
+  //     setOffset(newOffset);
+  //   }
+  // }, [currentIndex]);
 
   useEffect(() => {
     fetchBoke();

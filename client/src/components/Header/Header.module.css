@@ -68,5 +68,6 @@
   .link {
     padding: 0 2vw;
     font-size: 1.5vh;
+    font-weight: bold;
   }
 }

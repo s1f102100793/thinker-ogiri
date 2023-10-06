@@ -24,3 +24,10 @@
   border: #587bcd 1.5px solid;
   border-radius: 5px;
 }
+
+@media (max-width: 576px) {
+  .alert {
+    top: 30%;
+    font-size: 2vh;
+  }
+}

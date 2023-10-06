@@ -47,7 +47,9 @@ export const useAuth = () => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
       setLoading(false);
-      fetchUserProfile();
+      if (user) {
+        fetchUserProfile();
+      }
     });
     return () => unsubscribe();
   }, [setUser, setLoadingProfile, fetchUserProfile, loadingProfile]);

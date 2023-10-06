@@ -8,7 +8,7 @@ import { apiClient } from 'src/utils/apiClient';
 const Mypage = () => {
   const { profile } = useAuth();
   const router = useRouter();
-  const [bokes, setBokes] = useState<BokeModel[]>([]);
+  const [bokes, setBokes] = useState<BokeModel[] | null>([]);
   const [visibleBokesCount, setVisibleBokesCount] = useState(10);
 
   const handleShowMore = () => {
@@ -16,7 +16,10 @@ const Mypage = () => {
   };
 
   const fetchUserIdBoke = useCallback(async () => {
+    console.log(profile);
     if (profile === null) {
+      setBokes(null);
+      console.log('profile is null');
       return;
     }
     const response = await apiClient.boke.userboke.$post({ body: { userId: profile?.userId } });
@@ -31,7 +34,7 @@ const Mypage = () => {
     router.push(`/view/${bokeId}?order=random`);
   };
 
-  return (
+  return bokes !== null ? (
     <ProfilePage
       profile={profile}
       bokes={bokes}
@@ -39,7 +42,7 @@ const Mypage = () => {
       visibleBokesCount={visibleBokesCount}
       redirectToBokePage={redirectToBokePage}
     />
-  );
+  ) : null;
 };
 
 export default Mypage;

@@ -45,7 +45,6 @@ const View = () => {
     if (wrapperRef.current) {
       const wrapperWidth = wrapperRef.current.clientWidth;
       const newOffset = clickedIndex * wrapperWidth * 0.33;
-      setOffset(newOffset);
       setCurrentIndex(clickedIndex);
     }
     router.push(`/view/${boke.bokeId}?order=${sortOrder}`);
@@ -53,38 +52,36 @@ const View = () => {
 
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [offset, setOffset] = useState(0);
+  const handleScroll = () => {
+    if (wrapperRef.current) {
+      const scrollWidth = wrapperRef.current.clientWidth;
+      const newCurrentIndex = Math.round(wrapperRef.current.scrollLeft / scrollWidth);
 
-  // useEffect(() => {
-  //   // eslint-disable-next-line complexity
-  //   const handleScroll = (e: WheelEvent) => {
-  //     e.preventDefault();
-  //     if (wrapperRef.current) {
-  //       const wrapperWidth = wrapperRef.current.clientWidth;
-  //       const oneThirdWidth = window.innerWidth <= 576 ? wrapperWidth : wrapperWidth * 0.33;
+      // 中央のアイテムが選ばれた場合、スクロールを一時的に無効化
+      if (newCurrentIndex === 1) {
+        wrapperRef.current.style.overflowX = 'hidden';
+        setTimeout(() => {
+          wrapperRef.current.style.overflowX = 'scroll';
+        }, 1000); // 1秒後にスクロールを再開
+      }
 
-  //       if (e.deltaY > 0 && currentIndex < bokeData.length - 1) {
-  //         setCurrentIndex((prevIndex) => prevIndex + 1);
-  //       } else if (e.deltaY < 0 && currentIndex > 0) {
-  //         setCurrentIndex((prevIndex) => prevIndex - 1);
-  //       }
-  //     }
-  //   };
+      if (newCurrentIndex !== currentIndex) {
+        setCurrentIndex(newCurrentIndex);
+      }
+    }
+  };
 
-  //   window.addEventListener('wheel', handleScroll, { passive: false });
-  //   return () => {
-  //     window.removeEventListener('wheel', handleScroll);
-  //   };
-  // }, [bokeData.length, currentIndex]);
+  const handleVerticalScroll = (event) => {
+    if (wrapperRef.current) {
+      // 縦スクロール量を取得
+      const deltaY = event.deltaY;
 
-  // useEffect(() => {
-  //   if (wrapperRef.current) {
-  //     const wrapperWidth = wrapperRef.current.clientWidth;
-  //     const oneThirdWidth = window.innerWidth <= 576 ? wrapperWidth : wrapperWidth * 0.33;
-  //     const newOffset = (currentIndex - 1) * oneThirdWidth; // ここでoffsetを更新
-  //     setOffset(newOffset);
-  //   }
-  // }, [currentIndex]);
+      // 横スクロールに変換
+      wrapperRef.current.scrollLeft += deltaY;
+      event.preventDefault();
+    }
+    handleScroll();
+  };
 
   useEffect(() => {
     fetchBoke();
@@ -107,9 +104,8 @@ const View = () => {
           <button onClick={() => sortBoke('createdAt')}>CreatedAt</button>
           <button onClick={() => sortBoke('random')}>Random</button>
         </div>
-        <div className={styles.contentWrapper} ref={wrapperRef}>
-          <div className={styles.bokeList} style={{ transform: `translateX(-${offset}px)` }}>
-            <div className={styles.initialMargin} />
+        <div className={styles.contentWrapper} ref={wrapperRef} onWheel={handleVerticalScroll}>
+          <div className={styles.bokeList}>
             {bokeData.map((boke, index) => (
               <div
                 key={boke.bokeId}

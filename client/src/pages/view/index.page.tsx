@@ -61,6 +61,7 @@ const View = () => {
       if (newCurrentIndex === 1) {
         wrapperRef.current.style.overflowX = 'hidden';
         setTimeout(() => {
+          if (wrapperRef.current === null) return;
           wrapperRef.current.style.overflowX = 'scroll';
         }, 1000); // 1秒後にスクロールを再開
       }

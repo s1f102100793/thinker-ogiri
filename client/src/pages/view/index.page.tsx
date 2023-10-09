@@ -72,7 +72,7 @@ const View = () => {
     }
   };
 
-  const handleVerticalScroll = (event) => {
+  const handleVerticalScroll = (event: React.WheelEvent<HTMLDivElement>) => {
     if (wrapperRef.current) {
       // 縦スクロール量を取得
       const deltaY = event.deltaY;

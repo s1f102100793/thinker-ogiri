@@ -34,7 +34,7 @@ const Userpage = () => {
 
   const redirectToBokePage = (bokeId: number) => {
     router.push(`/view/${bokeId}?order=random`);
-  }
+  };
 
   return (
     <ProfilePage

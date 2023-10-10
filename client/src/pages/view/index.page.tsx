@@ -105,24 +105,22 @@ const View = () => {
           <button onClick={() => sortBoke('createdAt')}>CreatedAt</button>
           <button onClick={() => sortBoke('random')}>Random</button>
         </div>
-        <div className={styles.contentWrapper} ref={wrapperRef} onWheel={handleVerticalScroll}>
-          <div className={styles.bokeList}>
-            {bokeData.map((boke, index) => (
-              <div
-                key={boke.bokeId}
-                className={`${styles.bokeItem} ${index === currentIndex ? styles.centerItem : ''}`}
-                onClick={() => handleBokeClick(boke, index)}
-              >
-                <div className={styles.imageBorder}>
-                  <img src={boke.image} alt={`Boke ${boke.bokeId}`} />
-                </div>
-                <div className={styles.description}>
-                  <div className={styles.textWrapper}>{boke.text}</div>
-                  <div className={styles.likeWrapper}>{boke.like}</div>
-                </div>
+        <div ref={wrapperRef} onWheel={handleVerticalScroll} className={styles.imageContainer}>
+          {bokeData.map((boke, index) => (
+            <div
+              key={boke.bokeId}
+              onClick={() => handleBokeClick(boke, index)}
+              className={`${styles.bokeWrapper} ${currentIndex === index ? styles.centerItem : ''}`}
+            >
+              <div className={styles.imageWrapper}>
+                <img src={boke.image} alt={`Boke ${boke.bokeId}`} className={styles.bokeImage} />
               </div>
-            ))}
-          </div>
+              <div className={styles.textWrapper}>
+                <div className={styles.bokeText}>{boke.text}</div>
+                <div className={styles.bokeLike}>{boke.like}</div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
       <Footer />

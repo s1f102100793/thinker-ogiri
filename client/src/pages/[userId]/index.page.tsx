@@ -32,12 +32,17 @@ const Userpage = () => {
     fetchUserIdBoke();
   }, [fetchUserProfile, fetchUserIdBoke]);
 
+  const redirectToBokePage = (bokeId: number) => {
+    router.push(`/view/${bokeId}?order=random`);
+  };
+
   return (
     <ProfilePage
       profile={profile}
       bokes={bokes}
       handleShowMore={handleShowMore}
       visibleBokesCount={visibleBokesCount}
+      redirectToBokePage={redirectToBokePage}
     />
   );
 };

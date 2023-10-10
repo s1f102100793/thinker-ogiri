@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 120vh;
+  height: 100vh;
   overflow-y: hidden;
   background-color: #fff;
 }
@@ -13,13 +13,67 @@
   flex: 1;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   width: 100%;
+  height: 88vh;
   margin-top: 15vh;
+}
+
+.imageContainer {
+  display: flex;
+  gap: 40px;
+  width: calc(100% - 80px);
+  padding: 40px;
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+
+.bokeWrapper {
+  flex: 0 0 calc(33.33% - 80px);
+  padding: 20px;
+  background-color: #fff;
+  border: 10px solid #5a5a5a;
+  box-shadow: 3px 3px 10px rgb(0 0 0 / 20%);
+  transition: transform 0.5s;
+  transform: scale(0.9);
+}
+
+.imageWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bokeImage {
+  max-width: 300px;
+  height: auto;
+  border: 3px solid black;
+}
+
+.conterItem {
+  transform: scale(1.5);
+}
+
+.centerItem img {
+  transition: transform 0.5s;
+}
+
+.textWrapper {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.bokeText {
+  font-size: 18px;
+}
+
+.bokeLike {
+  font-size: 16px;
+  color: #555;
 }
 
 .buttonList {
   position: relative;
+  top: 0;
   display: flex;
   gap: 20px;
   align-items: center;
@@ -27,7 +81,6 @@
   justify-content: center;
   width: 100%;
   height: 8vh;
-  background-color: #fff;
 }
 
 .buttonList button {
@@ -45,116 +98,7 @@
   background-color: #333;
 }
 
-.contentWrapper {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 80vh;
-  overflow-x: hidden;
-  overflow-y: hidden;
-  background-color: #fff;
-  perspective: 1000px;
-}
-
-.bokeList {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  align-self: center;
-  height: 80%;
-  transition: transform 0.5s ease;
-}
-
-.initialMargin {
-  flex: 0 0 33.33%;
-}
-
-.bokeItem {
-  z-index: 2;
-  flex: 0 0 33%;
-  opacity: 0.7;
-  transition: transform 0.3s ease;
-}
-
-.centerItem {
-  z-index: 2;
-  opacity: 1;
-  transform: scale(1.2);
-}
-
-.imageBorder {
-  position: relative;
-  width: 60%;
-  padding: 10%;
-  margin: 5% auto;
-  background-color: #fff;
-  border: 5px solid #434343;
-}
-
-.imageBorder::after {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: -1;
-  display: block;
-  width: 100%;
-  height: 100%;
-  content: '';
-  background-color: rgb(0 0 0);
-  filter: blur(15px);
-  mix-blend-mode: multiply;
-  transform: translate(-4%, 2.5%) scale(1.05);
-}
-
-.bokeItem img {
-  position: relative;
-  z-index: 1;
-  max-width: 100%;
-  transition: 0.3s;
-}
-
-.description {
-  position: relative;
-  width: 30%;
-  padding: 1%;
-  margin-left: 20%;
-  background-color: white;
-}
-
-.description::after {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: -1;
-  display: block;
-  width: 100%;
-  height: 100%;
-  content: '';
-  background-color: rgb(0 0 0);
-  filter: blur(15px);
-  mix-blend-mode: multiply;
-  transform: translate(-4%, 2.5%) scale(1.05);
-}
-
-.textWrapper,
-.likeWrapper {
-  box-sizing: border-box;
-  width: 100%;
-  padding: 1%;
-}
-
-.textWrapper {
-  margin-bottom: 1%;
-}
-
 @media (max-width: 576px) {
-  .contentWrapper {
-    height: 60vh;
-  }
-
   .initialMargin {
     flex: 0 0 0%;
   }

@@ -78,7 +78,11 @@ export const FullScreenBokeRight: React.FC<FullScreenBokeRightProps> = ({
             onChange={handleRatingChange}
             max={3}
           />
-          {value > 0 && <button onClick={handleCancel}>取り消し</button>}
+          {value > 0 && (
+            <button className={styles.cancel} onClick={handleCancel}>
+              取り消し
+            </button>
+          )}
         </div>
       ) : (
         <div onClick={signInWithGoogle} className={styles.noUserAlert}>

@@ -4,6 +4,7 @@ import type { BokeModel } from 'commonTypesWithClient/models';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
+import Footer from 'src/components/Footer/Footer';
 import FullScreenBokeRight from 'src/components/FullScreenbokeRight.tsx/FullScreenBokeRight';
 import Header from 'src/components/Header/Header';
 import LoadingModal from 'src/components/LoadingModal/LoadingModal';
@@ -171,6 +172,7 @@ const BokeDetail = () => {
           <button className={styles.rightButton} onClick={navigateToRight}>
             <ArrowCircleRightIcon fontSize="large" />
           </button>
+          <Footer />
         </>
       )}
     </div>

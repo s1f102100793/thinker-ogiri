@@ -45,7 +45,6 @@ const View = () => {
     if (wrapperRef.current) {
       const wrapperWidth = wrapperRef.current.clientWidth;
       const newOffset = clickedIndex * wrapperWidth * 0.33;
-      setOffset(newOffset);
       setCurrentIndex(clickedIndex);
     }
     router.push(`/view/${boke.bokeId}?order=${sortOrder}`);
@@ -53,36 +52,37 @@ const View = () => {
 
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [offset, setOffset] = useState(0);
+  const handleScroll = () => {
+    if (wrapperRef.current) {
+      const scrollWidth = wrapperRef.current.clientWidth;
+      const newCurrentIndex = Math.round(wrapperRef.current.scrollLeft / scrollWidth);
 
-  useEffect(() => {
-    // eslint-disable-next-line complexity
-    const handleScroll = (e: WheelEvent) => {
-      e.preventDefault();
-      if (wrapperRef.current) {
-        const wrapperWidth = wrapperRef.current.clientWidth;
-
-        const oneThirdWidth = window.innerWidth <= 576 ? wrapperWidth : wrapperWidth * 0.33;
-
-        let newOffset = currentIndex * oneThirdWidth;
-
-        if (e.deltaY > 0 && currentIndex < bokeData.length - 1) {
-          setCurrentIndex((prevIndex) => prevIndex + 1);
-          newOffset += oneThirdWidth;
-        } else if (e.deltaY < 0 && currentIndex > 0) {
-          setCurrentIndex((prevIndex) => prevIndex - 1);
-          newOffset -= oneThirdWidth;
-        }
-
-        setOffset(newOffset);
+      // 中央のアイテムが選ばれた場合、スクロールを一時的に無効化
+      if (newCurrentIndex === 1) {
+        wrapperRef.current.style.overflowX = 'hidden';
+        setTimeout(() => {
+          if (wrapperRef.current === null) return;
+          wrapperRef.current.style.overflowX = 'scroll';
+        }, 1000); // 1秒後にスクロールを再開
       }
-    };
 
-    window.addEventListener('wheel', handleScroll, { passive: false });
-    return () => {
-      window.removeEventListener('wheel', handleScroll);
-    };
-  }, [bokeData.length, currentIndex]);
+      if (newCurrentIndex !== currentIndex) {
+        setCurrentIndex(newCurrentIndex);
+      }
+    }
+  };
+
+  const handleVerticalScroll = (event: React.WheelEvent<HTMLDivElement>) => {
+    if (wrapperRef.current) {
+      // 縦スクロール量を取得
+      const deltaY = event.deltaY;
+
+      // 横スクロールに変換
+      wrapperRef.current.scrollLeft += deltaY;
+      event.preventDefault();
+    }
+    handleScroll();
+  };
 
   useEffect(() => {
     fetchBoke();
@@ -105,25 +105,22 @@ const View = () => {
           <button onClick={() => sortBoke('createdAt')}>CreatedAt</button>
           <button onClick={() => sortBoke('random')}>Random</button>
         </div>
-        <div className={styles.contentWrapper} ref={wrapperRef}>
-          <div className={styles.bokeList} style={{ transform: `translateX(-${offset}px)` }}>
-            <div className={styles.initialMargin} />
-            {bokeData.map((boke, index) => (
-              <div
-                key={boke.bokeId}
-                className={`${styles.bokeItem} ${index === currentIndex ? styles.centerItem : ''}`}
-                onClick={() => handleBokeClick(boke, index)}
-              >
-                <div className={styles.imageBorder}>
-                  <img src={boke.image} alt={`Boke ${boke.bokeId}`} />
-                </div>
-                <div className={styles.description}>
-                  <div className={styles.textWrapper}>{boke.text}</div>
-                  <div className={styles.likeWrapper}>{boke.like}</div>
-                </div>
+        <div ref={wrapperRef} onWheel={handleVerticalScroll} className={styles.imageContainer}>
+          {bokeData.map((boke, index) => (
+            <div
+              key={boke.bokeId}
+              onClick={() => handleBokeClick(boke, index)}
+              className={`${styles.bokeWrapper} ${currentIndex === index ? styles.centerItem : ''}`}
+            >
+              <div className={styles.imageWrapper}>
+                <img src={boke.image} alt={`Boke ${boke.bokeId}`} className={styles.bokeImage} />
               </div>
-            ))}
-          </div>
+              <div className={styles.textWrapper}>
+                <div className={styles.bokeText}>{boke.text}</div>
+                <div className={styles.bokeLike}>{boke.like}</div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
       <Footer />

@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 118vh;
+  height: 100vh;
   overflow-y: hidden;
   background-color: #fff;
 }
@@ -55,7 +55,6 @@
 
 .centerItem img {
   transition: transform 0.5s;
-  transform: scale(1.5);
 }
 
 .textWrapper {
@@ -82,7 +81,6 @@
   justify-content: center;
   width: 100%;
   height: 8vh;
-  background-color: #ccc;
 }
 
 .buttonList button {

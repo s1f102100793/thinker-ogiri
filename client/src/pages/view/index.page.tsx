@@ -2,7 +2,6 @@ import type { BokeModel } from 'commonTypesWithClient/models';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
-import Footer from 'src/components/Footer/Footer';
 import Header from 'src/components/Header/Header';
 import { apiClient } from 'src/utils/apiClient';
 import styles from './view.module.css';
@@ -52,36 +51,13 @@ const View = () => {
 
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const handleScroll = () => {
-    if (wrapperRef.current) {
-      const scrollWidth = wrapperRef.current.clientWidth;
-      const newCurrentIndex = Math.round(wrapperRef.current.scrollLeft / scrollWidth);
-
-      // 中央のアイテムが選ばれた場合、スクロールを一時的に無効化
-      if (newCurrentIndex === 1) {
-        wrapperRef.current.style.overflowX = 'hidden';
-        setTimeout(() => {
-          if (wrapperRef.current === null) return;
-          wrapperRef.current.style.overflowX = 'scroll';
-        }, 1000); // 1秒後にスクロールを再開
-      }
-
-      if (newCurrentIndex !== currentIndex) {
-        setCurrentIndex(newCurrentIndex);
-      }
-    }
-  };
 
   const handleVerticalScroll = (event: React.WheelEvent<HTMLDivElement>) => {
     if (wrapperRef.current) {
-      // 縦スクロール量を取得
       const deltaY = event.deltaY;
-
-      // 横スクロールに変換
       wrapperRef.current.scrollLeft += deltaY;
       event.preventDefault();
     }
-    handleScroll();
   };
 
   useEffect(() => {
@@ -110,7 +86,7 @@ const View = () => {
             <div
               key={boke.bokeId}
               onClick={() => handleBokeClick(boke, index)}
-              className={`${styles.bokeWrapper} ${currentIndex === index ? styles.centerItem : ''}`}
+              className={styles.bokeWrapper}
             >
               <div className={styles.imageWrapper}>
                 <img src={boke.image} alt={`Boke ${boke.bokeId}`} className={styles.bokeImage} />
@@ -123,7 +99,7 @@ const View = () => {
           ))}
         </div>
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };

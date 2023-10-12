@@ -7,7 +7,6 @@ import { useCallback, useEffect, useState } from 'react';
 import Footer from 'src/components/Footer/Footer';
 import FullScreenBokeRight from 'src/components/FullScreenbokeRight.tsx/FullScreenBokeRight';
 import Header from 'src/components/Header/Header';
-import LoadingModal from 'src/components/LoadingModal/LoadingModal';
 import { useAuth } from 'src/hooks/useAuth';
 import { useSelected } from 'src/hooks/useSelected';
 import { apiClient } from 'src/utils/apiClient';
@@ -134,44 +133,40 @@ const BokeDetail = () => {
           rel="stylesheet"
         />
       </Head>
-      <Header />
-      {loadingProfile ? (
-        <LoadingModal open={loadingProfile} />
-      ) : (
+
+      {selectedBoke && (
         <>
+          <Header />
           <button className={styles.leftButton} onClick={navigateToLeft}>
             <ArrowCircleLeftIcon fontSize="large" />
           </button>
-
-          {selectedBoke && (
-            <div className={styles.contentWrapper}>
-              <div className={styles.fullScreenBoke}>
-                <div className={styles.fullScreenBokeLeft}>
-                  <img
-                    className={styles.fullScreenImage}
-                    src={selectedBoke.image}
-                    alt={`Boke ${selectedBoke.bokeId}`}
-                  />
-                </div>
-                <FullScreenBokeRight
-                  selectedBoke={selectedBoke}
-                  value={value}
-                  handleRatingChange={handleRatingChange}
-                  handleCancel={handleCancel}
-                  openTwitterShare={openTwitterShare}
-                  openFacebookShare={openFacebookShare}
-                  closeBokeDetail={closeBokeDetail}
-                  timeSince={timeSince}
-                  loginAlert={loginAlert}
-                  signInWithGoogle={signInWithGoogle}
+          <div className={styles.contentWrapper}>
+            <div className={styles.fullScreenBoke}>
+              <div className={styles.fullScreenBokeLeft}>
+                <img
+                  className={styles.fullScreenImage}
+                  src={selectedBoke.image}
+                  alt={`Boke ${selectedBoke.bokeId}`}
                 />
               </div>
+              <FullScreenBokeRight
+                selectedBoke={selectedBoke}
+                value={value}
+                handleRatingChange={handleRatingChange}
+                handleCancel={handleCancel}
+                openTwitterShare={openTwitterShare}
+                openFacebookShare={openFacebookShare}
+                closeBokeDetail={closeBokeDetail}
+                timeSince={timeSince}
+                loginAlert={loginAlert}
+                signInWithGoogle={signInWithGoogle}
+              />
             </div>
-          )}
-
+          </div>
           <button className={styles.rightButton} onClick={navigateToRight}>
             <ArrowCircleRightIcon fontSize="large" />
           </button>
+
           <Footer />
         </>
       )}

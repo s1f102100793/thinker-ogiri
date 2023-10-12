@@ -133,41 +133,43 @@ const BokeDetail = () => {
           rel="stylesheet"
         />
       </Head>
-      <Header />
-      <button className={styles.leftButton} onClick={navigateToLeft}>
-        <ArrowCircleLeftIcon fontSize="large" />
-      </button>
 
       {selectedBoke && (
-        <div className={styles.contentWrapper}>
-          <div className={styles.fullScreenBoke}>
-            <div className={styles.fullScreenBokeLeft}>
-              <img
-                className={styles.fullScreenImage}
-                src={selectedBoke.image}
-                alt={`Boke ${selectedBoke.bokeId}`}
+        <>
+          <Header />
+          <button className={styles.leftButton} onClick={navigateToLeft}>
+            <ArrowCircleLeftIcon fontSize="large" />
+          </button>
+          <div className={styles.contentWrapper}>
+            <div className={styles.fullScreenBoke}>
+              <div className={styles.fullScreenBokeLeft}>
+                <img
+                  className={styles.fullScreenImage}
+                  src={selectedBoke.image}
+                  alt={`Boke ${selectedBoke.bokeId}`}
+                />
+              </div>
+              <FullScreenBokeRight
+                selectedBoke={selectedBoke}
+                value={value}
+                handleRatingChange={handleRatingChange}
+                handleCancel={handleCancel}
+                openTwitterShare={openTwitterShare}
+                openFacebookShare={openFacebookShare}
+                closeBokeDetail={closeBokeDetail}
+                timeSince={timeSince}
+                loginAlert={loginAlert}
+                signInWithGoogle={signInWithGoogle}
               />
             </div>
-            <FullScreenBokeRight
-              selectedBoke={selectedBoke}
-              value={value}
-              handleRatingChange={handleRatingChange}
-              handleCancel={handleCancel}
-              openTwitterShare={openTwitterShare}
-              openFacebookShare={openFacebookShare}
-              closeBokeDetail={closeBokeDetail}
-              timeSince={timeSince}
-              loginAlert={loginAlert}
-              signInWithGoogle={signInWithGoogle}
-            />
           </div>
-        </div>
-      )}
+          <button className={styles.rightButton} onClick={navigateToRight}>
+            <ArrowCircleRightIcon fontSize="large" />
+          </button>
 
-      <button className={styles.rightButton} onClick={navigateToRight}>
-        <ArrowCircleRightIcon fontSize="large" />
-      </button>
-      <Footer />
+          <Footer />
+        </>
+      )}
     </div>
   );
 };

@@ -2,6 +2,7 @@ import type { BokeModel } from 'commonTypesWithClient/models';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
+import Footer from 'src/components/Footer/Footer';
 import Header from 'src/components/Header/Header';
 import { apiClient } from 'src/utils/apiClient';
 import styles from './view.module.css';
@@ -99,7 +100,7 @@ const View = () => {
           ))}
         </div>
       </div>
-      {/* <Footer /> */}
+      <Footer />
     </div>
   );
 };

@@ -9,7 +9,7 @@ function Document() {
         <title>{APP_TITLE}</title>
         <meta name="robots" content="noindex,nofollow" />
         <meta name="description" content={APP_TITLE} />
-        <link rel="icon" href="favicon.png" />
+        <link rel="icon" href="webicon.png" />
         <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} />
         <script
           dangerouslySetInnerHTML={{
